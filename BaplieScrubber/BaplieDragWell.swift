@@ -79,7 +79,7 @@ class BaplieDragWell: NSImageView {
         //Swift.print(droppedBapliePath) //This line will print the filepath to the console upon drop if you need it for debugging
         let nc = NotificationCenter.default
         hasBaplie = true
-        nc.post(name: Notification.Name("BaplieDropped"), object: nil)
+        nc.post(name: Notification.Name("BaplieDropped"), object: nil) //Observe for BaplieDropped to call code to run when a baplie is passed
         
         return true
     }
