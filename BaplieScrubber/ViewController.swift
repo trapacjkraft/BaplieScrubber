@@ -18,7 +18,6 @@ class ViewController: NSViewController {
     @IBOutlet var exportButton: NSButton!
     
     
-
     var hasBaplie = false {
         didSet {
             if hasBaplie == true {
@@ -27,23 +26,34 @@ class ViewController: NSViewController {
             }
         }
     }
+    
     var targetURL = ""
     var baplieContents = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        baplieHeaderView.isSelectable = true
+        baplieHeaderView.isEditable = false
+        
+        baplieContentView.isSelectable = true
+        baplieContentView.isEditable = false
+        
+        baplieFooterView.isSelectable = true
+        baplieContentView.isEditable = false
+        
+        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
     }
     
-
+    
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
-
+    
     
     @objc func copyBaplie() {
         let fm = FileManager.default
@@ -135,11 +145,11 @@ class ViewController: NSViewController {
         baplieContentView.string = baplie.joined()
         
     }
-        
+    
     func displayBaplie() {
         getBaplieParts()
     }
- 
+    
     @IBAction func writeBaplie(_ sender: Any) {
         
         let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
@@ -178,7 +188,7 @@ class ViewController: NSViewController {
             }
             
             var ftxIndex = 0
-
+            
             repeat {
                 if baplie[ftxIndex].contains("FTX") {
                     ftxIndices.append(ftxIndex)
@@ -209,7 +219,58 @@ class ViewController: NSViewController {
         trimFTX()
         adjustFooter()
     }
-
+    
+    @IBAction func fixStartTags(_ sender: Any) {
+        
+        var allowedPrefixes = ["UNB+", "UNH+", "BGM+", "DTM+", "RFF+", "NAD+", "TDT+", "LOC+", "FTX+", "GID+", "GDS+", "MEA+", "DIM+", "TMP+", "RNG+", "RFF+", "EQD+", "EQA+", "DGS+", "UNT+", "UNZ+"]
+        var baplie = baplieContentView.string.components(separatedBy: "'")
+        baplie.removeLast()
+        var index = 0
+        var badIndex = 0
+        var lineCount = Int()
+        var badPrefixIndices = [Int]()
+        
+        for _ in baplie {
+            baplie[index] = baplie[index].trimmingCharacters(in: .whitespacesAndNewlines)
+            baplie[index].append("'\n")
+            index += 1
+        }
+        
+        for line in baplie {
+            if !allowedPrefixes.contains(where: line.contains) {
+                badPrefixIndices.append(badIndex)
+            }
+            badIndex += 1
+        }
+        
+        func removeBadTags() {
+            for badIndex in badPrefixIndices.reversed() {
+                baplie.remove(at: badIndex)
+            }
+            
+            baplieContentView.string = baplie.joined()
+            
+        }
+        
+        func adjustFooter() {
+            var footerLines = baplieFooterView.string.components(separatedBy: "'")
+            var footerFirstLineParts = footerLines[0].components(separatedBy: "+")
+            lineCount = Int(footerFirstLineParts[1])!
+            let newLineCount = String(lineCount - badPrefixIndices.count)
+            let newFooter = "UNT+\(newLineCount)+\(footerFirstLineParts[2])'\(footerLines[1])'"
+            baplieFooterView.string = newFooter
+        }
+        
+        removeBadTags()
+        adjustFooter()
+        
+    }
+    
+    @IBAction func scrubBaplie(_ sender: Any) {
+        clearFTX(sender)
+        fixStartTags(sender)
+    }
+    
     @IBAction func clearBaplie(_ sender: Any) {
         baplieDragWellView.clearBaplie()
         targetURL = ""
