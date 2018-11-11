@@ -8,14 +8,17 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
     @IBOutlet var baplieHeaderView: NSTextView!
     @IBOutlet var baplieContentView: NSTextView!
     @IBOutlet var baplieFooterView: NSTextView!
+    @IBOutlet var assignEmptiesButton: NSButton!
     @IBOutlet var exportButton: NSButton!
+    
+    var allocations = [String: [String: Int]]()
     
     
     var hasBaplie = false {
@@ -27,11 +30,23 @@ class ViewController: NSViewController {
         }
     }
     
+    var baplieIsReady = false {
+        didSet {
+            if baplieIsReady == true {
+                updateHeaders()
+            }
+        }
+    }
+    
     var targetURL = ""
     var baplieContents = ""
+    let scrubber = Scrubber()
+    let allocator = Allocator()
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
         
         baplieHeaderView.isSelectable = true
         baplieHeaderView.isEditable = false
@@ -45,8 +60,13 @@ class ViewController: NSViewController {
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
+        nc.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
+        
     }
     
+    @objc func enableEmptyButton() {
+        assignEmptiesButton.isEnabled = true
+    }
     
     override var representedObject: Any? {
         didSet {
@@ -55,7 +75,10 @@ class ViewController: NSViewController {
     }
     
     
+    //Eventually, the below four methods should move to their own class.
+    
     @objc func copyBaplie() {
+        
         let fm = FileManager.default
         let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber"
         
@@ -148,6 +171,7 @@ class ViewController: NSViewController {
     
     func displayBaplie() {
         getBaplieParts()
+        baplieIsReady = true
     }
     
     @IBAction func writeBaplie(_ sender: Any) {
@@ -171,104 +195,35 @@ class ViewController: NSViewController {
         
     }
     
-    @IBAction func clearFTX(_ sender: Any) {
-        
-        var baplie = baplieContentView.string.components(separatedBy: "'")
-        baplie.removeLast()
-        var index = 0
-        var lineCount = Int()
-        var ftxIndices = [Int]()
-        
-        func trimFTX() {
-            
-            for _ in baplie {
-                baplie[index] = baplie[index].trimmingCharacters(in: .whitespacesAndNewlines)
-                baplie[index].append("'\n")
-                index += 1
-            }
-            
-            var ftxIndex = 0
-            
-            repeat {
-                if baplie[ftxIndex].contains("FTX") {
-                    ftxIndices.append(ftxIndex)
-                }
-                
-                ftxIndex += 1
-                
-            } while ftxIndex < baplie.count
-            
-            ftxIndices = ftxIndices.reversed()
-            
-            for index in ftxIndices {
-                baplie.remove(at: index)
-            }
-            
-            baplieContentView.string = baplie.joined()
-        }
-        
-        func adjustFooter() {
-            var footerLines = baplieFooterView.string.components(separatedBy: "'")
-            var footerFirstLineParts = footerLines[0].components(separatedBy: "+")
-            lineCount = Int(footerFirstLineParts[1])!
-            let newLineCount = String(lineCount - ftxIndices.count)
-            let newFooter = "UNT+\(newLineCount)+\(footerFirstLineParts[2])'\(footerLines[1])'"
-            baplieFooterView.string = newFooter
-        }
-        
-        trimFTX()
-        adjustFooter()
+    func updateHeaders() {
+        scrubber.getHeader(baplieHeader: baplieHeaderView.string)
+        allocator.getHeader(baplieHeader: baplieHeaderView.string)
     }
     
-    @IBAction func fixStartTags(_ sender: Any) {
-        
-        var allowedPrefixes = ["UNB+", "UNH+", "BGM+", "DTM+", "RFF+", "NAD+", "TDT+", "LOC+", "FTX+", "GID+", "GDS+", "MEA+", "DIM+", "TMP+", "RNG+", "RFF+", "EQD+", "EQA+", "DGS+", "UNT+", "UNZ+"]
-        var baplie = baplieContentView.string.components(separatedBy: "'")
-        baplie.removeLast()
-        var index = 0
-        var badIndex = 0
-        var lineCount = Int()
-        var badPrefixIndices = [Int]()
-        
-        for _ in baplie {
-            baplie[index] = baplie[index].trimmingCharacters(in: .whitespacesAndNewlines)
-            baplie[index].append("'\n")
-            index += 1
-        }
-        
-        for line in baplie {
-            if !allowedPrefixes.contains(where: line.contains) {
-                badPrefixIndices.append(badIndex)
-            }
-            badIndex += 1
-        }
-        
-        func removeBadTags() {
-            for badIndex in badPrefixIndices.reversed() {
-                baplie.remove(at: badIndex)
-            }
-            
-            baplieContentView.string = baplie.joined()
-            
-        }
-        
-        func adjustFooter() {
-            var footerLines = baplieFooterView.string.components(separatedBy: "'")
-            var footerFirstLineParts = footerLines[0].components(separatedBy: "+")
-            lineCount = Int(footerFirstLineParts[1])!
-            let newLineCount = String(lineCount - badPrefixIndices.count)
-            let newFooter = "UNT+\(newLineCount)+\(footerFirstLineParts[2])'\(footerLines[1])'"
-            baplieFooterView.string = newFooter
-        }
-        
-        removeBadTags()
-        adjustFooter()
-        
+    func clearFTX() {
+        let trimmedParts = scrubber.trimFTX(baplieString: baplieContentView.string, footerString: baplieFooterView.string)
+        baplieContentView.string = trimmedParts.0
+        baplieFooterView.string = trimmedParts.1
+    }
+    
+    func fixStartTags() {
+        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContentView.string, footerString: baplieFooterView.string)
+        baplieContentView.string = trimmedParts.0
+        baplieFooterView.string = trimmedParts.1
+    }
+    
+    func passAllocations(allocations: [String: [String : Int]]) {
+        self.allocations = allocations
+    }
+    
+    @IBAction func assignEmptyLines(_ sender: Any) {
+        allocator.allocations = self.allocations
+        allocator.assignShippingLines(baplieString: baplieContentView.string)
     }
     
     @IBAction func scrubBaplie(_ sender: Any) {
-        clearFTX(sender)
-        fixStartTags(sender)
+        clearFTX()
+        fixStartTags()
     }
     
     @IBAction func clearBaplie(_ sender: Any) {
@@ -277,6 +232,10 @@ class ViewController: NSViewController {
         baplieHeaderView.string = ""
         baplieContentView.string = ""
         baplieFooterView.string = ""
+        hasBaplie = false
+        baplieIsReady = false
+        assignEmptiesButton.isEnabled = false
+        exportButton.isEnabled = false
     }
 }
 

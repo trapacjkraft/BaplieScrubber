@@ -12,6 +12,12 @@
 		4214D24C213BC1340082723C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24B213BC1340082723C /* Assets.xcassets */; };
 		4214D24F213BC1340082723C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24D213BC1340082723C /* Main.storyboard */; };
 		422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422C484521437AA200063F01 /* BaplieDragWell.swift */; };
+		422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6521917DDD0046E503 /* Scrubber.swift */; };
+		422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6821917DF90046E503 /* BaplieHeader.swift */; };
+		422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6C21917E1B0046E503 /* BaplieFooter.swift */; };
+		422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6E2191A1610046E503 /* BaplieContainer.swift */; };
+		422FD7592192E2F400CF02E6 /* Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422FD7582192E2F400CF02E6 /* Allocator.swift */; };
+		422FD75B2192EDCC00CF02E6 /* AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422FD75A2192EDCC00CF02E6 /* AllocationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +29,12 @@
 		4214D250213BC1340082723C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4214D251213BC1340082723C /* BaplieScrubber.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaplieScrubber.entitlements; sourceTree = "<group>"; };
 		422C484521437AA200063F01 /* BaplieDragWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieDragWell.swift; sourceTree = "<group>"; };
+		422CBC6521917DDD0046E503 /* Scrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrubber.swift; sourceTree = "<group>"; };
+		422CBC6821917DF90046E503 /* BaplieHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieHeader.swift; sourceTree = "<group>"; };
+		422CBC6C21917E1B0046E503 /* BaplieFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieFooter.swift; sourceTree = "<group>"; };
+		422CBC6E2191A1610046E503 /* BaplieContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieContainer.swift; sourceTree = "<group>"; };
+		422FD7582192E2F400CF02E6 /* Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Allocator.swift; sourceTree = "<group>"; };
+		422FD75A2192EDCC00CF02E6 /* AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllocationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +67,12 @@
 		4214D246213BC1320082723C /* BaplieScrubber */ = {
 			isa = PBXGroup;
 			children = (
+				422CBC6721917DE60046E503 /* BaplieParts */,
 				4214D247213BC1330082723C /* AppDelegate.swift */,
 				4214D249213BC1330082723C /* ViewController.swift */,
+				422FD75A2192EDCC00CF02E6 /* AllocationViewController.swift */,
+				422CBC6521917DDD0046E503 /* Scrubber.swift */,
+				422FD7582192E2F400CF02E6 /* Allocator.swift */,
 				4214D24B213BC1340082723C /* Assets.xcassets */,
 				4214D24D213BC1340082723C /* Main.storyboard */,
 				422C484521437AA200063F01 /* BaplieDragWell.swift */,
@@ -64,6 +80,16 @@
 				4214D251213BC1340082723C /* BaplieScrubber.entitlements */,
 			);
 			path = BaplieScrubber;
+			sourceTree = "<group>";
+		};
+		422CBC6721917DE60046E503 /* BaplieParts */ = {
+			isa = PBXGroup;
+			children = (
+				422CBC6821917DF90046E503 /* BaplieHeader.swift */,
+				422CBC6E2191A1610046E503 /* BaplieContainer.swift */,
+				422CBC6C21917E1B0046E503 /* BaplieFooter.swift */,
+			);
+			path = BaplieParts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,8 +168,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				4214D24A213BC1330082723C /* ViewController.swift in Sources */,
+				422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */,
+				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
+				422FD7592192E2F400CF02E6 /* Allocator.swift in Sources */,
+				422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */,
+				422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */,
 				422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */,
 				4214D248213BC1330082723C /* AppDelegate.swift in Sources */,
+				422FD75B2192EDCC00CF02E6 /* AllocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
