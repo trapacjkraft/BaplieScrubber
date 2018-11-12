@@ -115,7 +115,7 @@ class Allocator: NSObject {
         func sortContainersByStatus() { //Checks for status flag on container records and creates an array of all empty containers.
             
             for container in containers {
-                if !container.isFull {
+                if !container.isFull && container.isPreplan {
                     emptyContainers.append(container)
                 } else {
                     fullContainers.append(container)

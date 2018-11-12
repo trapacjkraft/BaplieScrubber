@@ -110,7 +110,7 @@ class BaplieContainer: NSObject {
                 }
                 else if line.contains("NAD+CA") {
                     shippingLineString = line
-                    self.shippingLine = shippingLineString.components(separatedBy: "+")[2]
+                    self.shippingLine = shippingLineString.components(separatedBy: "+")[2].components(separatedBy: ":")[0]
                 }
             }
 
