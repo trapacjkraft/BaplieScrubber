@@ -243,7 +243,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         fixStartTags()
     }
     
-    @IBAction func clearBaplie(_ sender: Any) {
+    @IBAction func reset(_ sender: Any) {
         baplieDragWellView.clearBaplie()
         targetURL = ""
         baplieHeaderView.string = ""
