@@ -123,6 +123,7 @@ class Allocator: NSObject {
                 }
             }
             
+            fullBaplieContent = fullBaplieContent.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
             
         }
         
