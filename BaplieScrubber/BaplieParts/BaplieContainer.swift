@@ -19,6 +19,7 @@ class BaplieContainer: NSObject {
     var containerISO: String
     var containerSize: String
     var isFull: Bool
+    var isPreplan: Bool
     var shippingLine: String
     
     init(container: String) {
@@ -32,6 +33,7 @@ class BaplieContainer: NSObject {
         self.containerISO = String()
         self.containerSize = String()
         self.isFull = Bool()
+        self.isPreplan = Bool()
         self.shippingLine = String()
 
         var stowagePositionString = String()
@@ -93,6 +95,11 @@ class BaplieContainer: NSObject {
                     containerInformationString = line
                     self.containerNumber = containerInformationString.components(separatedBy: "+")[2]
                     self.containerNumber = self.containerNumber.trimmingCharacters(in: .whitespaces)
+                    
+                    if containerNumber.contains("PPLN") {
+                        self.isPreplan = true
+                    } else { self.isPreplan = false }
+                    
                     self.containerISO = containerInformationString.components(separatedBy: "+")[3]
                     
                     if containerInformationString.components(separatedBy: "+++")[1].contains("4") {

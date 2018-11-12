@@ -31,8 +31,11 @@ class Allocator: NSObject {
     ]
     
     var vesselOperator = ""
-
+    var previousOperator = ""
     var header = ""
+    var combinedAllocations = [String: Int]()
+    var fullBaplieContent = String()
+    var emptyBaplieContentWithOperators = String()
     
     override init() {
         emptyS2 = [BaplieContainer]()
@@ -57,10 +60,11 @@ class Allocator: NSObject {
         header = baplieHeader
     }
     
-    func assignShippingLines(baplieString: String) -> String {
+    func assignShippingLines(baplieString: String) -> (String, String) {
         
         var containers = [BaplieContainer]()
         var emptyContainers = [BaplieContainer]()
+        var fullContainers = [BaplieContainer]()
         
         func findContainers() { //Creates a list of all the containers in the Baplie.
             
@@ -108,12 +112,18 @@ class Allocator: NSObject {
             
         }
         
-        func getEmptyContainers() { //Checks for status flag on container records and creates an array of all empty containers.
+        func sortContainersByStatus() { //Checks for status flag on container records and creates an array of all empty containers.
+            
             for container in containers {
                 if !container.isFull {
                     emptyContainers.append(container)
+                } else {
+                    fullContainers.append(container)
+                    fullBaplieContent += container.containerRecordString
                 }
             }
+            
+            
         }
         
         func sortEmptyContainersBySize() { //Checks to find which set of ISO codes to use, then creates arrays for each type of SD empty. Nonstandard empties are USUALLY planned already, so no need to assign operators. Update later for OAK RFRs.
@@ -133,6 +143,7 @@ class Allocator: NSObject {
             }
             
             vesselOperator = getVesselOperator()
+            self.previousOperator = "NAD+CA+" + vesselOperator
             
             switch vesselOperator {
                 
@@ -268,11 +279,6 @@ class Allocator: NSObject {
             
         }
         
-        var baplieContentWithOperators = String()
-        var sortedContainers = [emptyNGBs2, emptyNGBs4, emptyNGBc4, emptyNGBc5, emptyQDOs2, emptyQDOs4, emptyQDOc4, emptyQDOc5, emptySHGs2, emptySHGs4, emptySHGc4, emptySHGc5]
-        var combinedAllocations = [String: Int]()
-        
-        
         func combineAllocations() {
             
             for (_, allocation) in allocations {
@@ -282,48 +288,202 @@ class Allocator: NSObject {
             }
         }
         
-        func assignOperators() {
+        func replaceOperator(container: BaplieContainer, newOperator: String) -> String {
             
-            combineAllocations()
+            var replacedContainerString = ""
             
-            func assignS2() {
-                
-                var index = 0
-                
-                var oneNGBs2count = combinedAllocations["oneNGBs2"]
-                var hlcNGBs2count = combinedAllocations["hlcNGBs2"]
-                var ymlNGBs2count = combinedAllocations["ymlNGBs2"]
-                
-                var oneQDOs2count = combinedAllocations["oneQDOs2"]
-                var hlcQDOs2count = combinedAllocations["hlcQDOs2"]
-                var ymlQDOs2count = combinedAllocations["ymlQDOs2"]
-                
-                var oneSHGs2count = combinedAllocations["oneSHGs2"]
-                var hlcSHGs2count = combinedAllocations["hlcSHGs2"]
-                var ymlSHGs2count = combinedAllocations["ymlSHGs2"]
-                
-                
-                
-                
-                
+            guard newOperator.contains("NAD+CA+") else { return previousOperator }
+            replacedContainerString = container.containerRecordString.replacingOccurrences(of: previousOperator, with: newOperator)
+            
+            return replacedContainerString
+            
+        }
+
+        func assignS2(containers: [BaplieContainer], oneKey: String, hlcKey: String, ymlKey: String) {
+            
+            let oneAllocation = combinedAllocations[oneKey]
+            let hlcAllocation = combinedAllocations[hlcKey]
+            let ymlAllocation = combinedAllocations[ymlKey]
+            var allocatedONE = 0
+            var allocatedYML = 0
+            var allocatedHLC = 0
+            
+            for container in containers {
+                if allocatedONE < oneAllocation! {
+                    while allocatedONE < oneAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+ONE")
+                        allocatedONE += 1
+                        break
+                    }
+                } else if allocatedHLC < hlcAllocation! {
+                    while allocatedHLC < hlcAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+HLC")
+                        allocatedHLC += 1
+                        break
+                    }
+                } else if allocatedYML < ymlAllocation! {
+                    while allocatedYML < ymlAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+YML")
+                        allocatedYML += 1
+                        break
+                    }
+                }
             }
+            
 
         }
         
+        func assignS4(containers: [BaplieContainer], oneKey: String, hlcKey: String, ymlKey: String) {
+            
+            let oneAllocation = combinedAllocations[oneKey]
+            let hlcAllocation = combinedAllocations[hlcKey]
+            let ymlAllocation = combinedAllocations[ymlKey]
+            var allocatedONE = 0
+            var allocatedYML = 0
+            var allocatedHLC = 0
+            
+            for container in containers {
+                if allocatedONE < oneAllocation! {
+                    while allocatedONE < oneAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+ONE")
+                        allocatedONE += 1
+                        break
+                    }
+                } else if allocatedHLC < hlcAllocation! {
+                    while allocatedHLC < hlcAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+HLC")
+                        allocatedHLC += 1
+                        break
+                    }
+                } else if allocatedYML < ymlAllocation! {
+                    while allocatedYML < ymlAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+YML")
+                        allocatedYML += 1
+                        break
+                    }
+                }
+            }
+
+        }
+
+        func assignC4(containers: [BaplieContainer], oneKey: String, hlcKey: String, ymlKey: String) {
+            
+            let oneAllocation = combinedAllocations[oneKey]
+            let hlcAllocation = combinedAllocations[hlcKey]
+            let ymlAllocation = combinedAllocations[ymlKey]
+            var allocatedONE = 0
+            var allocatedYML = 0
+            var allocatedHLC = 0
+            
+            for container in containers {
+                if allocatedONE < oneAllocation! {
+                    while allocatedONE < oneAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+ONE")
+                        allocatedONE += 1
+                        break
+                    }
+                } else if allocatedHLC < hlcAllocation! {
+                    while allocatedHLC < hlcAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+HLC")
+                        allocatedHLC += 1
+                        break
+                    }
+                } else if allocatedYML < ymlAllocation! {
+                    while allocatedYML < ymlAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+YML")
+                        allocatedYML += 1
+                        break
+                    }
+                }
+            }
+
+        }
+
+        func assignC5(containers: [BaplieContainer], oneKey: String, hlcKey: String, ymlKey: String) {
+            
+            let oneAllocation = combinedAllocations[oneKey]
+            let hlcAllocation = combinedAllocations[hlcKey]
+            let ymlAllocation = combinedAllocations[ymlKey]
+            var allocatedONE = 0
+            var allocatedYML = 0
+            var allocatedHLC = 0
+            
+            for container in containers {
+                if allocatedONE < oneAllocation! {
+                    while allocatedONE < oneAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+ONE")
+                        allocatedONE += 1
+                        break
+                    }
+                } else if allocatedHLC < hlcAllocation! {
+                    while allocatedHLC < hlcAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+HLC")
+                        allocatedHLC += 1
+                        break
+                    }
+                } else if allocatedYML < ymlAllocation! {
+                    while allocatedYML < ymlAllocation! {
+                        emptyBaplieContentWithOperators += replaceOperator(container: container, newOperator: "NAD+CA+YML")
+                        allocatedYML += 1
+                        break
+                    }
+                }
+            }
+
+        }
+
         
+        func assignOperators() {
+            
+            var allocSum = 0
+            let emptyCount = emptyContainers.count
+            
+            for (_, alloc) in combinedAllocations {
+                allocSum += alloc
+            }
+            
+            guard allocSum == emptyCount else {
+                let alert = NSAlert()
+                alert.messageText = "Allocation Error"
+                alert.informativeText = "Sum of allocations does not match sum of empty containers on the Baplie. Please re-enter allocations."
+                alert.runModal()
+                return
+            }
+            
+            assignS2(containers: emptyNGBs2, oneKey: "oneNGBs2", hlcKey: "hlcNGBs2", ymlKey: "ymlNGBs2")
+            assignS4(containers: emptyNGBs4, oneKey: "oneNGBs4", hlcKey: "hlcNGBs4", ymlKey: "ymlNGBs4")
+            assignC4(containers: emptyNGBc4, oneKey: "oneNGBc4", hlcKey: "hlcNGBc4", ymlKey: "ymlNGBc4")
+            assignC5(containers: emptyNGBc5, oneKey: "oneNGBc5", hlcKey: "hlcNGBc5", ymlKey: "ymlNGBc5")
+            
+            assignS2(containers: emptyQDOs2, oneKey: "oneQDOs2", hlcKey: "hlcQDOs2", ymlKey: "ymlQDOs2")
+            assignS4(containers: emptyQDOs4, oneKey: "oneQDOs4", hlcKey: "hlcQDOs4", ymlKey: "ymlQDOs4")
+            assignC4(containers: emptyQDOc4, oneKey: "oneQDOc4", hlcKey: "hlcQDOc4", ymlKey: "ymlQDOc4")
+            assignC5(containers: emptyQDOc5, oneKey: "oneQDOc5", hlcKey: "hlcQDOc5", ymlKey: "ymlQDOc5")
+            
+            assignS2(containers: emptySHGs2, oneKey: "oneSHGs2", hlcKey: "hlcSHGs2", ymlKey: "ymlSHGs2")
+            assignS4(containers: emptySHGs4, oneKey: "oneSHGs4", hlcKey: "hlcSHGs4", ymlKey: "ymlSHGs4")
+            assignC4(containers: emptySHGc4, oneKey: "oneSHGc4", hlcKey: "hlcSHGc4", ymlKey: "ymlSHGc4")
+            assignC5(containers: emptySHGc5, oneKey: "oneSHGc5", hlcKey: "hlcSHGc5", ymlKey: "ymlSHGc5")
+            
+        }
         
         findContainers()
-        getEmptyContainers()
+        sortContainersByStatus()
         sortEmptyContainersBySize()
         sortContainerSizesByPort()
+        combineAllocations()
+        assignOperators()
         
         
         
         
-        return ""
+        return (fullBaplieContent, emptyBaplieContentWithOperators)
     }
 
-    
+    func reset() {
+        fullBaplieContent = ""
+        emptyBaplieContentWithOperators = ""
+    }
     
     
 }

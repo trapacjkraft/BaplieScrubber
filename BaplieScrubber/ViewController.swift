@@ -212,16 +212,33 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         baplieFooterView.string = trimmedParts.1
     }
     
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let allocationViewController = segue.destinationController as? AllocationViewController {
+            allocationViewController.delegate = self
+        }
+    }
+    
     func passAllocations(allocations: [String: [String : Int]]) {
         self.allocations = allocations
     }
     
     @IBAction func assignEmptyLines(_ sender: Any) {
-        allocator.allocations = self.allocations
-        allocator.assignShippingLines(baplieString: baplieContentView.string)
+        allocator.allocations = self.allocations        
+        let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContentView.string)
+        baplieContentView.string = baplieFulls + baplieEmpties
+
     }
     
     @IBAction func scrubBaplie(_ sender: Any) {
+        
+        guard !baplieHeaderView.string.contains("TRAPAC+TRAPAC") else {
+            let alert = NSAlert()
+            alert.messageText = "Outbound Baplie!"
+            alert.informativeText = "This Baplie appears to have come from TraPac. Scrubbing is not supported for internal Baplies."
+            alert.runModal()
+            return
+        }
+        
         clearFTX()
         fixStartTags()
     }
@@ -236,6 +253,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         baplieIsReady = false
         assignEmptiesButton.isEnabled = false
         exportButton.isEnabled = false
+        allocator.reset()
     }
 }
 

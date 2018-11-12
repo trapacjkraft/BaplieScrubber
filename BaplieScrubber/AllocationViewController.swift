@@ -170,6 +170,7 @@ class AllocationViewController: NSViewController {
         
         self.dismissViewController(self)
         
+        
     }
     
 }
