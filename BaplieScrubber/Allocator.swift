@@ -63,8 +63,8 @@ class Allocator: NSObject {
     func assignShippingLines(baplieString: String) -> (String, String) {
         
         var containers = [BaplieContainer]()
-        var emptyContainers = [BaplieContainer]()
-        var fullContainers = [BaplieContainer]()
+        var emptyPreplans = [BaplieContainer]()
+        var notPreplanContainers = [BaplieContainer]()
         
         func findContainers() { //Creates a list of all the containers in the Baplie.
             
@@ -116,9 +116,9 @@ class Allocator: NSObject {
             
             for container in containers {
                 if !container.isFull && container.isPreplan {
-                    emptyContainers.append(container)
+                    emptyPreplans.append(container)
                 } else {
-                    fullContainers.append(container)
+                    notPreplanContainers.append(container)
                     fullBaplieContent += container.containerRecordString
                 }
             }
@@ -150,7 +150,7 @@ class Allocator: NSObject {
                 
             case "HLC":
                 
-                for container in emptyContainers {
+                for container in emptyPreplans {
                     
                     switch container.containerISO {
                     case hapagISOcodes["S2"]:
@@ -168,7 +168,7 @@ class Allocator: NSObject {
                 
             case "YML":
                 
-                for container in emptyContainers {
+                for container in emptyPreplans {
                     
                     switch container.containerISO {
                         
@@ -437,7 +437,7 @@ class Allocator: NSObject {
         func assignOperators() {
             
             var allocSum = 0
-            let emptyCount = emptyContainers.count
+            let emptyCount = emptyPreplans.count
             
             for (_, alloc) in combinedAllocations {
                 allocSum += alloc

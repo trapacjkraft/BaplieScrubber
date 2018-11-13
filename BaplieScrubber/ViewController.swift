@@ -223,6 +223,16 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     }
     
     @IBAction func assignEmptyLines(_ sender: Any) {
+        
+        guard !baplieContentView.string.isEmpty else {
+            let alert = NSAlert()
+            alert.messageText = "No Baplie"
+            alert.informativeText = "There doesn't appear to be a Baplie loaded. Please load a Baplie before scrubbing."
+            alert.runModal()
+            return
+        }
+
+        
         allocator.allocations = self.allocations        
         let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContentView.string)
         baplieContentView.string = baplieFulls + baplieEmpties
@@ -235,6 +245,14 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
             let alert = NSAlert()
             alert.messageText = "Outbound Baplie!"
             alert.informativeText = "This Baplie appears to have come from TraPac. Scrubbing is not supported for internal Baplies."
+            alert.runModal()
+            return
+        }
+        
+        guard !baplieContentView.string.isEmpty else {
+            let alert = NSAlert()
+            alert.messageText = "No Baplie"
+            alert.informativeText = "There doesn't appear to be a Baplie loaded. Please load a Baplie before scrubbing."
             alert.runModal()
             return
         }
