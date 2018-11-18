@@ -468,6 +468,8 @@ class Allocator: NSObject {
             
         }
         
+        emptyBaplieContentWithOperators = emptyBaplieContentWithOperators.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
+        
         findContainers()
         sortContainersByStatus()
         sortEmptyContainersBySize()

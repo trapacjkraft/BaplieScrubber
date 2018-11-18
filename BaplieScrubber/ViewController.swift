@@ -181,7 +181,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         let fileName = NSURL.fileURL(withPath: fileURL).lastPathComponent
         let destination = libraryDirectory + "scrubbed" + fileName
         
-        let contents = baplieHeaderView.string + baplieContentView.string + baplieFooterView.string
+        let contents = baplieHeaderView.string + (baplieContentView.string.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooterView.string
         
         do {
             try contents.write(toFile: destination, atomically: true, encoding: .utf8)
