@@ -13,10 +13,6 @@ class Scrubber: NSObject {
     
     var header = ""
     
-    var allocator = Allocator()
-    var allocations = [String: [String : Int]]()
-    
-    
     func getHeader(baplieHeader: String) {
         header = baplieHeader
     }

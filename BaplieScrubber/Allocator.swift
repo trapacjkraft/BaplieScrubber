@@ -445,8 +445,8 @@ class Allocator: NSObject {
             
             guard allocSum == emptyCount else {
                 let alert = NSAlert()
-                alert.messageText = "Allocation Error"
-                alert.informativeText = "Sum of allocations does not match sum of empty containers on the Baplie. Please re-enter allocations."
+                alert.messageText = "Allocation Error!"
+                alert.informativeText = "Sum of allocations does not match sum of empty preplans on the Baplie. Please re-enter allocations."
                 alert.runModal()
                 return
             }
@@ -486,6 +486,10 @@ class Allocator: NSObject {
     func reset() {
         fullBaplieContent = ""
         emptyBaplieContentWithOperators = ""
+        vesselOperator = ""
+        previousOperator = ""
+        header = ""
+        combinedAllocations = [String: Int]()
     }
     
     

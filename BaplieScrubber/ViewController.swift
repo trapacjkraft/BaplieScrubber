@@ -12,11 +12,12 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
-    @IBOutlet var baplieHeaderView: NSTextView!
-    @IBOutlet var baplieContentView: NSTextView!
-    @IBOutlet var baplieFooterView: NSTextView!
     @IBOutlet var assignEmptiesButton: NSButton!
     @IBOutlet var exportButton: NSButton!
+    
+    var baplieHeader = ""
+    var baplieContent = ""
+    var baplieFooter = ""
     
     var allocations = [String: [String: Int]]()
     
@@ -46,17 +47,6 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        baplieHeaderView.isSelectable = true
-        baplieHeaderView.isEditable = false
-        
-        baplieContentView.isSelectable = true
-        baplieContentView.isEditable = false
-        
-        baplieFooterView.isSelectable = true
-        baplieContentView.isEditable = false
-        
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
@@ -141,7 +131,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
             }
             
             baplie.removeFirst(headerLineCount)
-            baplieHeaderView.string = header
+            baplieHeader = header
         }
         
         var footer = String()
@@ -158,14 +148,14 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
             
             
             baplie.removeLast(footerLineCount)
-            baplieFooterView.string = footer
+            baplieFooter = footer
             
             
         }
         
         getHeader()
         getFooter()
-        baplieContentView.string = baplie.joined()
+        baplieContent = baplie.joined()
         
     }
     
@@ -181,7 +171,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         let fileName = NSURL.fileURL(withPath: fileURL).lastPathComponent
         let destination = libraryDirectory + "scrubbed" + fileName
         
-        let contents = baplieHeaderView.string + (baplieContentView.string.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooterView.string
+        let contents = baplieHeader + (baplieContent.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooter
         
         do {
             try contents.write(toFile: destination, atomically: true, encoding: .utf8)
@@ -196,20 +186,20 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     }
     
     func updateHeaders() {
-        scrubber.getHeader(baplieHeader: baplieHeaderView.string)
-        allocator.getHeader(baplieHeader: baplieHeaderView.string)
+        scrubber.getHeader(baplieHeader: baplieHeader)
+        allocator.getHeader(baplieHeader: baplieHeader)
     }
     
     func clearFTX() {
-        let trimmedParts = scrubber.trimFTX(baplieString: baplieContentView.string, footerString: baplieFooterView.string)
-        baplieContentView.string = trimmedParts.0
-        baplieFooterView.string = trimmedParts.1
+        let trimmedParts = scrubber.trimFTX(baplieString: baplieContent, footerString: baplieFooter)
+        baplieContent = trimmedParts.0
+        baplieFooter = trimmedParts.1
     }
     
     func fixStartTags() {
-        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContentView.string, footerString: baplieFooterView.string)
-        baplieContentView.string = trimmedParts.0
-        baplieFooterView.string = trimmedParts.1
+        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContent, footerString: baplieFooter)
+        baplieContent = trimmedParts.0
+        baplieFooter = trimmedParts.1
     }
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -224,9 +214,9 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     
     @IBAction func assignEmptyLines(_ sender: Any) {
         
-        guard !baplieContentView.string.isEmpty else {
+        guard !baplieContent.isEmpty else {
             let alert = NSAlert()
-            alert.messageText = "No Baplie"
+            alert.messageText = "No Baplie!"
             alert.informativeText = "There doesn't appear to be a Baplie loaded. Please load a Baplie before scrubbing."
             alert.runModal()
             return
@@ -234,24 +224,24 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
 
         
         allocator.allocations = self.allocations        
-        let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContentView.string)
-        baplieContentView.string = baplieFulls + baplieEmpties
+        let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+        baplieContent = baplieFulls + baplieEmpties
 
     }
     
     @IBAction func scrubBaplie(_ sender: Any) {
         
-        guard !baplieHeaderView.string.contains("TRAPAC+TRAPAC") else {
+        guard !baplieHeader.contains("TRAPAC+TRAPAC") else {
             let alert = NSAlert()
-            alert.messageText = "Outbound Baplie!"
+            alert.messageText = "External Baplie!"
             alert.informativeText = "This Baplie appears to have come from TraPac. Scrubbing is not supported for internal Baplies."
             alert.runModal()
             return
         }
         
-        guard !baplieContentView.string.isEmpty else {
+        guard !baplieContent.isEmpty else {
             let alert = NSAlert()
-            alert.messageText = "No Baplie"
+            alert.messageText = "No Baplie!"
             alert.informativeText = "There doesn't appear to be a Baplie loaded. Please load a Baplie before scrubbing."
             alert.runModal()
             return
@@ -264,9 +254,9 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     @IBAction func reset(_ sender: Any) {
         baplieDragWellView.clearBaplie()
         targetURL = ""
-        baplieHeaderView.string = ""
-        baplieContentView.string = ""
-        baplieFooterView.string = ""
+        baplieHeader = ""
+        baplieContent = ""
+        baplieFooter = ""
         hasBaplie = false
         baplieIsReady = false
         assignEmptiesButton.isEnabled = false
