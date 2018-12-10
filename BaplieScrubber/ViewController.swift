@@ -8,10 +8,12 @@
 
 import Cocoa
 
-class ViewController: NSViewController, AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
+    @IBOutlet var serviceList: NSPopUpButton!
+    @IBOutlet var allocationButton: NSButton!
     @IBOutlet var assignEmptiesButton: NSButton!
     @IBOutlet var exportButton: NSButton!
     
@@ -19,13 +21,15 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     var baplieContent = ""
     var baplieFooter = ""
     
+    var header = BaplieHeader()
+    
     var allocations = [String: [String: Int]]()
     
     
     var hasBaplie = false {
         didSet {
             if hasBaplie == true {
-                displayBaplie()
+                updateData()
                 exportButton.isEnabled = true
             }
         }
@@ -42,7 +46,7 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
     var targetURL = ""
     var baplieContents = ""
     let scrubber = Scrubber()
-    let allocator = Allocator()
+    let allocator = PS5Allocator()
     
     override func viewDidLoad() {
         
@@ -51,7 +55,12 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
         nc.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
+        nc.addObserver(self, selector: #selector(enableAllocButton), name: Notification.Name("HeaderFetched"), object: nil)
         
+    }
+    
+    @objc func enableAllocButton() {
+        allocationButton.isEnabled = true
     }
     
     @objc func enableEmptyButton() {
@@ -63,9 +72,6 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
             // Update the view, if already loaded.
         }
     }
-    
-    
-    //Eventually, the below four methods should move to their own class.
     
     @objc func copyBaplie() {
         
@@ -95,9 +101,9 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
             Swift.print("Destination path: " + targetURL)
         }
         
-        Swift.print("Source path: " + baplieDragWellView.droppedBapliePath!)
-        Swift.print("Destination directory: " + libraryDirectory)
-        Swift.print("Destination path: " + targetURL)
+        //Swift.print("Source path: " + baplieDragWellView.droppedBapliePath!)
+        //Swift.print("Destination directory: " + libraryDirectory)
+        //Swift.print("Destination path: " + targetURL)
         
         let data = fm.contents(atPath: targetURL)
         baplieContents = String(data: data!, encoding: .utf8)!
@@ -159,8 +165,69 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         
     }
     
-    func displayBaplie() {
+    func updateData() {
         getBaplieParts()
+        header = BaplieHeader(header: baplieHeader)
+        let nc = NotificationCenter.default
+        nc.post(name: Notification.Name("HeaderFetched"), object: nil)
+        
+        func loadServices() {
+            
+            guard header.isTrapacBaplie else { return }
+            
+            switch header.currentPort {
+                
+            case "USLAX":
+                guard let serviceFile = Bundle.main.url(forResource: "laxservices", withExtension: nil) else { break }
+                guard let svcs = try? String(contentsOf: serviceFile) else { break }
+                
+                let services = svcs.components(separatedBy: ",")
+                
+                for service in services {
+                    
+                    let item = NSMenuItem(title: service, action: nil, keyEquivalent: "")
+                    item.target = self
+                    
+                    serviceList.menu?.addItem(item)
+                }
+                
+            case "USOAK":
+                guard let serviceFile = Bundle.main.url(forResource: "oakservices", withExtension: nil) else { break }
+                guard let svcs = try? String(contentsOf: serviceFile) else { break }
+                
+                let services = svcs.components(separatedBy: ",")
+                
+                for service in services {
+                    
+                    let item = NSMenuItem(title: service, action: nil, keyEquivalent: "")
+                    item.target = self
+                    
+                    serviceList.menu?.addItem(item)
+                }
+                
+            case "USJAX":
+                guard let serviceFile = Bundle.main.url(forResource: "jaxservices", withExtension: nil) else { break }
+                guard let svcs = try? String(contentsOf: serviceFile) else { break }
+                
+                let services = svcs.components(separatedBy: ",")
+                
+                for service in services {
+                    
+                    let item = NSMenuItem(title: service, action: nil, keyEquivalent: "")
+                    item.target = self
+                    
+                    serviceList.menu?.addItem(item)
+                }
+            default:
+                break //Should not be reached
+
+            }
+            
+        }
+        
+        loadServices()
+        serviceList.isEnabled = true
+
         baplieIsReady = true
     }
     
@@ -201,15 +268,33 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         baplieContent = trimmedParts.0
         baplieFooter = trimmedParts.1
     }
-    
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let allocationViewController = segue.destinationController as? AllocationViewController {
-            allocationViewController.delegate = self
+        
+    @IBAction func showAllocationPanel(_ sender: NSButton) {
+        
+        switch serviceList.titleOfSelectedItem {
+        
+        case "PS5":
+            let vc: PS5AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS5AllocationViewController")) as! PS5AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
+        case "EC1":
+            let vc: EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC1AllocationViewController")) as! EC1AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+        
+        default:
+            break
+            
         }
+        
     }
     
     func passAllocations(allocations: [String: [String : Int]]) {
         self.allocations = allocations
+        
     }
     
     @IBAction func assignEmptyLines(_ sender: Any) {
@@ -233,8 +318,8 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         
         guard !baplieHeader.contains("TRAPAC+TRAPAC") else {
             let alert = NSAlert()
-            alert.messageText = "External Baplie!"
-            alert.informativeText = "This Baplie appears to have come from TraPac. Scrubbing is not supported for internal Baplies."
+            alert.messageText = "TraPac Baplie!"
+            alert.informativeText = "This Baplie appears to have come from TraPac. Scrubbing is not supported for TraPac Baplies."
             alert.runModal()
             return
         }
@@ -259,8 +344,11 @@ class ViewController: NSViewController, AllocationViewControllerDelegate {
         baplieFooter = ""
         hasBaplie = false
         baplieIsReady = false
+        allocationButton.isEnabled = false
         assignEmptiesButton.isEnabled = false
         exportButton.isEnabled = false
+        serviceList.removeAllItems()
+        serviceList.isEnabled = false
         allocator.reset()
     }
 }

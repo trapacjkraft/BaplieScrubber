@@ -1,5 +1,5 @@
 //
-//  AllocationViewController.swift
+//  PS5AllocationViewController.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 11/7/18.
@@ -8,11 +8,11 @@
 
 import Cocoa
 
-protocol AllocationViewControllerDelegate: class {
+protocol PS5AllocationViewControllerDelegate: class {
     func passAllocations(allocations: [String: [String : Int]])
 }
 
-class AllocationViewController: NSViewController {
+class PS5AllocationViewController: NSViewController {
 
     
     var oneAllocations = [
@@ -60,7 +60,7 @@ class AllocationViewController: NSViewController {
         "ymlSHGc5": 0
     ]
 
-    weak var delegate: AllocationViewControllerDelegate?
+    weak var delegate: PS5AllocationViewControllerDelegate?
     
     @IBOutlet var oneNGBs2: NSTextField!
     @IBOutlet var oneNGBs4: NSTextField!

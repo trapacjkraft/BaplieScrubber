@@ -1,5 +1,5 @@
 //
-//  Allocator.swift
+//  PS5Allocator.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 11/7/18.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class Allocator: NSObject {
+class PS5Allocator: NSObject {
 
     var emptyS2: [BaplieContainer]
     var emptyS4: [BaplieContainer]
@@ -45,16 +45,6 @@ class Allocator: NSObject {
         allocations = [String: [String : Int]]()
     }
     
-    /*init(s2: [BaplieContainer], s4: [BaplieContainer], c4: [BaplieContainer], c5: [BaplieContainer], allocations: [String: [String : Int]]) {
-        
-        emptyS2 = s2
-        emptyS4 = s4
-        emptyC4 = c4
-        emptyC5 = c5
-        
-        self.allocations = allocations
-                
-    }*/
     
     func getHeader(baplieHeader: String) {
         header = baplieHeader
@@ -293,7 +283,7 @@ class Allocator: NSObject {
             
             var replacedContainerString = ""
             
-            guard newOperator.contains("NAD+CA+") else { return previousOperator }
+            guard newOperator.contains("NAD+CA+") else { return container.containerRecordString }
             replacedContainerString = container.containerRecordString.replacingOccurrences(of: previousOperator, with: newOperator)
             
             return replacedContainerString
