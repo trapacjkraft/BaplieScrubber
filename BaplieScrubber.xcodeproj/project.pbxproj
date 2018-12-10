@@ -23,6 +23,7 @@
 		4244F40021BE2A110064EC30 /* laxservices in Resources */ = {isa = PBXBuildFile; fileRef = 4244F3FD21BE2A100064EC30 /* laxservices */; };
 		4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */; };
 		4258222721BE6FFE004C2BDD /* EC1Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222621BE6FFE004C2BDD /* EC1Allocator.swift */; };
+		4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222821BE7EFF004C2BDD /* Reporter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		4244F3FD21BE2A100064EC30 /* laxservices */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = laxservices; sourceTree = "<group>"; };
 		4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1AllocationViewController.swift; sourceTree = "<group>"; };
 		4258222621BE6FFE004C2BDD /* EC1Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1Allocator.swift; sourceTree = "<group>"; };
+		4258222821BE7EFF004C2BDD /* Reporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			children = (
 				4244F40321BE431C0064EC30 /* Allocators */,
 				422CBC6521917DDD0046E503 /* Scrubber.swift */,
+				4258222821BE7EFF004C2BDD /* Reporter.swift */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 				422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */,
 				4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */,
 				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
+				4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */,
 				422FD7592192E2F400CF02E6 /* PS5Allocator.swift in Sources */,
 				422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */,
 				4258222721BE6FFE004C2BDD /* EC1Allocator.swift in Sources */,

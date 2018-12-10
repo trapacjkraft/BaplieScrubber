@@ -30,6 +30,14 @@ class PS5Allocator: NSObject {
         "C5":"L5G0"
     ]
     
+    var oneISOcodes = [
+        "S2":"2200",
+        "S4":"4300",
+        "C4":"4500",
+        "C5":"9500"
+    ]
+
+    
     var vesselOperator = ""
     var previousOperator = ""
     var header = ""
