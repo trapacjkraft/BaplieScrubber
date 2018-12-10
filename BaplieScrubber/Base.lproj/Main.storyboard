@@ -2262,6 +2262,9 @@ DQ
 DQ
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="setAllocations:" target="txU-ii-UeU" id="g4W-Ys-d2s"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>

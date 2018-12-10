@@ -189,10 +189,10 @@ class EC1AllocationViewController: NSViewController {
         oneAllocations.updateValue((Int(oneSHGc4.stringValue)) ?? 0, forKey: "oneSHGc4")
         oneAllocations.updateValue((Int(oneSHGc5.stringValue)) ?? 0, forKey: "oneSHGc5")
         
-        oneAllocations.updateValue((Int(oneBUSs2.stringValue)) ?? 0, forKey: "oneBUSs2")
-        oneAllocations.updateValue((Int(oneBUSs4.stringValue)) ?? 0, forKey: "oneBUSs4")
-        oneAllocations.updateValue((Int(oneBUSc4.stringValue)) ?? 0, forKey: "oneBUSc4")
-        oneAllocations.updateValue((Int(oneBUSc5.stringValue)) ?? 0, forKey: "oneBUSc5")
+        oneAllocations.updateValue((Int(oneTKYs2.stringValue)) ?? 0, forKey: "oneTKYs2")
+        oneAllocations.updateValue((Int(oneTKYs4.stringValue)) ?? 0, forKey: "oneTKYs4")
+        oneAllocations.updateValue((Int(oneTKYc4.stringValue)) ?? 0, forKey: "oneTKYc4")
+        oneAllocations.updateValue((Int(oneTKYc5.stringValue)) ?? 0, forKey: "oneTKYc5")
 
         hlcAllocations.updateValue((Int(hlcBUSs2.stringValue)) ?? 0, forKey: "hlcBUSs2")
         hlcAllocations.updateValue((Int(hlcBUSs4.stringValue)) ?? 0, forKey: "hlcBUSs4")
@@ -214,10 +214,10 @@ class EC1AllocationViewController: NSViewController {
         hlcAllocations.updateValue((Int(hlcSHGc4.stringValue)) ?? 0, forKey: "hlcSHGc4")
         hlcAllocations.updateValue((Int(hlcSHGc5.stringValue)) ?? 0, forKey: "hlcSHGc5")
         
-        hlcAllocations.updateValue((Int(hlcBUSs2.stringValue)) ?? 0, forKey: "hlcBUSs2")
-        hlcAllocations.updateValue((Int(hlcBUSs4.stringValue)) ?? 0, forKey: "hlcBUSs4")
-        hlcAllocations.updateValue((Int(hlcBUSc4.stringValue)) ?? 0, forKey: "hlcBUSc4")
-        hlcAllocations.updateValue((Int(hlcBUSc5.stringValue)) ?? 0, forKey: "hlcBUSc5")
+        hlcAllocations.updateValue((Int(hlcBUSs2.stringValue)) ?? 0, forKey: "hlcTKYs2")
+        hlcAllocations.updateValue((Int(hlcTKYs4.stringValue)) ?? 0, forKey: "hlcTKYs4")
+        hlcAllocations.updateValue((Int(hlcTKYc4.stringValue)) ?? 0, forKey: "hlcTKYc4")
+        hlcAllocations.updateValue((Int(hlcTKYc5.stringValue)) ?? 0, forKey: "hlcTKYc5")
 
         ymlAllocations.updateValue((Int(ymlBUSs2.stringValue)) ?? 0, forKey: "ymlBUSs2")
         ymlAllocations.updateValue((Int(ymlBUSs4.stringValue)) ?? 0, forKey: "ymlBUSs4")
@@ -239,10 +239,10 @@ class EC1AllocationViewController: NSViewController {
         ymlAllocations.updateValue((Int(ymlSHGc4.stringValue)) ?? 0, forKey: "ymlSHGc4")
         ymlAllocations.updateValue((Int(ymlSHGc5.stringValue)) ?? 0, forKey: "ymlSHGc5")
         
-        ymlAllocations.updateValue((Int(ymlBUSs2.stringValue)) ?? 0, forKey: "ymlBUSs2")
-        ymlAllocations.updateValue((Int(ymlBUSs4.stringValue)) ?? 0, forKey: "ymlBUSs4")
-        ymlAllocations.updateValue((Int(ymlBUSc4.stringValue)) ?? 0, forKey: "ymlBUSc4")
-        ymlAllocations.updateValue((Int(ymlBUSc5.stringValue)) ?? 0, forKey: "ymlBUSc5")
+        ymlAllocations.updateValue((Int(ymlTKYs2.stringValue)) ?? 0, forKey: "ymlTKYs2")
+        ymlAllocations.updateValue((Int(ymlTKYs4.stringValue)) ?? 0, forKey: "ymlTKYs4")
+        ymlAllocations.updateValue((Int(ymlTKYc4.stringValue)) ?? 0, forKey: "ymlTKYc4")
+        ymlAllocations.updateValue((Int(ymlTKYc5.stringValue)) ?? 0, forKey: "ymlTKYc5")
 
 
         let allocations = ["ONE": oneAllocations, "HLC": hlcAllocations, "YML": ymlAllocations]

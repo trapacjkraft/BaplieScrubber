@@ -46,7 +46,6 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     var targetURL = ""
     var baplieContents = ""
     let scrubber = Scrubber()
-    let allocator = PS5Allocator()
     
     override func viewDidLoad() {
         
@@ -254,7 +253,6 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     
     func updateHeaders() {
         scrubber.getHeader(baplieHeader: baplieHeader)
-        allocator.getHeader(baplieHeader: baplieHeader)
     }
     
     func clearFTX() {
@@ -307,10 +305,23 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
             return
         }
 
-        
-        allocator.allocations = self.allocations        
-        let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
-        baplieContent = baplieFulls + baplieEmpties
+        switch serviceList.titleOfSelectedItem {
+        case "PS5":
+            let allocator = PS5Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+        case "EC1":
+            let allocator = EC1Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+        default:
+            break
+
+        }
 
     }
     
@@ -349,7 +360,6 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         exportButton.isEnabled = false
         serviceList.removeAllItems()
         serviceList.isEnabled = false
-        allocator.reset()
     }
 }
 
