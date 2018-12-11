@@ -24,6 +24,9 @@
 		4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */; };
 		4258222721BE6FFE004C2BDD /* EC1Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222621BE6FFE004C2BDD /* EC1Allocator.swift */; };
 		4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222821BE7EFF004C2BDD /* Reporter.swift */; };
+		427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */; };
+		427C8FFA21BFA95500BE6D25 /* PS4Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C8FF921BFA95500BE6D25 /* PS4Allocator.swift */; };
+		42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +50,9 @@
 		4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1AllocationViewController.swift; sourceTree = "<group>"; };
 		4258222621BE6FFE004C2BDD /* EC1Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1Allocator.swift; sourceTree = "<group>"; };
 		4258222821BE7EFF004C2BDD /* Reporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
+		427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS4AllocationViewController.swift; sourceTree = "<group>"; };
+		427C8FF921BFA95500BE6D25 /* PS4Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS4Allocator.swift; sourceTree = "<group>"; };
+		42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieViewerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				4214D249213BC1330082723C /* ViewController.swift */,
+				42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */,
 				4214D247213BC1330082723C /* AppDelegate.swift */,
 				422CBC6721917DE60046E503 /* Baplie Parts */,
 				4244F3F821BE18A40064EC30 /* Allocation View Controllers */,
@@ -109,6 +116,7 @@
 		4244F3F821BE18A40064EC30 /* Allocation View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */,
 				422FD75A2192EDCC00CF02E6 /* PS5AllocationViewController.swift */,
 				4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */,
 			);
@@ -130,6 +138,7 @@
 			children = (
 				422FD7582192E2F400CF02E6 /* PS5Allocator.swift */,
 				4258222621BE6FFE004C2BDD /* EC1Allocator.swift */,
+				427C8FF921BFA95500BE6D25 /* PS4Allocator.swift */,
 			);
 			path = Allocators;
 			sourceTree = "<group>";
@@ -213,9 +222,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4214D24A213BC1330082723C /* ViewController.swift in Sources */,
+				427C8FFA21BFA95500BE6D25 /* PS4Allocator.swift in Sources */,
 				422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */,
 				4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */,
 				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
+				42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */,
 				4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */,
 				422FD7592192E2F400CF02E6 /* PS5Allocator.swift in Sources */,
 				422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */,
@@ -223,6 +234,7 @@
 				422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */,
 				422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */,
 				4214D248213BC1330082723C /* AppDelegate.swift in Sources */,
+				427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */,
 				422FD75B2192EDCC00CF02E6 /* PS5AllocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

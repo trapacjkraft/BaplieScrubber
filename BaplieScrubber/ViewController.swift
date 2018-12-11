@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
@@ -16,15 +16,34 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     @IBOutlet var allocationButton: NSButton!
     @IBOutlet var assignEmptiesButton: NSButton!
     @IBOutlet var exportButton: NSButton!
+    @IBOutlet var viewButton: NSButton!
     
-    var baplieHeader = ""
-    var baplieContent = ""
-    var baplieFooter = ""
+    let mainNC = NotificationCenter.default
+    
+    let baplieViewer: BaplieViewerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "BaplieViewerViewController")) as! BaplieViewerViewController
+    
+    var baplieHeader = "" {
+        didSet {
+            mainNC.post(name: Notification.Name("HeaderChanged"), object: nil)
+        }
+    }
+    
+    var baplieContent = "" {
+        didSet {
+            baplieContent = baplieContent.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
+            mainNC.post(name: Notification.Name("ContentChanged"), object: nil)
+        }
+    }
+
+    var baplieFooter = "" {
+        didSet {
+            mainNC.post(name: Notification.Name("FooterChanged"), object: nil)
+        }
+    }
     
     var header = BaplieHeader()
     
     var allocations = [String: [String: Int]]()
-    
     
     var hasBaplie = false {
         didSet {
@@ -44,17 +63,23 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     }
     
     var targetURL = ""
-    var baplieContents = ""
+    var baplieFileContents = ""
     let scrubber = Scrubber()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
-        nc.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
-        nc.addObserver(self, selector: #selector(enableAllocButton), name: Notification.Name("HeaderFetched"), object: nil)
+        
+        mainNC.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
+        mainNC.addObserver(self, selector: #selector(enableBaplieViewer), name: Notification.Name("BaplieDropped"), object: nil)
+        mainNC.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
+        mainNC.addObserver(self, selector: #selector(enableAllocButton), name: Notification.Name("HeaderFetched"), object: nil)
+        
+        mainNC.addObserver(self, selector: #selector(updateViewerHeader), name: Notification.Name("HeaderChanged"), object: nil)
+        mainNC.addObserver(self, selector: #selector(updateViewerContent), name: Notification.Name("ContentChanged"), object: nil)
+        mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
+
         
     }
     
@@ -64,6 +89,10 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     
     @objc func enableEmptyButton() {
         assignEmptiesButton.isEnabled = true
+    }
+    
+    @objc func enableBaplieViewer() {
+        viewButton.isEnabled = true
     }
     
     override var representedObject: Any? {
@@ -105,14 +134,14 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         //Swift.print("Destination path: " + targetURL)
         
         let data = fm.contents(atPath: targetURL)
-        baplieContents = String(data: data!, encoding: .utf8)!
+        baplieFileContents = String(data: data!, encoding: .utf8)!
         hasBaplie = true
         
     }
     
     func getBaplieParts() {
         
-        var baplie = baplieContents.components(separatedBy: "'")
+        var baplie = baplieFileContents.components(separatedBy: "'")
         baplie.removeLast()
         var index = 0
         
@@ -167,8 +196,8 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
     func updateData() {
         getBaplieParts()
         header = BaplieHeader(header: baplieHeader)
-        let nc = NotificationCenter.default
-        nc.post(name: Notification.Name("HeaderFetched"), object: nil)
+        
+        mainNC.post(name: Notification.Name("HeaderFetched"), object: nil)
         
         func loadServices() {
             
@@ -230,6 +259,32 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         baplieIsReady = true
     }
     
+    @IBAction func displayBaplieViewer(_ sender: NSButton) {
+        
+        presentViewController(baplieViewer, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
+    
+        baplieViewer.baplieHeaderView.string = baplieHeader
+        baplieViewer.baplieContentView.string = baplieContent
+        baplieViewer.baplieFooterView.string = baplieFooter
+
+    }
+    
+    @objc func updateViewerHeader() {
+        
+        guard baplieViewer.baplieHeaderView != nil else { return }
+        baplieViewer.baplieHeaderView.string = baplieHeader
+    }
+    
+    @objc func updateViewerContent() {
+        guard baplieViewer.baplieContentView != nil else { return }
+        baplieViewer.baplieContentView.string = baplieContent
+    }
+    
+    @objc func updateViewerFooter() {
+        guard baplieViewer.baplieFooterView != nil else { return }
+        baplieViewer.baplieContentView.string = baplieFooter
+    }
+    
     @IBAction func writeBaplie(_ sender: Any) {
         
         let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
@@ -271,6 +326,12 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         
         switch serviceList.titleOfSelectedItem {
         
+        case "PS4":
+            let vc: PS4AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS4AllocationViewController")) as! PS4AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+            
         case "PS5":
             let vc: PS5AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS5AllocationViewController")) as! PS5AllocationViewController
             vc.delegate = self
@@ -306,6 +367,14 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         }
 
         switch serviceList.titleOfSelectedItem {
+        
+        case "PS4":
+            let allocator = PS4Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+
         case "PS5":
             let allocator = PS5Allocator()
             allocator.getHeader(baplieHeader: baplieHeader)
@@ -355,6 +424,7 @@ class ViewController: NSViewController, PS5AllocationViewControllerDelegate, EC1
         baplieFooter = ""
         hasBaplie = false
         baplieIsReady = false
+        viewButton.isEnabled = false
         allocationButton.isEnabled = false
         assignEmptiesButton.isEnabled = false
         exportButton.isEnabled = false
