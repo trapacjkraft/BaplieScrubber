@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
@@ -270,7 +270,6 @@ class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5
     }
     
     @objc func updateViewerHeader() {
-        
         guard baplieViewer.baplieHeaderView != nil else { return }
         baplieViewer.baplieHeaderView.string = baplieHeader
     }
@@ -326,6 +325,12 @@ class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5
         
         switch serviceList.titleOfSelectedItem {
         
+        case "PS3":
+            let vc: PS3AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS3AllocationViewController")) as! PS3AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
         case "PS4":
             let vc: PS4AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS4AllocationViewController")) as! PS4AllocationViewController
             vc.delegate = self
@@ -368,6 +373,13 @@ class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5
 
         switch serviceList.titleOfSelectedItem {
         
+        case "PS3":
+            let allocator = PS3Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+
         case "PS4":
             let allocator = PS4Allocator()
             allocator.getHeader(baplieHeader: baplieHeader)
@@ -381,6 +393,7 @@ class ViewController: NSViewController, PS4AllocationViewControllerDelegate, PS5
             allocator.allocations = self.allocations
             let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
             baplieContent = baplieFulls + baplieEmpties
+            
         case "EC1":
             let allocator = EC1Allocator()
             allocator.getHeader(baplieHeader: baplieHeader)
