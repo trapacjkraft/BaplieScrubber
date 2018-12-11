@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
@@ -325,6 +325,12 @@ class ViewController: NSViewController, PS3AllocationViewControllerDelegate, PS4
         
         switch serviceList.titleOfSelectedItem {
         
+        case "PS2":
+            let vc: PS2AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS2AllocationViewController")) as! PS2AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
         case "PS3":
             let vc: PS3AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS3AllocationViewController")) as! PS3AllocationViewController
             vc.delegate = self
@@ -373,6 +379,13 @@ class ViewController: NSViewController, PS3AllocationViewControllerDelegate, PS4
 
         switch serviceList.titleOfSelectedItem {
         
+        case "PS2":
+            let allocator = PS2Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+
         case "PS3":
             let allocator = PS3Allocator()
             allocator.getHeader(baplieHeader: baplieHeader)

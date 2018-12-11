@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420AD05E21BFF5ED00879A7C /* PS2AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD05D21BFF5ED00879A7C /* PS2AllocationViewController.swift */; };
+		420AD06021BFFBB900879A7C /* PS2Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420AD05F21BFFBB900879A7C /* PS2Allocator.swift */; };
 		4214D248213BC1330082723C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214D247213BC1330082723C /* AppDelegate.swift */; };
 		4214D24A213BC1330082723C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4214D249213BC1330082723C /* ViewController.swift */; };
 		4214D24C213BC1340082723C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24B213BC1340082723C /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		420AD05D21BFF5ED00879A7C /* PS2AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS2AllocationViewController.swift; sourceTree = "<group>"; };
+		420AD05F21BFFBB900879A7C /* PS2Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS2Allocator.swift; sourceTree = "<group>"; };
 		4214D244213BC1320082723C /* BaplieScrubber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaplieScrubber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4214D247213BC1330082723C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4214D249213BC1330082723C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 		4244F3F821BE18A40064EC30 /* Allocation View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				420AD05D21BFF5ED00879A7C /* PS2AllocationViewController.swift */,
 				427C8FFB21BFB45200BE6D25 /* PS3AllocationViewController.swift */,
 				427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */,
 				422FD75A2192EDCC00CF02E6 /* PS5AllocationViewController.swift */,
@@ -141,6 +146,7 @@
 		4244F40321BE431C0064EC30 /* Allocators */ = {
 			isa = PBXGroup;
 			children = (
+				420AD05F21BFFBB900879A7C /* PS2Allocator.swift */,
 				427C8FFD21BFBF0B00BE6D25 /* PS3Allocator.swift */,
 				427C8FF921BFA95500BE6D25 /* PS4Allocator.swift */,
 				422FD7582192E2F400CF02E6 /* PS5Allocator.swift */,
@@ -240,9 +246,11 @@
 				422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */,
 				4258222721BE6FFE004C2BDD /* EC1Allocator.swift in Sources */,
 				422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */,
+				420AD06021BFFBB900879A7C /* PS2Allocator.swift in Sources */,
 				422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */,
 				4214D248213BC1330082723C /* AppDelegate.swift in Sources */,
 				427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */,
+				420AD05E21BFF5ED00879A7C /* PS2AllocationViewController.swift in Sources */,
 				422FD75B2192EDCC00CF02E6 /* PS5AllocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
