@@ -194,12 +194,21 @@ class PS3Allocator: NSObject {
                         
                     case oneISOcodes["S2"]:
                         emptyS2.append(container)
+                    case oneISOcodes["S2b"]:
+                        emptyS2.append(container)
                     case oneISOcodes["S4"]:
+                        emptyS4.append(container)
+                    case oneISOcodes["S4b"]:
                         emptyS4.append(container)
                     case oneISOcodes["C4"]:
                         emptyC4.append(container)
+                    case oneISOcodes["C4b"]:
+                        emptyC4.append(container)
                     case oneISOcodes["C5"]:
                         emptyC5.append(container)
+                    case oneISOcodes["C5b"]:
+                        emptyC5.append(container)
+
                     default:
                         break //Should not be reached.
                     }

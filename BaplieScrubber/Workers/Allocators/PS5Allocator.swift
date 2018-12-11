@@ -32,9 +32,13 @@ class PS5Allocator: NSObject {
     
     var oneISOcodes = [
         "S2":"2200",
+        "S2b":"22G0",
         "S4":"4300",
+        "S4b":"42G0",
         "C4":"4500",
-        "C5":"9500"
+        "C4b":"45G0",
+        "C5":"9500",
+        "C5b":"L5G0"
     ]
 
     
@@ -178,6 +182,34 @@ class PS5Allocator: NSObject {
                         emptyC4.append(container)
                     case yangmingISOcodes["C5"]:
                         emptyC5.append(container)
+                    default:
+                        break //Should not be reached.
+                    }
+                }
+                
+            case "ONE":
+                
+                for container in emptyPreplans {
+                    
+                    switch container.containerISO {
+                        
+                    case oneISOcodes["S2"]:
+                        emptyS2.append(container)
+                    case oneISOcodes["S2b"]:
+                        emptyS2.append(container)
+                    case oneISOcodes["S4"]:
+                        emptyS4.append(container)
+                    case oneISOcodes["S4b"]:
+                        emptyS4.append(container)
+                    case oneISOcodes["C4"]:
+                        emptyC4.append(container)
+                    case oneISOcodes["C4b"]:
+                        emptyC4.append(container)
+                    case oneISOcodes["C5"]:
+                        emptyC5.append(container)
+                    case oneISOcodes["C5b"]:
+                        emptyC5.append(container)
+
                     default:
                         break //Should not be reached.
                     }

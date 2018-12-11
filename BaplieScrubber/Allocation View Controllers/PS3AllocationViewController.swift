@@ -303,11 +303,11 @@ class PS3AllocationViewController: NSViewController {
         oneAllocations.updateValue((Int(onePKLc4.stringValue)) ?? 0, forKey: "onePKLc4")
         oneAllocations.updateValue((Int(onePKLc5.stringValue)) ?? 0, forKey: "onePKLc5")
         
-        oneAllocations.updateValue((Int(onePKLs2.stringValue)) ?? 0, forKey: "onePKLs2")
-        oneAllocations.updateValue((Int(onePKLs4.stringValue)) ?? 0, forKey: "onePKLs4")
-        oneAllocations.updateValue((Int(onePKLc4.stringValue)) ?? 0, forKey: "onePKLc4")
-        oneAllocations.updateValue((Int(onePKLc5.stringValue)) ?? 0, forKey: "onePKLc5")
-        
+        oneAllocations.updateValue((Int(oneSHGs2.stringValue)) ?? 0, forKey: "oneSHGs2")
+        oneAllocations.updateValue((Int(oneSHGs4.stringValue)) ?? 0, forKey: "oneSHGs4")
+        oneAllocations.updateValue((Int(oneSHGc4.stringValue)) ?? 0, forKey: "oneSHGc4")
+        oneAllocations.updateValue((Int(oneSHGc5.stringValue)) ?? 0, forKey: "oneSHGc5")
+
         oneAllocations.updateValue((Int(oneSHKs2.stringValue)) ?? 0, forKey: "oneSHKs2")
         oneAllocations.updateValue((Int(oneSHKs4.stringValue)) ?? 0, forKey: "oneSHKs4")
         oneAllocations.updateValue((Int(oneSHKc4.stringValue)) ?? 0, forKey: "oneSHKc4")
@@ -350,11 +350,11 @@ class PS3AllocationViewController: NSViewController {
         hlcAllocations.updateValue((Int(hlcPKLc4.stringValue)) ?? 0, forKey: "hlcPKLc4")
         hlcAllocations.updateValue((Int(hlcPKLc5.stringValue)) ?? 0, forKey: "hlcPKLc5")
         
-        hlcAllocations.updateValue((Int(hlcPKLs2.stringValue)) ?? 0, forKey: "hlcPKLs2")
-        hlcAllocations.updateValue((Int(hlcPKLs4.stringValue)) ?? 0, forKey: "hlcPKLs4")
-        hlcAllocations.updateValue((Int(hlcPKLc4.stringValue)) ?? 0, forKey: "hlcPKLc4")
-        hlcAllocations.updateValue((Int(hlcPKLc5.stringValue)) ?? 0, forKey: "hlcPKLc5")
-        
+        hlcAllocations.updateValue((Int(hlcSHGs2.stringValue)) ?? 0, forKey: "hlcSHGs2")
+        hlcAllocations.updateValue((Int(hlcSHGs4.stringValue)) ?? 0, forKey: "hlcSHGs4")
+        hlcAllocations.updateValue((Int(hlcSHGc4.stringValue)) ?? 0, forKey: "hlcSHGc4")
+        hlcAllocations.updateValue((Int(hlcSHGc5.stringValue)) ?? 0, forKey: "hlcSHGc5")
+
         hlcAllocations.updateValue((Int(hlcSHKs2.stringValue)) ?? 0, forKey: "hlcSHKs2")
         hlcAllocations.updateValue((Int(hlcSHKs4.stringValue)) ?? 0, forKey: "hlcSHKs4")
         hlcAllocations.updateValue((Int(hlcSHKc4.stringValue)) ?? 0, forKey: "hlcSHKc4")
@@ -397,11 +397,11 @@ class PS3AllocationViewController: NSViewController {
         ymlAllocations.updateValue((Int(ymlPKLc4.stringValue)) ?? 0, forKey: "ymlPKLc4")
         ymlAllocations.updateValue((Int(ymlPKLc5.stringValue)) ?? 0, forKey: "ymlPKLc5")
         
-        ymlAllocations.updateValue((Int(ymlPKLs2.stringValue)) ?? 0, forKey: "ymlPKLs2")
-        ymlAllocations.updateValue((Int(ymlPKLs4.stringValue)) ?? 0, forKey: "ymlPKLs4")
-        ymlAllocations.updateValue((Int(ymlPKLc4.stringValue)) ?? 0, forKey: "ymlPKLc4")
-        ymlAllocations.updateValue((Int(ymlPKLc5.stringValue)) ?? 0, forKey: "ymlPKLc5")
-        
+        ymlAllocations.updateValue((Int(ymlSHGs2.stringValue)) ?? 0, forKey: "ymlSHGs2")
+        ymlAllocations.updateValue((Int(ymlSHGs4.stringValue)) ?? 0, forKey: "ymlSHGs4")
+        ymlAllocations.updateValue((Int(ymlSHGc4.stringValue)) ?? 0, forKey: "ymlSHGc4")
+        ymlAllocations.updateValue((Int(ymlSHGc5.stringValue)) ?? 0, forKey: "ymlSHGc5")
+
         ymlAllocations.updateValue((Int(ymlSHKs2.stringValue)) ?? 0, forKey: "ymlSHKs2")
         ymlAllocations.updateValue((Int(ymlSHKs4.stringValue)) ?? 0, forKey: "ymlSHKs4")
         ymlAllocations.updateValue((Int(ymlSHKc4.stringValue)) ?? 0, forKey: "ymlSHKc4")
