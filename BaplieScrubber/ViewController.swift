@@ -15,6 +15,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     @IBOutlet var serviceList: NSPopUpButton!
     @IBOutlet var allocationButton: NSButton!
     @IBOutlet var assignEmptiesButton: NSButton!
+    @IBOutlet var bsaReportButton: NSButton!
     @IBOutlet var exportButton: NSButton!
     @IBOutlet var viewButton: NSButton!
     
@@ -58,6 +59,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         didSet {
             if baplieIsReady == true {
                 updateHeaders()
+                bsaReportButton.isEnabled = true
+                
             }
         }
     }
@@ -288,8 +291,13 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         
         let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
         let fileURL = baplieDragWellView.droppedBapliePath!
-        let fileName = NSURL.fileURL(withPath: fileURL).lastPathComponent
-        let destination = libraryDirectory + "scrubbed" + fileName
+        var fileName = "scrubbed" + NSURL.fileURL(withPath: fileURL).lastPathComponent
+        
+        if header.isTrapacBaplie {
+            fileName = header.vesselName.replacingOccurrences(of: " ", with: "_") + "_v." + header.voyageNumber
+        }
+        
+        let destination = libraryDirectory + fileName
         
         let contents = baplieHeader + (baplieContent.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooter
         
@@ -466,6 +474,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         
         clearFTX()
         fixStartTags()
+    }
+    
+    @IBAction func generateReport(_ sender: Any) {
+        let reporter = Reporter(header: header, baplie: baplieContent)
+        reporter.writeReport(report: reporter.generateTEUReportForCSV())
     }
     
     @IBAction func reset(_ sender: Any) {

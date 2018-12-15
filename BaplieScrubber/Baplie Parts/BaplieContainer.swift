@@ -12,6 +12,7 @@ class BaplieContainer: NSObject {
 
     var containerRecordString: String
     var stowagePosition: String
+    var stowageBay: Int
     var weight: String
     var loadPort: String
     var dischargePort: String
@@ -26,6 +27,7 @@ class BaplieContainer: NSObject {
         
         self.containerRecordString = container
         self.stowagePosition = String()
+        self.stowageBay = Int()
         self.weight = String()
         self.loadPort = String()
         self.dischargePort = String()
@@ -37,6 +39,7 @@ class BaplieContainer: NSObject {
         self.shippingLine = String()
 
         var stowagePositionString = String()
+        var stowageBayString = String()
         var weightString = String()
         var loadPortString = String()
         var dischargePortString = String()
@@ -59,6 +62,11 @@ class BaplieContainer: NSObject {
                     stowagePositionString = line
                     stowagePositionString = stowagePositionString.components(separatedBy: "LOC+147+")[1]
                     self.stowagePosition = stowagePositionString.components(separatedBy: "::")[0]
+                    
+                    stowageBayString = self.stowagePosition
+                    stowageBayString.removeLast(4)
+                    stowageBayString.removeFirst()
+                    self.stowageBay = Int(stowageBayString) ?? 0
                 }
                 else if line.contains("MEA+VGM++") {
                     
@@ -110,7 +118,7 @@ class BaplieContainer: NSObject {
                 }
                 else if line.contains("NAD+CA") {
                     shippingLineString = line
-                    self.shippingLine = shippingLineString.components(separatedBy: "+")[2].components(separatedBy: ":")[0]
+                    self.shippingLine = shippingLineString.components(separatedBy: "+")[2].components(separatedBy: ":")[0].components(separatedBy: "+").last!
                 }
             }
 
@@ -122,4 +130,9 @@ class BaplieContainer: NSObject {
         
     }
     
+    func isThroughport(currentPort: String) -> Bool {
+        if self.loadPort == currentPort {
+            return false
+        } else { return true }
+    }
 }

@@ -831,10 +831,10 @@ Gw
             </objects>
             <point key="canvasLocation" x="-756.5" y="1032.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Main View Controller" id="XfG-lQ-9wD" customClass="ViewController" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="380" height="500"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -905,13 +905,9 @@ Gw
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
-                                        </button>
-                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wam-qi-3ba">
-                                            <rect key="frame" x="178" y="86" width="149" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Container Report" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3UF-OJ-PO4">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
+                                            <connections>
+                                                <action selector="generateReport:" target="XfG-lQ-9wD" id="CTu-DY-Hrb"/>
+                                            </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gOC-nD-tfG">
                                             <rect key="frame" x="129" y="13" width="80" height="32"/>
@@ -964,7 +960,6 @@ Gw
                                         <constraint firstItem="lCa-Kv-hCI" firstAttribute="top" secondItem="oEO-EU-FsF" secondAttribute="bottom" constant="12" symbolic="YES" id="2ve-tV-YPx"/>
                                         <constraint firstItem="K1s-Jr-lqb" firstAttribute="centerX" secondItem="gTK-w7-bbb" secondAttribute="centerX" id="35J-fm-3Yi"/>
                                         <constraint firstItem="aCD-OI-utL" firstAttribute="top" secondItem="m1Z-n7-IGe" secondAttribute="bottom" constant="8" symbolic="YES" id="4Ru-z7-ynL"/>
-                                        <constraint firstItem="lCa-Kv-hCI" firstAttribute="leading" secondItem="wam-qi-3ba" secondAttribute="leading" id="6bB-iJ-CVr"/>
                                         <constraint firstItem="m1Z-n7-IGe" firstAttribute="leading" secondItem="aCD-OI-utL" secondAttribute="leading" id="7Xq-QO-bsN"/>
                                         <constraint firstItem="ZyI-OB-7XA" firstAttribute="leading" secondItem="m1Z-n7-IGe" secondAttribute="leading" id="AcR-SC-jZH"/>
                                         <constraint firstItem="K1s-Jr-lqb" firstAttribute="leading" secondItem="DLc-U4-o2b" secondAttribute="leading" id="Ap2-Sv-VSf"/>
@@ -982,9 +977,7 @@ Gw
                                         <constraint firstAttribute="bottom" secondItem="gOC-nD-tfG" secondAttribute="bottom" constant="20" symbolic="YES" id="W7D-aC-Bvr"/>
                                         <constraint firstItem="m1Z-n7-IGe" firstAttribute="trailing" secondItem="aCD-OI-utL" secondAttribute="trailing" id="ZVp-fw-HQ1"/>
                                         <constraint firstItem="K1s-Jr-lqb" firstAttribute="leading" secondItem="m1Z-n7-IGe" secondAttribute="trailing" constant="72" id="dcs-UF-tFv"/>
-                                        <constraint firstItem="lCa-Kv-hCI" firstAttribute="trailing" secondItem="wam-qi-3ba" secondAttribute="trailing" id="iAE-zw-IyD"/>
                                         <constraint firstItem="wNC-dl-WQk" firstAttribute="centerX" secondItem="I92-uH-wuf" secondAttribute="centerX" id="j4W-98-pi3"/>
-                                        <constraint firstItem="wam-qi-3ba" firstAttribute="top" secondItem="lCa-Kv-hCI" secondAttribute="bottom" constant="12" symbolic="YES" id="jDb-xO-v4F"/>
                                         <constraint firstItem="gTK-w7-bbb" firstAttribute="top" secondItem="uVr-Q6-bYJ" secondAttribute="bottom" constant="19" id="jNj-pM-i6g"/>
                                         <constraint firstItem="ZyI-OB-7XA" firstAttribute="top" secondItem="E0I-jN-z50" secondAttribute="top" id="kZi-rn-0AJ"/>
                                         <constraint firstItem="oEO-EU-FsF" firstAttribute="top" secondItem="gTK-w7-bbb" secondAttribute="bottom" constant="12" symbolic="YES" id="laz-Jn-bGP"/>
@@ -1010,6 +1003,7 @@ Gw
                         <outlet property="assignEmptiesButton" destination="oEO-EU-FsF" id="NDU-Iy-mir"/>
                         <outlet property="baplieDragWellView" destination="E0I-jN-z50" id="ka5-oU-dgZ"/>
                         <outlet property="baplieIconImage" destination="wNC-dl-WQk" id="wY6-tJ-q0D"/>
+                        <outlet property="bsaReportButton" destination="lCa-Kv-hCI" id="MUP-bC-6yb"/>
                         <outlet property="exportButton" destination="gOC-nD-tfG" id="BRx-h0-TAV"/>
                         <outlet property="serviceList" destination="uVr-Q6-bYJ" id="25C-QD-HQs"/>
                         <outlet property="viewButton" destination="ZyI-OB-7XA" id="xoN-xN-PuE"/>
@@ -7423,7 +7417,7 @@ DQ
                 </viewController>
                 <customObject id="X8z-My-WAy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1552" y="1062"/>
+            <point key="canvasLocation" x="507" y="-274"/>
         </scene>
     </scenes>
     <resources>
