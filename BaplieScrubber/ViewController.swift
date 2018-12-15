@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, PS6AllocationViewControllerDelegate, PS7AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
@@ -349,6 +349,18 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             
             presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
 
+        case "PS6":
+            let vc: PS6AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS6AllocationViewController")) as! PS6AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+            
+        case "PS7":
+            let vc: PS7AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS7AllocationViewController")) as! PS7AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
         case "EC1":
             let vc: EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC1AllocationViewController")) as! EC1AllocationViewController
             vc.delegate = self
@@ -407,6 +419,20 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
             baplieContent = baplieFulls + baplieEmpties
             
+        case "PS6":
+            let allocator = PS6Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+            
+        case "PS7":
+            let allocator = PS7Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+
         case "EC1":
             let allocator = EC1Allocator()
             allocator.getHeader(baplieHeader: baplieHeader)
