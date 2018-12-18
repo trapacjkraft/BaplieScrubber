@@ -114,6 +114,27 @@ class Reporter: NSObject {
     }
     
     func getTEUCounts() {
+     
+        var oneLadenFEUcontainers = [BaplieContainer]()
+        var oneLadenTEUcontainers = [BaplieContainer]()
+        var oneEmptyFEUcontainers = [BaplieContainer]()
+        var oneEmptyTEUcontainers = [BaplieContainer]()
+        var oneThroughportFEUcontainers = [BaplieContainer]()
+        var oneThroughportTEUcontainers = [BaplieContainer]()
+
+        var hlcLadenFEUcontainers = [BaplieContainer]()
+        var hlcLadenTEUcontainers = [BaplieContainer]()
+        var hlcEmptyFEUcontainers = [BaplieContainer]()
+        var hlcEmptyTEUcontainers = [BaplieContainer]()
+        var hlcThroughportFEUcontainers = [BaplieContainer]()
+        var hlcThroughportTEUcontainers = [BaplieContainer]()
+
+        var ymlLadenFEUcontainers = [BaplieContainer]()
+        var ymlLadenTEUcontainers = [BaplieContainer]()
+        var ymlEmptyFEUcontainers = [BaplieContainer]()
+        var ymlEmptyTEUcontainers = [BaplieContainer]()
+        var ymlThroughportFEUcontainers = [BaplieContainer]()
+        var ymlThroughportTEUcontainers = [BaplieContainer]()
         
         var oneLadenFEU = 0
         var oneLadenTEU = 0
@@ -137,6 +158,7 @@ class Reporter: NSObject {
         var ymlThroughportTEU = 0
     
         if baplieHeader.currentPort == "USLAX" || baplieHeader.currentPort == "USOAK" {
+            
             for container in fullContainers {
                 
                 if container.stowageBay.isEven() {
@@ -145,10 +167,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneLadenFEU += 1
+                        oneLadenFEUcontainers.append(container)
                     case "HLC":
                         hlcLadenFEU += 1
+                        hlcLadenFEUcontainers.append(container)
                     case "YML":
                         ymlLadenFEU += 1
+                        ymlLadenFEUcontainers.append(container)
                     default:
                         break
                         
@@ -160,10 +185,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneLadenTEU += 1
+                        oneLadenTEUcontainers.append(container)
                     case "HLC":
                         hlcLadenTEU += 1
+                        hlcLadenTEUcontainers.append(container)
                     case "YML":
                         ymlLadenTEU += 1
+                        ymlLadenTEUcontainers.append(container)
                     default:
                         break
                         
@@ -179,10 +207,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneEmptyFEU += 1
+                        oneEmptyFEUcontainers.append(container)
                     case "HLC":
                         hlcEmptyFEU += 1
+                        hlcEmptyFEUcontainers.append(container)
                     case "YML":
                         ymlEmptyFEU += 1
+                        ymlEmptyFEUcontainers.append(container)
                     default:
                         break
                         
@@ -193,10 +224,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneEmptyTEU += 1
+                        oneEmptyTEUcontainers.append(container)
                     case "HLC":
                         hlcEmptyTEU += 1
+                        hlcEmptyTEUcontainers.append(container)
                     case "YML":
                         ymlEmptyTEU += 1
+                        ymlEmptyTEUcontainers.append(container)
                     default:
                         break
                         
@@ -212,10 +246,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneThroughportFEU += 1
+                        oneThroughportFEUcontainers.append(container)
                     case "HLC":
                         hlcThroughportFEU += 1
+                        hlcThroughportFEUcontainers.append(container)
                     case "YML":
                         ymlThroughportFEU += 1
+                        ymlThroughportFEUcontainers.append(container)
                     default:
                         break
                         
@@ -226,10 +263,13 @@ class Reporter: NSObject {
                         
                     case "ONE":
                         oneThroughportTEU += 1
+                        oneThroughportTEUcontainers.append(container)
                     case "HLC":
                         hlcThroughportTEU += 1
+                        hlcThroughportTEUcontainers.append(container)
                     case "YML":
                         ymlThroughportTEU += 1
+                        ymlThroughportTEUcontainers.append(container)
                     default:
                         break
                         
@@ -244,7 +284,7 @@ class Reporter: NSObject {
         
         emptyTEU.updateValue(((oneEmptyFEU * 2) + oneEmptyTEU), forKey: "one")
         emptyTEU.updateValue(((hlcEmptyFEU * 2) + hlcEmptyTEU), forKey: "hlc")
-        emptyTEU.updateValue(((ymlEmptyFEU * 2) + ymlEmptyFEU), forKey: "yml")
+        emptyTEU.updateValue(((ymlEmptyFEU * 2) + ymlEmptyTEU), forKey: "yml")
         
         throughportTEU.updateValue(((oneThroughportFEU * 2) + oneThroughportTEU), forKey: "one")
         throughportTEU.updateValue(((hlcThroughportFEU * 2) + hlcThroughportTEU), forKey: "hlc")
@@ -258,7 +298,6 @@ class Reporter: NSObject {
     }
 
     func getContainerCounts() {
-        //Add support for Container Report
     }
     
     func generateTEUReportForCSV() -> String {
