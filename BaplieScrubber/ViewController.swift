@@ -294,7 +294,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         var fileName = "scrubbed" + NSURL.fileURL(withPath: fileURL).lastPathComponent
         
         if header.isTrapacBaplie {
-            fileName = header.vesselName.replacingOccurrences(of: " ", with: "_") + "_v." + header.voyageNumber
+            fileName = header.vesselName.replacingOccurrences(of: " ", with: "_") + "_v." + header.voyageNumber + ".txt"
         }
         
         let destination = libraryDirectory + fileName
