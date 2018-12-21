@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, PS6AllocationViewControllerDelegate, PS7AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate {
+class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, PS6AllocationViewControllerDelegate, PS7AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate, JAX_EC1AllocationViewControllerDelegate, EC3AllocationViewControllerDelegate, EC5AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
     @IBOutlet var baplieDragWellView: BaplieDragWell!
@@ -372,7 +372,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         case "EC1":
             switch header.currentPort {
             case "USJAX":
-                break
+                let vc: JAX_EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "JAX_EC1AllocationViewController")) as! JAX_EC1AllocationViewController
+                vc.delegate = self
+
+                presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
             default:
                 let vc: EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC1AllocationViewController")) as! EC1AllocationViewController
                 vc.delegate = self
@@ -380,7 +384,19 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
                 presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
 
             }
+
+        case "EC3":
+            let vc: EC3AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC3AllocationViewController")) as! EC3AllocationViewController
+            vc.delegate = self
             
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
+        case "EC5":
+            let vc: EC5AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC5AllocationViewController")) as! EC5AllocationViewController
+            vc.delegate = self
+            
+            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
         default:
             break
             
@@ -452,12 +468,27 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             case "USJAX":
                 break
             default:
-                let allocator = EC1Allocator()
+                let allocator = JAX_EC1Allocator()
                 allocator.getHeader(baplieHeader: baplieHeader)
                 allocator.allocations = self.allocations
                 let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
                 baplieContent = baplieFulls + baplieEmpties
             }
+            
+        case "EC3":
+            let allocator = EC3Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+            
+        case "EC5":
+            let allocator = EC5Allocator()
+            allocator.getHeader(baplieHeader: baplieHeader)
+            allocator.allocations = self.allocations
+            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+            baplieContent = baplieFulls + baplieEmpties
+            
         default:
             break
 
