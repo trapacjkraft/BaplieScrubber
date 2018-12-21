@@ -1,14 +1,14 @@
 //
-//  PS7Allocator.swift
+//  EC5Allocator.swift
 //  BaplieScrubber
 //
-//  Created by Joshua Kraft on 12/14/18.
+//  Created by Joshua Kraft on 12/21/18.
 //  Copyright © 2018 Joshua Kraft. All rights reserved.
 //
 
 import Cocoa
 
-class PS7Allocator: NSObject {
+class EC5Allocator: NSObject {
     
     var emptyS2: [BaplieContainer]
     var emptyS4: [BaplieContainer]
@@ -40,7 +40,6 @@ class PS7Allocator: NSObject {
         "C5":"9500",
         "C5b":"L5G0"
     ]
-    
     
     var vesselOperator = ""
     var previousOperator = ""
@@ -220,6 +219,7 @@ class PS7Allocator: NSObject {
                     }
                 }
                 
+                
             default:
                 break //Reached if vessel operator line is malformed. Program needs to know vessel operator to decide which ISO codes to use. Should not be reached considering export features are for TraPac-generated Baplies.
             }
@@ -227,20 +227,35 @@ class PS7Allocator: NSObject {
         }
         
         
-        var emptyHKGs2 = [BaplieContainer]()
-        var emptyHKGs4 = [BaplieContainer]()
-        var emptyHKGc4 = [BaplieContainer]()
-        var emptyHKGc5 = [BaplieContainer]()
+        var emptyCMBs2 = [BaplieContainer]()
+        var emptyCMBs4 = [BaplieContainer]()
+        var emptyCMBc4 = [BaplieContainer]()
+        var emptyCMBc5 = [BaplieContainer]()
         
-        var emptyXMNs2 = [BaplieContainer]()
-        var emptyXMNs4 = [BaplieContainer]()
-        var emptyXMNc4 = [BaplieContainer]()
-        var emptyXMNc5 = [BaplieContainer]()
+        var emptyHALs2 = [BaplieContainer]()
+        var emptyHALs4 = [BaplieContainer]()
+        var emptyHALc4 = [BaplieContainer]()
+        var emptyHALc5 = [BaplieContainer]()
         
-        var emptyYTIs2 = [BaplieContainer]()
-        var emptyYTIs4 = [BaplieContainer]()
-        var emptyYTIc4 = [BaplieContainer]()
-        var emptyYTIc5 = [BaplieContainer]()
+        var emptyHCMs2 = [BaplieContainer]()
+        var emptyHCMs4 = [BaplieContainer]()
+        var emptyHCMc4 = [BaplieContainer]()
+        var emptyHCMc5 = [BaplieContainer]()
+        
+        var emptyJEBs2 = [BaplieContainer]()
+        var emptyJEBs4 = [BaplieContainer]()
+        var emptyJEBc4 = [BaplieContainer]()
+        var emptyJEBc5 = [BaplieContainer]()
+        
+        var emptyLLLs2 = [BaplieContainer]()
+        var emptyLLLs4 = [BaplieContainer]()
+        var emptyLLLc4 = [BaplieContainer]()
+        var emptyLLLc5 = [BaplieContainer]()
+        
+        var emptySPRs2 = [BaplieContainer]()
+        var emptySPRs4 = [BaplieContainer]()
+        var emptySPRc4 = [BaplieContainer]()
+        var emptySPRc5 = [BaplieContainer]()
         
         func sortContainerSizesByPort() {
             
@@ -250,12 +265,19 @@ class PS7Allocator: NSObject {
                 
                 switch container.dischargePort {
                     
-                case "HKHKG":
-                    emptyHKGs2.append(container)
-                case "CNXMN":
-                    emptyXMNs2.append(container)
-                case "CNYTN":
-                    emptyYTIs2.append(container)
+                case "LKCMB":
+                    emptyCMBs2.append(container)
+                case "CAHAL":
+                    emptyHALs2.append(container)
+                case "VNVUT":
+                    emptyHCMs2.append(container)
+                case "AEJEA":
+                    emptyJEBs2.append(container)
+                case "THLCH":
+                    emptyLLLs2.append(container)
+                case "SGSIN":
+                    emptySPRs2.append(container)
+                    
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -268,12 +290,19 @@ class PS7Allocator: NSObject {
                 
                 switch container.dischargePort {
                     
-                case "HKHKG":
-                    emptyHKGs4.append(container)
-                case "CNXMN":
-                    emptyXMNs4.append(container)
-                case "CNYTN":
-                    emptyYTIs4.append(container)
+                case "LKCMB":
+                    emptyCMBs4.append(container)
+                case "CAHAL":
+                    emptyHALs4.append(container)
+                case "VNVUT":
+                    emptyHCMs4.append(container)
+                case "AEJEA":
+                    emptyJEBs4.append(container)
+                case "THLCH":
+                    emptyLLLs4.append(container)
+                case "SGSIN":
+                    emptySPRs4.append(container)
+                    
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -286,12 +315,19 @@ class PS7Allocator: NSObject {
                 
                 switch container.dischargePort {
                     
-                case "HKHKG":
-                    emptyHKGc4.append(container)
-                case "CNXMN":
-                    emptyXMNc4.append(container)
-                case "CNYTN":
-                    emptyYTIc4.append(container)
+                case "LKCMB":
+                    emptyCMBc4.append(container)
+                case "CAHAL":
+                    emptyHALc4.append(container)
+                case "VNVUT":
+                    emptyHCMc4.append(container)
+                case "AEJEA":
+                    emptyJEBc4.append(container)
+                case "THLCH":
+                    emptyLLLc4.append(container)
+                case "SGSIN":
+                    emptySPRc4.append(container)
+                    
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -304,12 +340,19 @@ class PS7Allocator: NSObject {
                 
                 switch container.dischargePort {
                     
-                case "HKHKG":
-                    emptyHKGc5.append(container)
-                case "CNXMN":
-                    emptyXMNc5.append(container)
-                case "CNYTN":
-                    emptyYTIc5.append(container)
+                case "LKCMB":
+                    emptyCMBc5.append(container)
+                case "CAHAL":
+                    emptyHALc5.append(container)
+                case "VNVUT":
+                    emptyHCMc5.append(container)
+                case "AEJEA":
+                    emptyJEBc5.append(container)
+                case "THLCH":
+                    emptyLLLc5.append(container)
+                case "SGSIN":
+                    emptySPRc5.append(container)
+                    
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -476,8 +519,8 @@ class PS7Allocator: NSObject {
         func assignOperators() {
             
             var allocSum = 0
-                        let emptyCount = emptyPreplans.count - otherBaplieContentCount
-
+            let emptyCount = emptyPreplans.count - otherBaplieContentCount
+            
             
             for (_, alloc) in combinedAllocations {
                 allocSum += alloc
@@ -491,20 +534,36 @@ class PS7Allocator: NSObject {
                 return
             }
             
-            assignS2(containers: emptyHKGs2, oneKey: "oneHKGs2", hlcKey: "hlcHKGs2", ymlKey: "ymlHKGs2")
-            assignS4(containers: emptyHKGs4, oneKey: "oneHKGs4", hlcKey: "hlcHKGs4", ymlKey: "ymlHKGs4")
-            assignC4(containers: emptyHKGc4, oneKey: "oneHKGc4", hlcKey: "hlcHKGc4", ymlKey: "ymlHKGc4")
-            assignC5(containers: emptyHKGc5, oneKey: "oneHKGc5", hlcKey: "hlcHKGc5", ymlKey: "ymlHKGc5")
+            assignS2(containers: emptyCMBs2, oneKey: "oneCMBs2", hlcKey: "hlcCMBs2", ymlKey: "ymlCMBs2")
+            assignS4(containers: emptyCMBs4, oneKey: "oneCMBs4", hlcKey: "hlcCMBs4", ymlKey: "ymlCMBs4")
+            assignC4(containers: emptyCMBc4, oneKey: "oneCMBc4", hlcKey: "hlcCMBc4", ymlKey: "ymlCMBc4")
+            assignC5(containers: emptyCMBc5, oneKey: "oneCMBc5", hlcKey: "hlcCMBc5", ymlKey: "ymlCMBc5")
             
-            assignS2(containers: emptyXMNs2, oneKey: "oneXMNs2", hlcKey: "hlcXMNs2", ymlKey: "ymlXMNs2")
-            assignS4(containers: emptyXMNs4, oneKey: "oneXMNs4", hlcKey: "hlcXMNs4", ymlKey: "ymlXMNs4")
-            assignC4(containers: emptyXMNc4, oneKey: "oneXMNc4", hlcKey: "hlcXMNc4", ymlKey: "ymlXMNc4")
-            assignC5(containers: emptyXMNc5, oneKey: "oneXMNc5", hlcKey: "hlcXMNc5", ymlKey: "ymlXMNc5")
+            assignS2(containers: emptyHALs2, oneKey: "oneHALs2", hlcKey: "hlcHALs2", ymlKey: "ymlHALs2")
+            assignS4(containers: emptyHALs4, oneKey: "oneHALs4", hlcKey: "hlcHALs4", ymlKey: "ymlHALs4")
+            assignC4(containers: emptyHALc4, oneKey: "oneHALc4", hlcKey: "hlcHALc4", ymlKey: "ymlHALc4")
+            assignC5(containers: emptyHALc5, oneKey: "oneHALc5", hlcKey: "hlcHALc5", ymlKey: "ymlHALc5")
             
-            assignS2(containers: emptyYTIs2, oneKey: "oneYTIs2", hlcKey: "hlcYTIs2", ymlKey: "ymlYTIs2")
-            assignS4(containers: emptyYTIs4, oneKey: "oneYTIs4", hlcKey: "hlcYTIs4", ymlKey: "ymlYTIs4")
-            assignC4(containers: emptyYTIc4, oneKey: "oneYTIc4", hlcKey: "hlcYTIc4", ymlKey: "ymlYTIc4")
-            assignC5(containers: emptyYTIc5, oneKey: "oneYTIc5", hlcKey: "hlcYTIc5", ymlKey: "ymlYTIc5")
+            assignS2(containers: emptyHCMs2, oneKey: "oneHCMs2", hlcKey: "hlcHCMs2", ymlKey: "ymlHCMs2")
+            assignS4(containers: emptyHCMs4, oneKey: "oneHCMs4", hlcKey: "hlcHCMs4", ymlKey: "ymlHCMs4")
+            assignC4(containers: emptyHCMc4, oneKey: "oneHCMc4", hlcKey: "hlcHCMc4", ymlKey: "ymlHCMc4")
+            assignC5(containers: emptyHCMc5, oneKey: "oneHCMc5", hlcKey: "hlcHCMc5", ymlKey: "ymlHCMc5")
+            
+            assignS2(containers: emptyJEBs2, oneKey: "oneJEBs2", hlcKey: "hlcJEBs2", ymlKey: "ymlJEBs2")
+            assignS4(containers: emptyJEBs4, oneKey: "oneJEBs4", hlcKey: "hlcJEBs4", ymlKey: "ymlJEBs4")
+            assignC4(containers: emptyJEBc4, oneKey: "oneJEBc4", hlcKey: "hlcJEBc4", ymlKey: "ymlJEBc4")
+            assignC5(containers: emptyJEBc5, oneKey: "oneJEBc5", hlcKey: "hlcJEBc5", ymlKey: "ymlJEBc5")
+            
+            assignS2(containers: emptyLLLs2, oneKey: "oneLLLs2", hlcKey: "hlcLLLs2", ymlKey: "ymlLLLs2")
+            assignS4(containers: emptyLLLs4, oneKey: "oneLLLs4", hlcKey: "hlcLLLs4", ymlKey: "ymlLLLs4")
+            assignC4(containers: emptyLLLc4, oneKey: "oneLLLc4", hlcKey: "hlcLLLc4", ymlKey: "ymlLLLc4")
+            assignC5(containers: emptyLLLc5, oneKey: "oneLLLc5", hlcKey: "hlcLLLc5", ymlKey: "ymlLLLc5")
+            
+            assignS2(containers: emptySPRs2, oneKey: "oneSPRs2", hlcKey: "hlcSPRs2", ymlKey: "ymlSPRs2")
+            assignS4(containers: emptySPRs4, oneKey: "oneSPRs4", hlcKey: "hlcSPRs4", ymlKey: "ymlSPRs4")
+            assignC4(containers: emptySPRc4, oneKey: "oneSPRc4", hlcKey: "hlcSPRc4", ymlKey: "ymlSPRc4")
+            assignC5(containers: emptySPRc5, oneKey: "oneSPRc5", hlcKey: "hlcSPRc5", ymlKey: "ymlSPRc5")
+            
             
         }
         
@@ -534,6 +593,7 @@ class PS7Allocator: NSObject {
         header = ""
         combinedAllocations = [String: Int]()
     }
+    
     
     
 }

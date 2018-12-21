@@ -370,11 +370,17 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
 
         case "EC1":
-            let vc: EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC1AllocationViewController")) as! EC1AllocationViewController
-            vc.delegate = self
+            switch header.currentPort {
+            case "USJAX":
+                break
+            default:
+                let vc: EC1AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EC1AllocationViewController")) as! EC1AllocationViewController
+                vc.delegate = self
+                
+                presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
+
+            }
             
-            presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
-        
         default:
             break
             
@@ -442,11 +448,16 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             baplieContent = baplieFulls + baplieEmpties
 
         case "EC1":
-            let allocator = EC1Allocator()
-            allocator.getHeader(baplieHeader: baplieHeader)
-            allocator.allocations = self.allocations
-            let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
-            baplieContent = baplieFulls + baplieEmpties
+            switch header.currentPort {
+            case "USJAX":
+                break
+            default:
+                let allocator = EC1Allocator()
+                allocator.getHeader(baplieHeader: baplieHeader)
+                allocator.allocations = self.allocations
+                let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
+                baplieContent = baplieFulls + baplieEmpties
+            }
         default:
             break
 

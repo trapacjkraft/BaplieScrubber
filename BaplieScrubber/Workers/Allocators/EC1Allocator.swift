@@ -46,8 +46,10 @@ class EC1Allocator: NSObject {
     var header = ""
     var combinedAllocations = [String: Int]()
     var fullBaplieContent = String()
+    var otherBaplieContent = String()
+    var otherBaplieContentCount = Int()
     var emptyBaplieContentWithOperators = String()
-    
+
     override init() {
         emptyS2 = [BaplieContainer]()
         emptyS4 = [BaplieContainer]()
@@ -163,7 +165,8 @@ class EC1Allocator: NSObject {
                     case hapagISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -182,7 +185,8 @@ class EC1Allocator: NSObject {
                     case yangmingISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -210,7 +214,8 @@ class EC1Allocator: NSObject {
                         emptyC5.append(container)
 
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
 
@@ -267,7 +272,8 @@ class EC1Allocator: NSObject {
                     emptyTKYs2.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -289,7 +295,8 @@ class EC1Allocator: NSObject {
                     emptyTKYs4.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -311,7 +318,8 @@ class EC1Allocator: NSObject {
                     emptyTKYc4.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -333,7 +341,9 @@ class EC1Allocator: NSObject {
                     emptyTKYc5.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
+                    
                 }
             }
             
@@ -497,7 +507,8 @@ class EC1Allocator: NSObject {
         func assignOperators() {
             
             var allocSum = 0
-            let emptyCount = emptyPreplans.count
+                        let emptyCount = emptyPreplans.count - otherBaplieContentCount
+
             
             for (_, alloc) in combinedAllocations {
                 allocSum += alloc
@@ -539,6 +550,7 @@ class EC1Allocator: NSObject {
         }
         
         emptyBaplieContentWithOperators = emptyBaplieContentWithOperators.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
+        fullBaplieContent += otherBaplieContent
         
         findContainers()
         sortContainersByStatus()
@@ -556,6 +568,8 @@ class EC1Allocator: NSObject {
     func reset() {
         fullBaplieContent = ""
         emptyBaplieContentWithOperators = ""
+        otherBaplieContent = ""
+        otherBaplieContentCount = 0
         vesselOperator = ""
         previousOperator = ""
         header = ""

@@ -23,6 +23,14 @@ class PS3AllocationViewController: NSViewController {
         "oneCMBs4": 0,
         "oneCMBc4": 0,
         "oneCMBc5": 0,
+        "oneHCMs2":0,
+        "oneHCMs4":0,
+        "oneHCMc4":0,
+        "oneHCMc5":0,
+        "oneLLLs2":0,
+        "oneLLLs4":0,
+        "oneLLLc4":0,
+        "oneLLLc5":0,
         "oneNGBs2": 0,
         "oneNGBs4": 0,
         "oneNGBc4": 0,
@@ -62,6 +70,16 @@ class PS3AllocationViewController: NSViewController {
     @IBOutlet var oneCMBs4: NSTextField!
     @IBOutlet var oneCMBc4: NSTextField!
     @IBOutlet var oneCMBc5: NSTextField!
+    
+    @IBOutlet var oneHCMs2: NSTextField!
+    @IBOutlet var oneHCMs4: NSTextField!
+    @IBOutlet var oneHCMc4: NSTextField!
+    @IBOutlet var oneHCMc5: NSTextField!
+    
+    @IBOutlet var oneLLLs2: NSTextField!
+    @IBOutlet var oneLLLs4: NSTextField!
+    @IBOutlet var oneLLLc4: NSTextField!
+    @IBOutlet var oneLLLc5: NSTextField!
     
     @IBOutlet var oneNGBs2: NSTextField!
     @IBOutlet var oneNGBs4: NSTextField!
@@ -107,6 +125,14 @@ class PS3AllocationViewController: NSViewController {
         "hlcCMBs4": 0,
         "hlcCMBc4": 0,
         "hlcCMBc5": 0,
+        "hlcHCMs2":0,
+        "hlcHCMs4":0,
+        "hlcHCMc4":0,
+        "hlcHCMc5":0,
+        "hlcLLLs2":0,
+        "hlcLLLs4":0,
+        "hlcLLLc4":0,
+        "hlcLLLc5":0,
         "hlcNGBs2": 0,
         "hlcNGBs4": 0,
         "hlcNGBc4": 0,
@@ -145,6 +171,16 @@ class PS3AllocationViewController: NSViewController {
     @IBOutlet var hlcCMBs4: NSTextField!
     @IBOutlet var hlcCMBc4: NSTextField!
     @IBOutlet var hlcCMBc5: NSTextField!
+    
+    @IBOutlet var hlcHCMs2: NSTextField!
+    @IBOutlet var hlcHCMs4: NSTextField!
+    @IBOutlet var hlcHCMc4: NSTextField!
+    @IBOutlet var hlcHCMc5: NSTextField!
+    
+    @IBOutlet var hlcLLLs2: NSTextField!
+    @IBOutlet var hlcLLLs4: NSTextField!
+    @IBOutlet var hlcLLLc4: NSTextField!
+    @IBOutlet var hlcLLLc5: NSTextField!
     
     @IBOutlet var hlcNGBs2: NSTextField!
     @IBOutlet var hlcNGBs4: NSTextField!
@@ -190,6 +226,14 @@ class PS3AllocationViewController: NSViewController {
         "ymlCMBs4": 0,
         "ymlCMBc4": 0,
         "ymlCMBc5": 0,
+        "ymlHCMs2":0,
+        "ymlHCMs4":0,
+        "ymlHCMc4":0,
+        "ymlHCMc5":0,
+        "ymlLLLs2":0,
+        "ymlLLLs4":0,
+        "ymlLLLc4":0,
+        "ymlLLLc5":0,
         "ymlNGBs2": 0,
         "ymlNGBs4": 0,
         "ymlNGBc4": 0,
@@ -229,6 +273,16 @@ class PS3AllocationViewController: NSViewController {
     @IBOutlet var ymlCMBs4: NSTextField!
     @IBOutlet var ymlCMBc4: NSTextField!
     @IBOutlet var ymlCMBc5: NSTextField!
+    
+    @IBOutlet var ymlHCMs2: NSTextField!
+    @IBOutlet var ymlHCMs4: NSTextField!
+    @IBOutlet var ymlHCMc4: NSTextField!
+    @IBOutlet var ymlHCMc5: NSTextField!
+    
+    @IBOutlet var ymlLLLs2: NSTextField!
+    @IBOutlet var ymlLLLs4: NSTextField!
+    @IBOutlet var ymlLLLc4: NSTextField!
+    @IBOutlet var ymlLLLc5: NSTextField!
     
     @IBOutlet var ymlNGBs2: NSTextField!
     @IBOutlet var ymlNGBs4: NSTextField!
@@ -283,6 +337,16 @@ class PS3AllocationViewController: NSViewController {
         oneAllocations.updateValue((Int(oneCMBc4.stringValue)) ?? 0, forKey: "oneCMBc4")
         oneAllocations.updateValue((Int(oneCMBc5.stringValue)) ?? 0, forKey: "oneCMBc5")
         
+        oneAllocations.updateValue((Int(oneHCMs2.stringValue)) ?? 0, forKey: "oneHCMs2")
+        oneAllocations.updateValue((Int(oneHCMs4.stringValue)) ?? 0, forKey: "oneHCMs4")
+        oneAllocations.updateValue((Int(oneHCMc4.stringValue)) ?? 0, forKey: "oneHCMc4")
+        oneAllocations.updateValue((Int(oneHCMc5.stringValue)) ?? 0, forKey: "oneHCMc5")
+        
+        oneAllocations.updateValue((Int(oneLLLs2.stringValue)) ?? 0, forKey: "oneLLLs2")
+        oneAllocations.updateValue((Int(oneLLLs4.stringValue)) ?? 0, forKey: "oneLLLs4")
+        oneAllocations.updateValue((Int(oneLLLc4.stringValue)) ?? 0, forKey: "oneLLLc4")
+        oneAllocations.updateValue((Int(oneLLLc5.stringValue)) ?? 0, forKey: "oneLLLc5")
+        
         oneAllocations.updateValue((Int(oneNGBs2.stringValue)) ?? 0, forKey: "oneNGBs2")
         oneAllocations.updateValue((Int(oneNGBs4.stringValue)) ?? 0, forKey: "oneNGBs4")
         oneAllocations.updateValue((Int(oneNGBc4.stringValue)) ?? 0, forKey: "oneNGBc4")
@@ -330,6 +394,16 @@ class PS3AllocationViewController: NSViewController {
         hlcAllocations.updateValue((Int(hlcCMBc4.stringValue)) ?? 0, forKey: "hlcCMBc4")
         hlcAllocations.updateValue((Int(hlcCMBc5.stringValue)) ?? 0, forKey: "hlcCMBc5")
         
+        hlcAllocations.updateValue((Int(hlcHCMs2.stringValue)) ?? 0, forKey: "hlcHCMs2")
+        hlcAllocations.updateValue((Int(hlcHCMs4.stringValue)) ?? 0, forKey: "hlcHCMs4")
+        hlcAllocations.updateValue((Int(hlcHCMc4.stringValue)) ?? 0, forKey: "hlcHCMc4")
+        hlcAllocations.updateValue((Int(hlcHCMc5.stringValue)) ?? 0, forKey: "hlcHCMc5")
+        
+        hlcAllocations.updateValue((Int(hlcLLLs2.stringValue)) ?? 0, forKey: "hlcLLLs2")
+        hlcAllocations.updateValue((Int(hlcLLLs4.stringValue)) ?? 0, forKey: "hlcLLLs4")
+        hlcAllocations.updateValue((Int(hlcLLLc4.stringValue)) ?? 0, forKey: "hlcLLLc4")
+        hlcAllocations.updateValue((Int(hlcLLLc5.stringValue)) ?? 0, forKey: "hlcLLLc5")
+        
         hlcAllocations.updateValue((Int(hlcNGBs2.stringValue)) ?? 0, forKey: "hlcNGBs2")
         hlcAllocations.updateValue((Int(hlcNGBs4.stringValue)) ?? 0, forKey: "hlcNGBs4")
         hlcAllocations.updateValue((Int(hlcNGBc4.stringValue)) ?? 0, forKey: "hlcNGBc4")
@@ -376,6 +450,16 @@ class PS3AllocationViewController: NSViewController {
         ymlAllocations.updateValue((Int(ymlCMBs4.stringValue)) ?? 0, forKey: "ymlCMBs4")
         ymlAllocations.updateValue((Int(ymlCMBc4.stringValue)) ?? 0, forKey: "ymlCMBc4")
         ymlAllocations.updateValue((Int(ymlCMBc5.stringValue)) ?? 0, forKey: "ymlCMBc5")
+        
+        ymlAllocations.updateValue((Int(ymlHCMs2.stringValue)) ?? 0, forKey: "ymlHCMs2")
+        ymlAllocations.updateValue((Int(ymlHCMs4.stringValue)) ?? 0, forKey: "ymlHCMs4")
+        ymlAllocations.updateValue((Int(ymlHCMc4.stringValue)) ?? 0, forKey: "ymlHCMc4")
+        ymlAllocations.updateValue((Int(ymlHCMc5.stringValue)) ?? 0, forKey: "ymlHCMc5")
+        
+        ymlAllocations.updateValue((Int(ymlLLLs2.stringValue)) ?? 0, forKey: "ymlLLLs2")
+        ymlAllocations.updateValue((Int(ymlLLLs4.stringValue)) ?? 0, forKey: "ymlLLLs4")
+        ymlAllocations.updateValue((Int(ymlLLLc4.stringValue)) ?? 0, forKey: "ymlLLLc4")
+        ymlAllocations.updateValue((Int(ymlLLLc5.stringValue)) ?? 0, forKey: "ymlLLLc5")
         
         ymlAllocations.updateValue((Int(ymlNGBs2.stringValue)) ?? 0, forKey: "ymlNGBs2")
         ymlAllocations.updateValue((Int(ymlNGBs4.stringValue)) ?? 0, forKey: "ymlNGBs4")

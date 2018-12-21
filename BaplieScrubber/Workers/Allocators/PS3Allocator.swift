@@ -46,6 +46,8 @@ class PS3Allocator: NSObject {
     var header = ""
     var combinedAllocations = [String: Int]()
     var fullBaplieContent = String()
+    var otherBaplieContent = String()
+    var otherBaplieContentCount = Int()
     var emptyBaplieContentWithOperators = String()
     
     override init() {
@@ -163,7 +165,8 @@ class PS3Allocator: NSObject {
                     case hapagISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -182,7 +185,8 @@ class PS3Allocator: NSObject {
                     case yangmingISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -210,7 +214,8 @@ class PS3Allocator: NSObject {
                         emptyC5.append(container)
 
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -231,7 +236,17 @@ class PS3Allocator: NSObject {
         var emptyCMBs4 = [BaplieContainer]()
         var emptyCMBc4 = [BaplieContainer]()
         var emptyCMBc5 = [BaplieContainer]()
+
+        var emptyHCMs2 = [BaplieContainer]()
+        var emptyHCMs4 = [BaplieContainer]()
+        var emptyHCMc4 = [BaplieContainer]()
+        var emptyHCMc5 = [BaplieContainer]()
         
+        var emptyLLLs2 = [BaplieContainer]()
+        var emptyLLLs4 = [BaplieContainer]()
+        var emptyLLLc4 = [BaplieContainer]()
+        var emptyLLLc5 = [BaplieContainer]()
+
         var emptyNGBs2 = [BaplieContainer]()
         var emptyNGBs4 = [BaplieContainer]()
         var emptyNGBc4 = [BaplieContainer]()
@@ -279,6 +294,10 @@ class PS3Allocator: NSObject {
                     emptyBUSs2.append(container)
                 case "LKCMB":
                     emptyCMBs2.append(container)
+                case "VNVUT":
+                    emptyHCMs2.append(container)
+                case "THLCH":
+                    emptyLLLs2.append(container)
                 case "CNNGB":
                     emptyNGBs2.append(container)
                 case "INNSA":
@@ -295,7 +314,8 @@ class PS3Allocator: NSObject {
                     emptySPRs2.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -309,6 +329,10 @@ class PS3Allocator: NSObject {
                     emptyBUSs4.append(container)
                 case "LKCMB":
                     emptyCMBs4.append(container)
+                case "VNVUT":
+                    emptyHCMs4.append(container)
+                case "THLCH":
+                    emptyLLLs4.append(container)
                 case "CNNGB":
                     emptyNGBs4.append(container)
                 case "INNSA":
@@ -325,7 +349,8 @@ class PS3Allocator: NSObject {
                     emptySPRs4.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -339,6 +364,10 @@ class PS3Allocator: NSObject {
                     emptyBUSc4.append(container)
                 case "LKCMB":
                     emptyCMBc4.append(container)
+                case "VNVUT":
+                    emptyHCMc4.append(container)
+                case "THLCH":
+                    emptyLLLc4.append(container)
                 case "CNNGB":
                     emptyNGBc4.append(container)
                 case "INNSA":
@@ -355,7 +384,8 @@ class PS3Allocator: NSObject {
                     emptySPRc4.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -369,6 +399,10 @@ class PS3Allocator: NSObject {
                     emptyBUSc5.append(container)
                 case "LKCMB":
                     emptyCMBc5.append(container)
+                case "VNVUT":
+                    emptyHCMc5.append(container)
+                case "THLCH":
+                    emptyLLLc5.append(container)
                 case "CNNGB":
                     emptyNGBc5.append(container)
                 case "INNSA":
@@ -385,7 +419,8 @@ class PS3Allocator: NSObject {
                     emptySPRc5.append(container)
                     
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -549,7 +584,8 @@ class PS3Allocator: NSObject {
         func assignOperators() {
             
             var allocSum = 0
-            let emptyCount = emptyPreplans.count
+                        let emptyCount = emptyPreplans.count - otherBaplieContentCount
+
             
             for (_, alloc) in combinedAllocations {
                 allocSum += alloc
@@ -572,6 +608,16 @@ class PS3Allocator: NSObject {
             assignS4(containers: emptyCMBs4, oneKey: "oneCMBs4", hlcKey: "hlcCMBs4", ymlKey: "ymlCMBs4")
             assignC4(containers: emptyCMBc4, oneKey: "oneCMBc4", hlcKey: "hlcCMBc4", ymlKey: "ymlCMBc4")
             assignC5(containers: emptyCMBc5, oneKey: "oneCMBc5", hlcKey: "hlcCMBc5", ymlKey: "ymlCMBc5")
+
+            assignS2(containers: emptyHCMs2, oneKey: "oneHCMs2", hlcKey: "hlcHCMs2", ymlKey: "ymlHCMs2")
+            assignS4(containers: emptyHCMs4, oneKey: "oneHCMs4", hlcKey: "hlcHCMs4", ymlKey: "ymlHCMs4")
+            assignC4(containers: emptyHCMc4, oneKey: "oneHCMc4", hlcKey: "hlcHCMc4", ymlKey: "ymlHCMc4")
+            assignC5(containers: emptyHCMc5, oneKey: "oneHCMc5", hlcKey: "hlcHCMc5", ymlKey: "ymlHCMc5")
+            
+            assignS2(containers: emptyLLLs2, oneKey: "oneLLLs2", hlcKey: "hlcLLLs2", ymlKey: "ymlLLLs2")
+            assignS4(containers: emptyLLLs4, oneKey: "oneLLLs4", hlcKey: "hlcLLLs4", ymlKey: "ymlLLLs4")
+            assignC4(containers: emptyLLLc4, oneKey: "oneLLLc4", hlcKey: "hlcLLLc4", ymlKey: "ymlLLLc4")
+            assignC5(containers: emptyLLLc5, oneKey: "oneLLLc5", hlcKey: "hlcLLLc5", ymlKey: "ymlLLLc5")
             
             assignS2(containers: emptyNGBs2, oneKey: "oneNGBs2", hlcKey: "hlcNGBs2", ymlKey: "ymlNGBs2")
             assignS4(containers: emptyNGBs4, oneKey: "oneNGBs4", hlcKey: "hlcNGBs4", ymlKey: "ymlNGBs4")
@@ -612,6 +658,7 @@ class PS3Allocator: NSObject {
         }
         
         emptyBaplieContentWithOperators = emptyBaplieContentWithOperators.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
+        fullBaplieContent += otherBaplieContent
         
         findContainers()
         sortContainersByStatus()
@@ -629,6 +676,8 @@ class PS3Allocator: NSObject {
     func reset() {
         fullBaplieContent = ""
         emptyBaplieContentWithOperators = ""
+        otherBaplieContent = ""
+        otherBaplieContentCount = 0
         vesselOperator = ""
         previousOperator = ""
         header = ""

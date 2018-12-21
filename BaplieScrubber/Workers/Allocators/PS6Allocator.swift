@@ -47,6 +47,8 @@ class PS6Allocator: NSObject {
     var header = ""
     var combinedAllocations = [String: Int]()
     var fullBaplieContent = String()
+    var otherBaplieContent = String()
+    var otherBaplieContentCount = Int()
     var emptyBaplieContentWithOperators = String()
     
     override init() {
@@ -164,7 +166,8 @@ class PS6Allocator: NSObject {
                     case hapagISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -183,7 +186,8 @@ class PS6Allocator: NSObject {
                     case yangmingISOcodes["C5"]:
                         emptyC5.append(container)
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -211,7 +215,8 @@ class PS6Allocator: NSObject {
                         emptyC5.append(container)
                         
                     default:
-                        break //Should not be reached.
+                        otherBaplieContent += container.containerRecordString
+                        otherBaplieContentCount += 1
                     }
                 }
                 
@@ -252,7 +257,8 @@ class PS6Allocator: NSObject {
                 case "CNSHA":
                     emptySHGs2.append(container)
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -269,7 +275,8 @@ class PS6Allocator: NSObject {
                 case "CNSHA":
                     emptySHGs4.append(container)
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -286,7 +293,8 @@ class PS6Allocator: NSObject {
                 case "CNSHA":
                     emptySHGc4.append(container)
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -303,7 +311,8 @@ class PS6Allocator: NSObject {
                 case "CNSHA":
                     emptySHGc5.append(container)
                 default:
-                    break //Should not be reached if Baplie is properly formed. Only standard mtys to ports should be left ZZ.
+                    otherBaplieContent += container.containerRecordString
+                    otherBaplieContentCount += 1
                 }
             }
             
@@ -467,7 +476,8 @@ class PS6Allocator: NSObject {
         func assignOperators() {
             
             var allocSum = 0
-            let emptyCount = emptyPreplans.count
+                        let emptyCount = emptyPreplans.count - otherBaplieContentCount
+
             
             for (_, alloc) in combinedAllocations {
                 allocSum += alloc
@@ -499,6 +509,7 @@ class PS6Allocator: NSObject {
         }
         
         emptyBaplieContentWithOperators = emptyBaplieContentWithOperators.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
+        fullBaplieContent += otherBaplieContent
         
         findContainers()
         sortContainersByStatus()
@@ -516,6 +527,8 @@ class PS6Allocator: NSObject {
     func reset() {
         fullBaplieContent = ""
         emptyBaplieContentWithOperators = ""
+        otherBaplieContent = ""
+        otherBaplieContentCount = 0
         vesselOperator = ""
         previousOperator = ""
         header = ""
