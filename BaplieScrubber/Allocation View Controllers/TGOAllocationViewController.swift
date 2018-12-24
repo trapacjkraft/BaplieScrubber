@@ -147,6 +147,7 @@ class TGOAllocationViewController: NSViewController {
     @IBOutlet var mskSTSs4: NSTextField!
     @IBOutlet var mskSTSc4: NSTextField!
     @IBOutlet var mskSTSc5: NSTextField!
+  
     weak var delegate: TGOAllocationViewControllerDelegate?
     
     override func viewDidLoad() {

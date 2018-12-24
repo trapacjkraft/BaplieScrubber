@@ -14,7 +14,7 @@
 		4214D24C213BC1340082723C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24B213BC1340082723C /* Assets.xcassets */; };
 		4214D24F213BC1340082723C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24D213BC1340082723C /* Main.storyboard */; };
 		42184D2421C63FCA00349053 /* JAX_EC1AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42184D2321C63FCA00349053 /* JAX_EC1AllocationViewController.swift */; };
-		422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422C484521437AA200063F01 /* BaplieDragWell.swift */; };
+		422C484621437AA200063F01 /* DragWellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422C484521437AA200063F01 /* DragWellView.swift */; };
 		422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6521917DDD0046E503 /* Scrubber.swift */; };
 		422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6821917DF90046E503 /* BaplieHeader.swift */; };
 		422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6C21917E1B0046E503 /* BaplieFooter.swift */; };
@@ -56,7 +56,7 @@
 		4214D250213BC1340082723C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4214D251213BC1340082723C /* BaplieScrubber.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaplieScrubber.entitlements; sourceTree = "<group>"; };
 		42184D2321C63FCA00349053 /* JAX_EC1AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JAX_EC1AllocationViewController.swift; sourceTree = "<group>"; };
-		422C484521437AA200063F01 /* BaplieDragWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieDragWell.swift; sourceTree = "<group>"; };
+		422C484521437AA200063F01 /* DragWellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragWellView.swift; sourceTree = "<group>"; };
 		422CBC6521917DDD0046E503 /* Scrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrubber.swift; sourceTree = "<group>"; };
 		422CBC6821917DF90046E503 /* BaplieHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieHeader.swift; sourceTree = "<group>"; };
 		422CBC6C21917E1B0046E503 /* BaplieFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieFooter.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 				4244F3F921BE18C40064EC30 /* Workers */,
 				4214D24B213BC1340082723C /* Assets.xcassets */,
 				4214D24D213BC1340082723C /* Main.storyboard */,
-				422C484521437AA200063F01 /* BaplieDragWell.swift */,
+				422C484521437AA200063F01 /* DragWellView.swift */,
 				4214D250213BC1340082723C /* Info.plist */,
 				42E2F1F821CCCA62005195BA /* editor */,
 				4244F3FD21BE2A100064EC30 /* laxservices */,
@@ -290,7 +290,7 @@
 				429D8ABC21C4B1F20040A5DA /* PS7AllocationViewController.swift in Sources */,
 				42184D2421C63FCA00349053 /* JAX_EC1AllocationViewController.swift in Sources */,
 				42D349ED21CCDFC5002DCC42 /* JAX_EC1Allocator.swift in Sources */,
-				422C484621437AA200063F01 /* BaplieDragWell.swift in Sources */,
+				422C484621437AA200063F01 /* DragWellView.swift in Sources */,
 				4214D248213BC1330082723C /* AppDelegate.swift in Sources */,
 				427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */,
 				429D8ABE21C4B41E0040A5DA /* PS7Allocator.swift in Sources */,

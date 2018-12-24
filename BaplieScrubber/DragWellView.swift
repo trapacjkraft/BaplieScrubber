@@ -1,5 +1,5 @@
 //
-//  BaplieDragWell.swift
+//  DragWellView.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 9/7/18.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class BaplieDragWell: NSImageView {
+class DragWellView: NSImageView {
 
     let fileTypes = ["edi", "txt"]
     var droppedBapliePath: String?
@@ -30,7 +30,7 @@ class BaplieDragWell: NSImageView {
         guard let pb = sender.draggingPasteboard().propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? NSArray,
             let path = pb[0] as? String else { return false }
         
-        let suffix = URL(fileURLWithPath: path).pathExtension
+        let suffix = URL(fileURLWithPath: path).pathExtension.lowercased()
         
         for type in fileTypes {
             if type.lowercased() == suffix {

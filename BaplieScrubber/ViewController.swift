@@ -11,7 +11,7 @@ import Cocoa
 class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3AllocationViewControllerDelegate, PS4AllocationViewControllerDelegate, PS5AllocationViewControllerDelegate, PS6AllocationViewControllerDelegate, PS7AllocationViewControllerDelegate, EC1AllocationViewControllerDelegate, JAX_EC1AllocationViewControllerDelegate, EC3AllocationViewControllerDelegate, EC5AllocationViewControllerDelegate {
     
     @IBOutlet var baplieIconImage: NSImageView!
-    @IBOutlet var baplieDragWellView: BaplieDragWell!
+    @IBOutlet var baplieDragWellView: DragWellView!
     @IBOutlet var serviceList: NSPopUpButton!
     @IBOutlet var allocationButton: NSButton!
     @IBOutlet var assignEmptiesButton: NSButton!

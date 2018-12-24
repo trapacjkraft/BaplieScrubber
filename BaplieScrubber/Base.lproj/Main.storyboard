@@ -849,7 +849,7 @@ Gw
                                             <rect key="frame" x="131" y="329" width="76" height="98"/>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="baplieIcon" id="mSg-2n-m7h"/>
                                         </imageView>
-                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E0I-jN-z50" customClass="BaplieDragWell" customModule="BaplieScrubber" customModuleProvider="target">
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="E0I-jN-z50" customClass="DragWellView" customModule="BaplieScrubber" customModuleProvider="target">
                                             <rect key="frame" x="105" y="314" width="128" height="128"/>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dimView" id="WsB-rh-yk4"/>
                                         </imageView>
