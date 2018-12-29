@@ -19,13 +19,13 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     @IBOutlet var exportButton: NSButton!
     @IBOutlet var viewButton: NSButton!
     @IBOutlet var scrubButton: NSButton!
-    @IBOutlet var scourButton: NSButton!
+    @IBOutlet var rescrubButton: NSButton!
     
     let mainNC = NotificationCenter.default
     
     let baplieViewer: BaplieViewerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "BaplieViewerViewController")) as! BaplieViewerViewController
     let errorLogView: ErrorLogPopoverView = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ErrorLogPopoverView")) as! ErrorLogPopoverView
-    let scourerViewController: ScourerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ScourerViewController")) as! ScourerViewController
+    let rescrubberView: RescrubberViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RescrubberViewController")) as! RescrubberViewController
     
     var baplieHeader = "" {
         didSet {
@@ -49,8 +49,6 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var header = BaplieHeader()
     
     var allocations = [String: [String: Int]]()
-    var errorLines = [Int]()
-    var lineValues = [String]()
     
     var hasBaplie = false {
         didSet {
@@ -73,15 +71,12 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var targetURL = ""
     var baplieFileContents = ""
     let scrubber = Scrubber()
-    var scourer = Scourer()
+    var rescrubber = Rescrubber()
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        errorLogView.delegate = scourer
-        scourer.delegate = scourerViewController
-        
         
         mainNC.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableBaplieViewer), name: Notification.Name("BaplieDropped"), object: nil)
@@ -93,8 +88,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         mainNC.addObserver(self, selector: #selector(updateViewerContent), name: Notification.Name("ContentChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
         
-        mainNC.addObserver(self, selector: #selector(displayScourerViewController), name: Notification.Name("DisplaySVC"), object: nil)
-
+        mainNC.addObserver(self, selector: #selector(testRescrubberData), name: Notification.Name("DisplaySVC"), object: nil)
         
     }
     
@@ -103,7 +97,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         let fileName = URL(fileURLWithPath: baplieDragWellView.droppedFilePath!).lastPathComponent.lowercased()
         
         if fileName.hasPrefix("scrubbed") {
-            scourButton.isEnabled = true
+            rescrubButton.isEnabled = true
             scrubButton.isEnabled = false
         } else {
             scrubButton.isEnabled = true
@@ -307,16 +301,6 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
 
     }
     
-    @objc func displayScourerViewController() {
-        scourer.update(header: baplieHeader, baplie: baplieContent, footer: baplieFooter)
-        scourer.replaceLines()
-        
-        scourerViewController.errorLines = scourer.errorLineNumbers
-        scourerViewController.errorLineText = scourer.errorLineValues
-        
-        presentViewControllerAsSheet(scourerViewController)
-    }
-    
     @objc func updateViewerHeader() {
         guard baplieViewer.baplieHeaderView != nil else { return }
         baplieViewer.baplieHeaderView.string = baplieHeader
@@ -333,8 +317,20 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     }
 
     @IBAction func displayErrorLogView(_ sender: NSButton) {
+        
+        rescrubber.updateBaplieContent(baplie: baplieFileContents)
+        errorLogView.delegate = rescrubber
+        
         presentViewController(errorLogView, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
     }
+    
+    @objc func testRescrubberData() {
+        rescrubber.delegate = rescrubberView
+        rescrubber.combineAndPassValues()
+        
+        presentViewControllerAsSheet(rescrubberView)
+    }
+    
     
     @IBAction func writeBaplie(_ sender: Any) {
         
@@ -587,10 +583,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         assignEmptiesButton.isEnabled = false
         exportButton.isEnabled = false
         scrubButton.isEnabled = false
-        scourButton.isEnabled = false
+        rescrubButton.isEnabled = false
         bsaReportButton.isEnabled = false
         serviceList.removeAllItems()
         serviceList.isEnabled = false
+        rescrubber.reset()
     }
 }
 
