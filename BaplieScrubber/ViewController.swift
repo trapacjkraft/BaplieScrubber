@@ -18,10 +18,14 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     @IBOutlet var bsaReportButton: NSButton!
     @IBOutlet var exportButton: NSButton!
     @IBOutlet var viewButton: NSButton!
+    @IBOutlet var scrubButton: NSButton!
+    @IBOutlet var scourButton: NSButton!
     
     let mainNC = NotificationCenter.default
     
     let baplieViewer: BaplieViewerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "BaplieViewerViewController")) as! BaplieViewerViewController
+    let errorLogView: ErrorLogPopoverView = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ErrorLogPopoverView")) as! ErrorLogPopoverView
+    let scourerViewController: ScourerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ScourerViewController")) as! ScourerViewController
     
     var baplieHeader = "" {
         didSet {
@@ -45,6 +49,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var header = BaplieHeader()
     
     var allocations = [String: [String: Int]]()
+    var errorLines = [Int]()
+    var lineValues = [String]()
     
     var hasBaplie = false {
         didSet {
@@ -59,8 +65,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         didSet {
             if baplieIsReady == true {
                 updateHeaders()
-                bsaReportButton.isEnabled = true
-                
+                enableBSAbutton()
             }
         }
     }
@@ -68,29 +73,51 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var targetURL = ""
     var baplieFileContents = ""
     let scrubber = Scrubber()
+    var scourer = Scourer()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        errorLogView.delegate = scourer
+        scourer.delegate = scourerViewController
+        
         
         mainNC.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableBaplieViewer), name: Notification.Name("BaplieDropped"), object: nil)
+        mainNC.addObserver(self, selector: #selector(enableInboundButtons), name: Notification.Name("BaplieDropped"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableAllocButton), name: Notification.Name("HeaderFetched"), object: nil)
         
         mainNC.addObserver(self, selector: #selector(updateViewerHeader), name: Notification.Name("HeaderChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(updateViewerContent), name: Notification.Name("ContentChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
+        
+        mainNC.addObserver(self, selector: #selector(displayScourerViewController), name: Notification.Name("DisplaySVC"), object: nil)
 
         
     }
     
+    @objc func enableInboundButtons() {
+        
+        let fileName = URL(fileURLWithPath: baplieDragWellView.droppedFilePath!).lastPathComponent.lowercased()
+        
+        if fileName.hasPrefix("scrubbed") {
+            scourButton.isEnabled = true
+            scrubButton.isEnabled = false
+        } else {
+            scrubButton.isEnabled = true
+
+        }
+    }
+    
     @objc func enableAllocButton() {
+        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
         allocationButton.isEnabled = true
     }
     
     @objc func enableEmptyButton() {
+        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
         assignEmptiesButton.isEnabled = true
     }
     
@@ -98,9 +125,14 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         viewButton.isEnabled = true
     }
     
+    @objc func enableBSAbutton() {
+        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
+        bsaReportButton.isEnabled = true
+    }
+
     override var representedObject: Any? {
         didSet {
-            // Update the view, if already loaded.
+            
         }
     }
     
@@ -122,7 +154,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             Swift.print("Destination directory: " + libraryDirectory)
         }
         
-        let fileURL = baplieDragWellView.droppedBapliePath!
+        let fileURL = baplieDragWellView.droppedFilePath!
         let fileName = NSURL.fileURL(withPath: fileURL).lastPathComponent
         targetURL = libraryDirectory + "/" + fileName
         
@@ -132,7 +164,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             Swift.print("Destination path: " + targetURL)
         }
         
-        //Swift.print("Source path: " + baplieDragWellView.droppedBapliePath!)
+        //Swift.print("Source path: " + baplieDragWellView.droppedFilePath!)
         //Swift.print("Destination directory: " + libraryDirectory)
         //Swift.print("Destination path: " + targetURL)
         
@@ -257,7 +289,10 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         }
         
         loadServices()
-        serviceList.isEnabled = true
+        
+        if header.isTrapacBaplie {
+            serviceList.isEnabled = true
+        }
 
         baplieIsReady = true
     }
@@ -270,6 +305,16 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         baplieViewer.baplieContentView.string = baplieContent
         baplieViewer.baplieFooterView.string = baplieFooter
 
+    }
+    
+    @objc func displayScourerViewController() {
+        scourer.update(header: baplieHeader, baplie: baplieContent, footer: baplieFooter)
+        scourer.replaceLines()
+        
+        scourerViewController.errorLines = scourer.errorLineNumbers
+        scourerViewController.errorLineText = scourer.errorLineValues
+        
+        presentViewControllerAsSheet(scourerViewController)
     }
     
     @objc func updateViewerHeader() {
@@ -286,11 +331,15 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         guard baplieViewer.baplieFooterView != nil else { return }
         baplieViewer.baplieContentView.string = baplieFooter
     }
+
+    @IBAction func displayErrorLogView(_ sender: NSButton) {
+        presentViewController(errorLogView, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
+    }
     
     @IBAction func writeBaplie(_ sender: Any) {
         
         let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
-        let fileURL = baplieDragWellView.droppedBapliePath!
+        let fileURL = baplieDragWellView.droppedFilePath!
         var fileName = "scrubbed" + NSURL.fileURL(withPath: fileURL).lastPathComponent
         
         if header.isTrapacBaplie {
@@ -310,6 +359,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         
         let workspace = NSWorkspace()
         workspace.openFile(destination, withApplication: "TextEdit")
+        
+        reset(self)
         
     }
     
@@ -408,7 +459,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         self.allocations = allocations
         
     }
-    
+        
     @IBAction func assignEmptyLines(_ sender: Any) {
         
         guard !baplieContent.isEmpty else {
@@ -535,6 +586,9 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         allocationButton.isEnabled = false
         assignEmptiesButton.isEnabled = false
         exportButton.isEnabled = false
+        scrubButton.isEnabled = false
+        scourButton.isEnabled = false
+        bsaReportButton.isEnabled = false
         serviceList.removeAllItems()
         serviceList.isEnabled = false
     }

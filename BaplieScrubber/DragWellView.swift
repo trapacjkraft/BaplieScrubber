@@ -11,7 +11,7 @@ import Cocoa
 class DragWellView: NSImageView {
 
     let fileTypes = ["edi", "txt"]
-    var droppedBapliePath: String?
+    var droppedFilePath: String?
     var hasBaplie = false
     
     override func draw(_ dirtyRect: NSRect) {
@@ -30,7 +30,12 @@ class DragWellView: NSImageView {
         guard let pb = sender.draggingPasteboard().propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? NSArray,
             let path = pb[0] as? String else { return false }
         
+        let fileName = URL(fileURLWithPath: path).lastPathComponent.lowercased()
         let suffix = URL(fileURLWithPath: path).pathExtension.lowercased()
+        
+        if fileName == "errlog" {
+            return true
+        }
         
         for type in fileTypes {
             if type.lowercased() == suffix {
@@ -43,7 +48,7 @@ class DragWellView: NSImageView {
     
     func clearBaplie() { //Call in ViewController to return to launch-state
         self.image = NSImage(named: NSImage.Name("dimView"))
-        droppedBapliePath = nil
+        droppedFilePath = nil
         hasBaplie = false
     }
 
@@ -75,10 +80,18 @@ class DragWellView: NSImageView {
         guard let pb = sender.draggingPasteboard().propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? NSArray,
             let path = pb[0] as? String else { return false }
         
-        droppedBapliePath = path
-        //Swift.print(droppedBapliePath) //This line will print the filepath to the console upon drop if you need it for debugging
+        droppedFilePath = path
+        //Swift.print(droppedFilePath) //This line will print the filepath to the console upon drop if you need it for debugging
         let nc = NotificationCenter.default
         hasBaplie = true
+        
+        
+        let fileName = URL(fileURLWithPath: droppedFilePath!).lastPathComponent.lowercased()
+        
+        if fileName == "errlog" {
+            nc.post(name: Notification.Name("ErrorLogDropped"), object: nil)
+        }
+        
         nc.post(name: Notification.Name("BaplieDropped"), object: nil) //Observe for BaplieDropped to call code to run when a baplie is passed
         
         return true
