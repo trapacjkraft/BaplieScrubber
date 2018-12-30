@@ -26,7 +26,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     let baplieViewer: BaplieViewerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "BaplieViewerViewController")) as! BaplieViewerViewController
     let errorLogView: ErrorLogPopoverView = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ErrorLogPopoverView")) as! ErrorLogPopoverView
     let rescrubberView: RescrubberViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RescrubberViewController")) as! RescrubberViewController
-    
+        
     var baplieHeader = "" {
         didSet {
             mainNC.post(name: Notification.Name("HeaderChanged"), object: nil)
@@ -49,6 +49,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var header = BaplieHeader()
     
     var allocations = [String: [String: Int]]()
+    var savedAllocations = [String: String]()
     
     var hasBaplie = false {
         didSet {
@@ -106,12 +107,12 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     }
     
     @objc func enableAllocButton() {
-        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
+        guard header.isTrapacBaplie else { return }
         allocationButton.isEnabled = true
     }
     
     @objc func enableEmptyButton() {
-        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
+        guard header.isTrapacBaplie else { return }
         assignEmptiesButton.isEnabled = true
     }
     
@@ -120,7 +121,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     }
     
     @objc func enableBSAbutton() {
-        guard baplieContent.contains("TRAPAC + TRAPAC") else { return }
+        guard header.isTrapacBaplie else { return }
         bsaReportButton.isEnabled = true
     }
 
@@ -329,6 +330,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         rescrubber.combineAndPassValues()
         
         presentViewControllerAsSheet(rescrubberView)
+        rescrubberView.tableView.reloadData()
+
     }
     
     
@@ -403,7 +406,17 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             vc.delegate = self
             
             presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
-
+            
+            if !savedAllocations.isEmpty {
+                for field in vc.textFields {
+                    for (allocationType, allocationNumber) in savedAllocations {
+                        if field.identifier!.rawValue == allocationType {
+                            field.stringValue = allocationNumber
+                        }
+                    }
+                }
+            }
+            
         case "PS6":
             let vc: PS6AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS6AllocationViewController")) as! PS6AllocationViewController
             vc.delegate = self
@@ -455,7 +468,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         self.allocations = allocations
         
     }
-        
+    
+    func passSavedAllocations(allocs: [String : String]) {
+        savedAllocations = allocs
+    }
+    
     @IBAction func assignEmptyLines(_ sender: Any) {
         
         guard !baplieContent.isEmpty else {
@@ -495,6 +512,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             allocator.allocations = self.allocations
             let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
             baplieContent = baplieFulls + baplieEmpties
+            
+            mainNC.post(name: Notification.Name("ResetSavedAllocations"), object: nil)
             
         case "PS6":
             let allocator = PS6Allocator()
@@ -540,6 +559,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             break
 
         }
+        
+        
 
     }
     
@@ -587,7 +608,9 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         bsaReportButton.isEnabled = false
         serviceList.removeAllItems()
         serviceList.isEnabled = false
+        savedAllocations.removeAll()
         rescrubber.reset()
+        rescrubberView.reset()
     }
 }
 

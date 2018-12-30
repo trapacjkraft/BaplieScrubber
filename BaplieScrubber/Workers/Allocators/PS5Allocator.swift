@@ -46,6 +46,8 @@ class PS5Allocator: NSObject {
     var previousOperator = ""
     var header = ""
     var combinedAllocations = [String: Int]()
+    var originalBaplieContent = String()
+    var didFailAllocationCheck = false
     var fullBaplieContent = String()
     var otherBaplieContent = String()
     var otherBaplieContentCount = Int()
@@ -66,6 +68,7 @@ class PS5Allocator: NSObject {
     
     func assignShippingLines(baplieString: String) -> (String, String) {
         
+        originalBaplieContent = baplieString
         var containers = [BaplieContainer]()
         var emptyPreplans = [BaplieContainer]()
         var notPreplanContainers = [BaplieContainer]()
@@ -475,20 +478,44 @@ class PS5Allocator: NSObject {
         
         func assignOperators() {
             
-            var allocSum = 0
-            let emptyCount = emptyPreplans.count - otherBaplieContentCount
+            var allocationsByPort = [String: Int]()
+            
+            allocationsByPort.updateValue((combinedAllocations["oneNGBs2"]! + combinedAllocations["hlcNGBs2"]! + combinedAllocations["ymlNGBs2"]!), forKey: "emptyNGBs2")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBs4"]! + combinedAllocations["hlcNGBs4"]! + combinedAllocations["ymlNGBs4"]!), forKey: "emptyNGBs4")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBc4"]! + combinedAllocations["hlcNGBc4"]! + combinedAllocations["ymlNGBc4"]!), forKey: "emptyNGBc4")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBc5"]! + combinedAllocations["hlcNGBc5"]! + combinedAllocations["ymlNGBc5"]!), forKey: "emptyNGBc5")
+            
+            allocationsByPort.updateValue((combinedAllocations["oneQDOs2"]! + combinedAllocations["hlcQDOs2"]! + combinedAllocations["ymlQDOs2"]!), forKey: "emptyQDOs2")
+            allocationsByPort.updateValue((combinedAllocations["oneQDOs4"]! + combinedAllocations["hlcQDOs4"]! + combinedAllocations["ymlQDOs4"]!), forKey: "emptyQDOs4")
+            allocationsByPort.updateValue((combinedAllocations["oneQDOc4"]! + combinedAllocations["hlcQDOc4"]! + combinedAllocations["ymlQDOc4"]!), forKey: "emptyQDOc4")
+            allocationsByPort.updateValue((combinedAllocations["oneQDOc5"]! + combinedAllocations["hlcQDOc5"]! + combinedAllocations["ymlQDOc5"]!), forKey: "emptyQDOc5")
 
-            for (_, alloc) in combinedAllocations {
-                allocSum += alloc
+            allocationsByPort.updateValue((combinedAllocations["oneSHGs2"]! + combinedAllocations["hlcSHGs2"]! + combinedAllocations["ymlSHGs2"]!), forKey: "emptySHGs2")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGs4"]! + combinedAllocations["hlcSHGs4"]! + combinedAllocations["ymlSHGs4"]!), forKey: "emptySHGs4")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGc4"]! + combinedAllocations["hlcSHGc4"]! + combinedAllocations["ymlSHGc4"]!), forKey: "emptySHGc4")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGc5"]! + combinedAllocations["hlcSHGc5"]! + combinedAllocations["ymlSHGc5"]!), forKey: "emptySHGc5")
+            
+            let alert = NSAlert()
+            
+            let containerTypes = ["emptyNGBs2", "emptyNGBs4", "emptyNGBc4", "emptyNGBc5", "emptyQDOs2", "emptyQDOs4", "emptyQDOc4", "emptyQDOc5", "emptySHGs2", "emptySHGs4", "emptySHGc4", "emptySHGc5"]
+            let containerArrays = [emptyNGBs2, emptyNGBs4, emptyNGBc4, emptyNGBc5,emptyQDOs2, emptyQDOs4, emptyQDOc4, emptyQDOc5, emptySHGs2, emptySHGs4, emptySHGc4, emptySHGc5]
+            
+            var index = 0
+            
+            for containerType in containerTypes {
+                
+                guard allocationsByPort[containerType]! == containerArrays[index].count else {
+                    alert.messageText = "Allocation error!"
+                    alert.informativeText = "Allocations for \(containerType) do not match count of \(containerType) preplans. Please check and correct allocations."
+                    alert.runModal()
+                    didFailAllocationCheck = true
+                    return
+                }
+                
+                index += 1
             }
             
-            guard allocSum == emptyCount else {
-                let alert = NSAlert()
-                alert.messageText = "Allocation Error!"
-                alert.informativeText = "Sum of allocations does not match sum of empty preplans on the Baplie. Please re-enter allocations."
-                alert.runModal()
-                return
-            }
+            
             
             assignS2(containers: emptyNGBs2, oneKey: "oneNGBs2", hlcKey: "hlcNGBs2", ymlKey: "ymlNGBs2")
             assignS4(containers: emptyNGBs4, oneKey: "oneNGBs4", hlcKey: "hlcNGBs4", ymlKey: "ymlNGBs4")
@@ -519,6 +546,11 @@ class PS5Allocator: NSObject {
         
         
         fullBaplieContent += otherBaplieContent
+        
+        if didFailAllocationCheck {
+            return (originalBaplieContent, "")
+        }
+        
         return (fullBaplieContent, emptyBaplieContentWithOperators)
     }
 

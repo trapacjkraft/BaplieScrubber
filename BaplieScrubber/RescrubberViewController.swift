@@ -24,7 +24,13 @@ class RescrubberViewController: NSViewController, RescrubberDelegate {
     }
     
     @IBAction func exit(_ sender: Any) {
+        data?.removeAll()
+        tableView.reloadData()
         dismissViewController(self)
+    }
+    
+    func reset() {
+        data?.removeAll()
     }
     
 }
