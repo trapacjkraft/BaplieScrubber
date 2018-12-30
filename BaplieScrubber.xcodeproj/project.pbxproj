@@ -37,6 +37,7 @@
 		429D8ABC21C4B1F20040A5DA /* PS7AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D8ABB21C4B1F20040A5DA /* PS7AllocationViewController.swift */; };
 		429D8ABE21C4B41E0040A5DA /* PS7Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D8ABD21C4B41E0040A5DA /* PS7Allocator.swift */; };
 		42AF9A5521D7604B005C0FFE /* RescrubberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */; };
+		42AF9A5721D8E472005C0FFE /* ReplacementValuePopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */; };
 		42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */; };
 		42D349EB21CCDB54002DCC42 /* TGOAllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D349EA21CCDB54002DCC42 /* TGOAllocationViewController.swift */; };
 		42D349ED21CCDFC5002DCC42 /* JAX_EC1Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D349EC21CCDFC5002DCC42 /* JAX_EC1Allocator.swift */; };
@@ -82,6 +83,7 @@
 		429D8ABB21C4B1F20040A5DA /* PS7AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS7AllocationViewController.swift; sourceTree = "<group>"; };
 		429D8ABD21C4B41E0040A5DA /* PS7Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS7Allocator.swift; sourceTree = "<group>"; };
 		42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescrubberViewController.swift; sourceTree = "<group>"; };
+		42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementValuePopover.swift; sourceTree = "<group>"; };
 		42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieViewerViewController.swift; sourceTree = "<group>"; };
 		42D349EA21CCDB54002DCC42 /* TGOAllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGOAllocationViewController.swift; sourceTree = "<group>"; };
 		42D349EC21CCDFC5002DCC42 /* JAX_EC1Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JAX_EC1Allocator.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */,
 				42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */,
 				42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */,
+				42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */,
 				4214D247213BC1330082723C /* AppDelegate.swift */,
 				422CBC6721917DE60046E503 /* Baplie Parts */,
 				4244F3F821BE18A40064EC30 /* Allocation View Controllers */,
@@ -289,6 +292,7 @@
 				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
 				427C8FFC21BFB45200BE6D25 /* PS3AllocationViewController.swift in Sources */,
 				42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */,
+				42AF9A5721D8E472005C0FFE /* ReplacementValuePopover.swift in Sources */,
 				42E2F1F721CCC50A005195BA /* EC3AllocationViewController.swift in Sources */,
 				4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */,
 				422FD7592192E2F400CF02E6 /* PS5Allocator.swift in Sources */,

@@ -12,11 +12,13 @@ protocol RescrubberDelegate: class {
     func getErrorLinesAndText(values: [[String: String]])
 }
 
-class Rescrubber: NSObject, ErrorLogPopoverViewDelegate {
+class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControllerDelegate {
     
     var errorLineNumbers: [Int]
     var errorLineValues: [String]
     var errorLinesAndText: [[String: String]]
+    var valuesToRemove: [Int: String]
+    var valuesToReplace: [Int: String]
     
     var baplieContent: String
     
@@ -27,6 +29,8 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate {
         errorLineNumbers = [Int]()
         errorLineValues = [String]()
         errorLinesAndText = [[String: String]]()
+        valuesToRemove = [Int: String]()
+        valuesToReplace = [Int: String]()
         
         baplieContent = String()
     }
@@ -67,6 +71,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate {
             var valuesToAdd = [String: String]()
             valuesToAdd.updateValue((String(errorLineNumbers[index])), forKey: "lineNumber")
             valuesToAdd.updateValue(errorLineValues[index], forKey: "lineText")
+            valuesToAdd.updateValue("No", forKey: "editedStatus")
             
             errorLinesAndText.append(valuesToAdd)
             index += 1
@@ -74,6 +79,32 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate {
         
         delegate?.getErrorLinesAndText(values: errorLinesAndText)
         
+    }
+    
+    func getValuesToReplace(replacingValues: [Int : String]) {
+        for (lineNumber, lineValue) in replacingValues {
+            valuesToReplace.updateValue(lineValue, forKey: lineNumber)
+            
+            if let _: String = valuesToRemove[lineNumber] {
+                valuesToRemove.removeValue(forKey: lineNumber)
+            }
+        }
+        
+    }
+    
+    func getValuesToRemove(removingValues: [Int : String]) {
+        for (lineNumber, lineValue) in removingValues {
+            valuesToRemove.updateValue(lineValue, forKey: lineNumber)
+            
+            if let _: String = valuesToReplace[lineNumber] {
+                valuesToReplace.removeValue(forKey: lineNumber)
+            }
+        }
+    
+    }
+    
+    func getReplacementValue(value: String) {
+        valuesToReplace.updateValue(value, forKey: -1)
     }
     
     func reset() {

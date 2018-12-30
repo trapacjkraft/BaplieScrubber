@@ -89,7 +89,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         mainNC.addObserver(self, selector: #selector(updateViewerContent), name: Notification.Name("ContentChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
         
-        mainNC.addObserver(self, selector: #selector(testRescrubberData), name: Notification.Name("DisplaySVC"), object: nil)
+        mainNC.addObserver(self, selector: #selector(displaySVC), name: Notification.Name("DisplaySVC"), object: nil)
         
     }
     
@@ -325,15 +325,16 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         presentViewController(errorLogView, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
     }
     
-    @objc func testRescrubberData() {
+    @objc func displaySVC() {
         rescrubber.delegate = rescrubberView
+        rescrubberView.delegate = rescrubber
+        
         rescrubber.combineAndPassValues()
         
         presentViewControllerAsSheet(rescrubberView)
         rescrubberView.tableView.reloadData()
 
     }
-    
     
     @IBAction func writeBaplie(_ sender: Any) {
         

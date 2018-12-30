@@ -862,17 +862,17 @@ Gw
             <objects>
                 <viewController storyboardIdentifier="RescrubberViewController" id="mDN-Ap-Twt" customClass="RescrubberViewController" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="iFv-9u-Gs4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="370"/>
+                        <rect key="frame" x="0.0" y="0.0" width="650" height="370"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AJE-fF-UnO">
-                                <rect key="frame" x="0.0" y="70" width="600" height="300"/>
+                                <rect key="frame" x="0.0" y="70" width="650" height="300"/>
                                 <clipView key="contentView" id="Sgv-Rb-hcU">
-                                    <rect key="frame" x="1" y="23" width="598" height="276"/>
+                                    <rect key="frame" x="1" y="0.0" width="648" height="299"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="bww-QM-lb4" viewBased="YES" id="VW2-Sf-lY5">
-                                            <rect key="frame" x="0.0" y="0.0" width="598" height="276"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="649" height="276"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -944,6 +944,39 @@ Gw
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
+                                                <tableColumn identifier="editedStatus" width="48" minWidth="10" maxWidth="48" id="MEj-J4-8Ya">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Edited">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="grE-h3-8Qm">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView id="cBN-sQ-r5g">
+                                                            <rect key="frame" x="599" y="1" width="48" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NLm-xL-RmV">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="48" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" identifier="editedStatus" title="Table View Cell" id="Oqa-CL-56M">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="textField" destination="NLm-xL-RmV" id="RWr-Qy-cl7"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
                                             </tableColumns>
                                             <connections>
                                                 <outlet property="dataSource" destination="mDN-Ap-Twt" id="o8Z-mC-tpw"/>
@@ -952,8 +985,8 @@ Gw
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="xg4-v8-gaL">
-                                    <rect key="frame" x="1" y="283" width="598" height="16"/>
+                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="xg4-v8-gaL">
+                                    <rect key="frame" x="1" y="283" width="648" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="J6p-gW-PVe">
@@ -961,12 +994,12 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="bww-QM-lb4">
-                                    <rect key="frame" x="0.0" y="0.0" width="598" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="649" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Kh-aM-aMa">
-                                <rect key="frame" x="514" y="13" width="72" height="32"/>
+                                <rect key="frame" x="564" y="13" width="72" height="32"/>
                                 <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0Ki-DH-1kv">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -978,19 +1011,25 @@ Gw
                                     <action selector="exit:" target="mDN-Ap-Twt" id="GrC-5H-Ism"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZfO-qw-kPg">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZfO-qw-kPg">
                                 <rect key="frame" x="14" y="13" width="89" height="32"/>
                                 <buttonCell key="cell" type="push" title="Replace" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xiK-eD-2dr">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="getValuesToReplace:" target="mDN-Ap-Twt" id="W4W-qM-5Eo"/>
+                                </connections>
                             </button>
-                            <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OEd-8b-aQo">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OEd-8b-aQo">
                                 <rect key="frame" x="103" y="13" width="89" height="32"/>
                                 <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HTe-tF-ERM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="getValuesToRemove:" target="mDN-Ap-Twt" id="eRY-xX-wfz"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -1012,12 +1051,65 @@ Gw
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="7Kh-aM-aMa" id="Opf-JZ-Hha"/>
+                        <outlet property="removeButton" destination="OEd-8b-aQo" id="204-yf-tyt"/>
+                        <outlet property="replaceButton" destination="ZfO-qw-kPg" id="AbF-zq-lhp"/>
                         <outlet property="tableView" destination="VW2-Sf-lY5" id="tnB-ff-KT7"/>
                     </connections>
                 </viewController>
                 <customObject id="B5c-zE-LmV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-690" y="1740"/>
+        </scene>
+        <!--Replacement Value Popover-->
+        <scene sceneID="Zxc-k5-Bjx">
+            <objects>
+                <viewController title="Replacement Value Popover" storyboardIdentifier="ReplacementValuePopover" id="YL9-lS-Ufv" customClass="ReplacementValuePopover" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="OzK-j2-itF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="75"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MsI-jO-R1N">
+                                <rect key="frame" x="110" y="38" width="468" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ubJ-kF-Qil">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l6x-J4-3jO">
+                                <rect key="frame" x="18" y="41" width="86" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Replace with:" id="fe5-Uf-E3B">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1gE-NQ-gUb">
+                                <rect key="frame" x="265" y="2" width="72" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ffw-T6-grK">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="exit:" target="YL9-lS-Ufv" id="aKP-sf-wgP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="replacementValueField" destination="MsI-jO-R1N" id="XlU-Pj-hgg"/>
+                    </connections>
+                </viewController>
+                <customObject id="yp1-uA-xVY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-905" y="2036.5"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
