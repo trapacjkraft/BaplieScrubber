@@ -47,6 +47,7 @@
 		42E2F1FD21CCD09A005195BA /* EC5AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2F1FC21CCD09A005195BA /* EC5AllocationViewController.swift */; };
 		42E2F1FF21CCD330005195BA /* EC5Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2F1FE21CCD330005195BA /* EC5Allocator.swift */; };
 		42E4D9D321D1500A00EE3281 /* ErrorLogPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */; };
+		42E5F9D621E0552000E777E0 /* RescrubberRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		42E2F1FC21CCD09A005195BA /* EC5AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC5AllocationViewController.swift; sourceTree = "<group>"; };
 		42E2F1FE21CCD330005195BA /* EC5Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC5Allocator.swift; sourceTree = "<group>"; };
 		42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLogPopoverView.swift; sourceTree = "<group>"; };
+		42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescrubberRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +183,7 @@
 				4244F40321BE431C0064EC30 /* Allocators */,
 				4258222821BE7EFF004C2BDD /* Reporter.swift */,
 				422CBC6521917DDD0046E503 /* Scrubber.swift */,
-				424A45BD21D7547700049203 /* Rescrubber.swift */,
+				42E5F9D421E054FF00E777E0 /* Rescrubber */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -201,6 +203,15 @@
 				42E2F1FE21CCD330005195BA /* EC5Allocator.swift */,
 			);
 			path = Allocators;
+			sourceTree = "<group>";
+		};
+		42E5F9D421E054FF00E777E0 /* Rescrubber */ = {
+			isa = PBXGroup;
+			children = (
+				424A45BD21D7547700049203 /* Rescrubber.swift */,
+				42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */,
+			);
+			path = Rescrubber;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,6 +301,7 @@
 				4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */,
 				42D349EB21CCDB54002DCC42 /* TGOAllocationViewController.swift in Sources */,
 				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
+				42E5F9D621E0552000E777E0 /* RescrubberRecord.swift in Sources */,
 				427C8FFC21BFB45200BE6D25 /* PS3AllocationViewController.swift in Sources */,
 				42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */,
 				42AF9A5721D8E472005C0FFE /* ReplacementValuePopover.swift in Sources */,

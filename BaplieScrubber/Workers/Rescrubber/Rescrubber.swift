@@ -10,6 +10,7 @@ import Cocoa
 
 protocol RescrubberDelegate: class {
     func getErrorLinesAndText(values: [[String: String]])
+    func resetReplacementValue()
 }
 
 class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControllerDelegate {
@@ -19,8 +20,17 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     var errorLinesAndText: [[String: String]]
     var valuesToRemove: [Int: String]
     var valuesToReplace: [Int: String]
+    var valuesToRescrub: [RescrubberRecord]
+    
+    var replaceValues: [RescrubberRecord]
+    var removeValues: [RescrubberRecord]
     
     var baplieContent: String
+    var baplieToRescrub: [String]
+    
+    var replacementFooter = ""
+    
+    var baplieFooter = BaplieFooter()
     
     weak var delegate: RescrubberDelegate?
     
@@ -31,12 +41,23 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         errorLinesAndText = [[String: String]]()
         valuesToRemove = [Int: String]()
         valuesToReplace = [Int: String]()
+        valuesToRescrub = [RescrubberRecord]()
+        
+        replaceValues = [RescrubberRecord]()
+        removeValues = [RescrubberRecord]()
         
         baplieContent = String()
+        baplieToRescrub = [String]()
+        
     }
     
     func updateBaplieContent(baplie: String) {
         baplieContent = baplie
+    }
+    
+    func getFooter(footer: String) {
+        baplieFooter = BaplieFooter(footer: footer)
+        
     }
     
     func getErrorLineNumbers(numbers: [Int]) {
@@ -58,6 +79,8 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         for lineNumber in errorLineNumbers {
             errorLineValues.append(baplie[lineNumber - 1])
         }
+        
+        baplieToRescrub = baplie
     }
     
     func combineAndPassValues() {
@@ -79,6 +102,8 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         
         delegate?.getErrorLinesAndText(values: errorLinesAndText)
         
+        index = 0
+        
     }
     
     func getValuesToReplace(replacingValues: [Int : String]) {
@@ -93,6 +118,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     }
     
     func getValuesToRemove(removingValues: [Int : String]) {
+        
         for (lineNumber, lineValue) in removingValues {
             valuesToRemove.updateValue(lineValue, forKey: lineNumber)
             
@@ -100,11 +126,81 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
                 valuesToReplace.removeValue(forKey: lineNumber)
             }
         }
+        
+        for (lineNumber, lineValue) in valuesToRemove {
+            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: false, replacement: nil)
+            valuesToRescrub.append(record)
+        }
+        
+        valuesToRemove.removeAll()
     
     }
     
     func getReplacementValue(value: String) {
-        valuesToReplace.updateValue(value, forKey: -1)
+
+        let replacementValue = value
+        
+        delegate?.resetReplacementValue()
+        
+        for (lineNumber, lineValue) in valuesToReplace {
+            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: replacementValue)
+            valuesToRescrub.append(record)
+        }
+        
+        valuesToReplace.removeAll()
+        
+    }
+    
+    func rescrub() {
+        
+        for record in valuesToRescrub {
+            
+            if record.shouldBeRescrubbed {
+                replaceValues.append(record)
+            } else {
+                removeValues.append(record)
+            }
+            
+        }
+        
+        replaceValues = replaceValues.sorted(by: { $0.lineNumber > $1.lineNumber })
+        removeValues = removeValues.sorted(by: { $0.lineNumber > $1.lineNumber })
+        
+        for record in replaceValues {
+            
+            baplieToRescrub[record.lineNumber - 1] = record.replacementValue!
+            
+        }
+        
+        for record in removeValues {
+            
+            baplieToRescrub.remove(at: record.lineNumber - 1)
+            
+        }
+        
+        
+        updateFooter()
+        
+        let nc = NotificationCenter.default
+        nc.post(name: Notification.Name("BaplieRescrubbed"), object: nil)
+        
+    }
+    
+    func updateFooter() {
+        
+        let newLineCount = baplieFooter.lineCount - removeValues.count
+        
+        let newFooter = baplieFooter.baplieFooterContent.replacingOccurrences(of: "+\(baplieFooter.lineCount)+", with: "+\(newLineCount)+")
+        
+        replacementFooter = newFooter
+        
+    }
+    
+    func getRescrubbedBaplie() -> (String, String) {
+        
+        let rescrubbedBaplieContent = baplieToRescrub.joined().trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "'\n'\n", with: "'\n")
+    
+        return (rescrubbedBaplieContent, replacementFooter)
     }
     
     func reset() {

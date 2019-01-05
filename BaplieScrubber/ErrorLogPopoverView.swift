@@ -71,7 +71,7 @@ class ErrorLogPopoverView: NSViewController {
         errorLogDragWellView.clearBaplie()
 
         let nc = NotificationCenter.default
-        nc.post(name: Notification.Name("DisplaySVC"), object: nil)
+        nc.post(name: Notification.Name("DisplayRSVC"), object: nil)
         
         dismissViewController(self)
     }

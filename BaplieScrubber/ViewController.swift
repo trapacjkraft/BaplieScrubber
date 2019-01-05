@@ -63,7 +63,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     var baplieIsReady = false {
         didSet {
             if baplieIsReady == true {
-                updateHeaders()
+                updateScrubberHeader()
                 enableBSAbutton()
             }
         }
@@ -82,6 +82,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         mainNC.addObserver(self, selector: #selector(copyBaplie), name: Notification.Name("BaplieDropped"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableBaplieViewer), name: Notification.Name("BaplieDropped"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableInboundButtons), name: Notification.Name("BaplieDropped"), object: nil)
+        
         mainNC.addObserver(self, selector: #selector(enableEmptyButton), name: Notification.Name("AllocationsChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(enableAllocButton), name: Notification.Name("HeaderFetched"), object: nil)
         
@@ -89,12 +90,14 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         mainNC.addObserver(self, selector: #selector(updateViewerContent), name: Notification.Name("ContentChanged"), object: nil)
         mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
         
-        mainNC.addObserver(self, selector: #selector(displaySVC), name: Notification.Name("DisplaySVC"), object: nil)
+        mainNC.addObserver(self, selector: #selector(displayRSVC), name: Notification.Name("DisplayRSVC"), object: nil)
+        mainNC.addObserver(self, selector: #selector(rescrubBaplie), name: Notification.Name("BaplieRescrubbed"), object: nil)
         
     }
     
     @objc func enableInboundButtons() {
         
+        /*
         let fileName = URL(fileURLWithPath: baplieDragWellView.droppedFilePath!).lastPathComponent.lowercased()
         
         if fileName.hasPrefix("scrubbed") {
@@ -104,6 +107,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             scrubButton.isEnabled = true
 
         }
+        */
+        
+        scrubButton.isEnabled = true
+        rescrubButton.isEnabled = true
+ 
     }
     
     @objc func enableAllocButton() {
@@ -226,6 +234,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     func updateData() {
         getBaplieParts()
         header = BaplieHeader(header: baplieHeader)
+        rescrubber.getFooter(footer: baplieFooter)
         
         mainNC.post(name: Notification.Name("HeaderFetched"), object: nil)
         
@@ -292,6 +301,34 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         baplieIsReady = true
     }
     
+    @IBAction func writeBaplie(_ sender: Any) {
+        
+        let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
+        let fileURL = baplieDragWellView.droppedFilePath!
+        var fileName = "scrubbed" + NSURL.fileURL(withPath: fileURL).lastPathComponent
+        
+        if header.isTrapacBaplie {
+            fileName = header.vesselName.replacingOccurrences(of: " ", with: "_") + "_v." + header.voyageNumber + ".txt"
+        }
+        
+        let destination = libraryDirectory + fileName
+        
+        let contents = baplieHeader + (baplieContent.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooter
+        
+        do {
+            try contents.write(toFile: destination, atomically: true, encoding: .utf8)
+        } catch {
+            NSLog("Could not write baplie to directory: \(error)")
+            Swift.print(error)
+        }
+        
+        let workspace = NSWorkspace()
+        workspace.openFile(destination, withApplication: "TextEdit")
+        
+        reset(self)
+        
+    }
+
     @IBAction func displayBaplieViewer(_ sender: NSButton) {
         
         presentViewController(baplieViewer, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
@@ -325,7 +362,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         presentViewController(errorLogView, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
     }
     
-    @objc func displaySVC() {
+    @objc func displayRSVC() {
         rescrubber.delegate = rescrubberView
         rescrubberView.delegate = rescrubber
         
@@ -336,50 +373,6 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
 
     }
     
-    @IBAction func writeBaplie(_ sender: Any) {
-        
-        let libraryDirectory: String = NSHomeDirectory() + "/" + "Library/Caches/com.trapac.BaplieScrubber/"
-        let fileURL = baplieDragWellView.droppedFilePath!
-        var fileName = "scrubbed" + NSURL.fileURL(withPath: fileURL).lastPathComponent
-        
-        if header.isTrapacBaplie {
-            fileName = header.vesselName.replacingOccurrences(of: " ", with: "_") + "_v." + header.voyageNumber + ".txt"
-        }
-        
-        let destination = libraryDirectory + fileName
-        
-        let contents = baplieHeader + (baplieContent.replacingOccurrences(of: "'\n'\n", with: "'\n")) + baplieFooter
-        
-        do {
-            try contents.write(toFile: destination, atomically: true, encoding: .utf8)
-        } catch {
-            NSLog("Could not write baplie to directory: \(error)")
-            Swift.print(error)
-        }
-        
-        let workspace = NSWorkspace()
-        workspace.openFile(destination, withApplication: "TextEdit")
-        
-        reset(self)
-        
-    }
-    
-    func updateHeaders() {
-        scrubber.getHeader(baplieHeader: baplieHeader)
-    }
-    
-    func clearFTX() {
-        let trimmedParts = scrubber.trimFTX(baplieString: baplieContent, footerString: baplieFooter)
-        baplieContent = trimmedParts.0
-        baplieFooter = trimmedParts.1
-    }
-    
-    func fixStartTags() {
-        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContent, footerString: baplieFooter)
-        baplieContent = trimmedParts.0
-        baplieFooter = trimmedParts.1
-    }
-        
     @IBAction func showAllocationPanel(_ sender: NSButton) {
         
         switch serviceList.titleOfSelectedItem {
@@ -565,6 +558,27 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
 
     }
     
+    @IBAction func generateReport(_ sender: Any) {
+        let reporter = Reporter(header: header, baplie: baplieContent)
+        reporter.writeReport(report: reporter.generateTEUReportForCSV())
+    }
+    
+    func updateScrubberHeader() {
+        scrubber.getHeader(baplieHeader: baplieHeader)
+    }
+    
+    func clearFTX() {
+        let trimmedParts = scrubber.trimFTX(baplieString: baplieContent, footerString: baplieFooter)
+        baplieContent = trimmedParts.0
+        baplieFooter = trimmedParts.1
+    }
+    
+    func fixStartTags() {
+        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContent, footerString: baplieFooter)
+        baplieContent = trimmedParts.0
+        baplieFooter = trimmedParts.1
+    }
+
     @IBAction func scrubBaplie(_ sender: Any) {
         
         guard !baplieHeader.contains("TRAPAC+TRAPAC") else {
@@ -587,9 +601,12 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         fixStartTags()
     }
     
-    @IBAction func generateReport(_ sender: Any) {
-        let reporter = Reporter(header: header, baplie: baplieContent)
-        reporter.writeReport(report: reporter.generateTEUReportForCSV())
+    @objc func rescrubBaplie() {
+        let rescrubbedParts = rescrubber.getRescrubbedBaplie()
+        
+        
+        baplieContent = rescrubbedParts.0
+        baplieFooter = rescrubbedParts.1
     }
     
     @IBAction func reset(_ sender: Any) {

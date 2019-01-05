@@ -10,4 +10,24 @@ import Cocoa
 
 class BaplieFooter: NSObject {
 
+    var lineCount = 0
+    var baplieFooterContent: String
+    
+    override init() {
+        baplieFooterContent = ""
+    }
+    
+    init(footer: String) {
+        
+        baplieFooterContent = footer
+        
+        let footerContents = footer.components(separatedBy: "'")
+        
+        for line in footerContents {
+            if line.contains("UNT+") {
+                lineCount = Int(line.components(separatedBy: "+")[1])!
+            }
+        }
+    }
+    
 }
