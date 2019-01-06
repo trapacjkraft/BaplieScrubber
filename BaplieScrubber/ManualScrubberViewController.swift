@@ -30,7 +30,9 @@ class ManualScrubberViewController: NSViewController, ManualScrubberDelegate, Re
     var editedCount = 0 {
         didSet {
             if editedCount == lineCount {
-                doneButton.isEnabled = true
+                if let _: NSButton = doneButton {
+                    doneButton.isEnabled = true
+                }
             }
         }
     }
