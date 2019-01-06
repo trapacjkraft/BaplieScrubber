@@ -183,7 +183,7 @@
 				4244F40321BE431C0064EC30 /* Allocators */,
 				4258222821BE7EFF004C2BDD /* Reporter.swift */,
 				422CBC6521917DDD0046E503 /* AutoScrubber.swift */,
-				42E5F9D421E054FF00E777E0 /* Rescrubber */,
+				42E5F9D421E054FF00E777E0 /* Manual Scrubber */,
 			);
 			path = Workers;
 			sourceTree = "<group>";
@@ -205,13 +205,13 @@
 			path = Allocators;
 			sourceTree = "<group>";
 		};
-		42E5F9D421E054FF00E777E0 /* Rescrubber */ = {
+		42E5F9D421E054FF00E777E0 /* Manual Scrubber */ = {
 			isa = PBXGroup;
 			children = (
 				424A45BD21D7547700049203 /* ManualScrubber.swift */,
 				42E5F9D521E0552000E777E0 /* ManualScrubberRecord.swift */,
 			);
-			path = Rescrubber;
+			path = "Manual Scrubber";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
