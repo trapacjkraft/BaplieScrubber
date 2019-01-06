@@ -15,7 +15,7 @@
 		4214D24F213BC1340082723C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4214D24D213BC1340082723C /* Main.storyboard */; };
 		42184D2421C63FCA00349053 /* JAX_EC1AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42184D2321C63FCA00349053 /* JAX_EC1AllocationViewController.swift */; };
 		422C484621437AA200063F01 /* DragWellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422C484521437AA200063F01 /* DragWellView.swift */; };
-		422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6521917DDD0046E503 /* Scrubber.swift */; };
+		422CBC6621917DDD0046E503 /* AutoScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6521917DDD0046E503 /* AutoScrubber.swift */; };
 		422CBC6921917DF90046E503 /* BaplieHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6821917DF90046E503 /* BaplieHeader.swift */; };
 		422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6C21917E1B0046E503 /* BaplieFooter.swift */; };
 		422CBC6F2191A1610046E503 /* BaplieContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422CBC6E2191A1610046E503 /* BaplieContainer.swift */; };
@@ -25,7 +25,7 @@
 		4244F3FF21BE2A100064EC30 /* jaxservices in Resources */ = {isa = PBXBuildFile; fileRef = 4244F3FC21BE2A100064EC30 /* jaxservices */; };
 		4244F40021BE2A110064EC30 /* laxservices in Resources */ = {isa = PBXBuildFile; fileRef = 4244F3FD21BE2A100064EC30 /* laxservices */; };
 		4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */; };
-		424A45BE21D7547700049203 /* Rescrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424A45BD21D7547700049203 /* Rescrubber.swift */; };
+		424A45BE21D7547700049203 /* ManualScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424A45BD21D7547700049203 /* ManualScrubber.swift */; };
 		4258222721BE6FFE004C2BDD /* EC1Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222621BE6FFE004C2BDD /* EC1Allocator.swift */; };
 		4258222921BE7EFF004C2BDD /* Reporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4258222821BE7EFF004C2BDD /* Reporter.swift */; };
 		427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */; };
@@ -36,7 +36,7 @@
 		429D8ABA21C4AEA20040A5DA /* PS6Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D8AB921C4AEA20040A5DA /* PS6Allocator.swift */; };
 		429D8ABC21C4B1F20040A5DA /* PS7AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D8ABB21C4B1F20040A5DA /* PS7AllocationViewController.swift */; };
 		429D8ABE21C4B41E0040A5DA /* PS7Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429D8ABD21C4B41E0040A5DA /* PS7Allocator.swift */; };
-		42AF9A5521D7604B005C0FFE /* RescrubberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */; };
+		42AF9A5521D7604B005C0FFE /* ManualScrubberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF9A5421D7604B005C0FFE /* ManualScrubberViewController.swift */; };
 		42AF9A5721D8E472005C0FFE /* ReplacementValuePopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */; };
 		42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */; };
 		42D349EB21CCDB54002DCC42 /* TGOAllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D349EA21CCDB54002DCC42 /* TGOAllocationViewController.swift */; };
@@ -47,7 +47,7 @@
 		42E2F1FD21CCD09A005195BA /* EC5AllocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2F1FC21CCD09A005195BA /* EC5AllocationViewController.swift */; };
 		42E2F1FF21CCD330005195BA /* EC5Allocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2F1FE21CCD330005195BA /* EC5Allocator.swift */; };
 		42E4D9D321D1500A00EE3281 /* ErrorLogPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */; };
-		42E5F9D621E0552000E777E0 /* RescrubberRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */; };
+		42E5F9D621E0552000E777E0 /* ManualScrubberRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E5F9D521E0552000E777E0 /* ManualScrubberRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +62,7 @@
 		4214D251213BC1340082723C /* BaplieScrubber.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BaplieScrubber.entitlements; sourceTree = "<group>"; };
 		42184D2321C63FCA00349053 /* JAX_EC1AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JAX_EC1AllocationViewController.swift; sourceTree = "<group>"; };
 		422C484521437AA200063F01 /* DragWellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragWellView.swift; sourceTree = "<group>"; };
-		422CBC6521917DDD0046E503 /* Scrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrubber.swift; sourceTree = "<group>"; };
+		422CBC6521917DDD0046E503 /* AutoScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrubber.swift; sourceTree = "<group>"; };
 		422CBC6821917DF90046E503 /* BaplieHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieHeader.swift; sourceTree = "<group>"; };
 		422CBC6C21917E1B0046E503 /* BaplieFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieFooter.swift; sourceTree = "<group>"; };
 		422CBC6E2191A1610046E503 /* BaplieContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieContainer.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		4244F3FC21BE2A100064EC30 /* jaxservices */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jaxservices; sourceTree = "<group>"; };
 		4244F3FD21BE2A100064EC30 /* laxservices */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = laxservices; sourceTree = "<group>"; };
 		4244F40121BE349C0064EC30 /* EC1AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1AllocationViewController.swift; sourceTree = "<group>"; };
-		424A45BD21D7547700049203 /* Rescrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rescrubber.swift; sourceTree = "<group>"; };
+		424A45BD21D7547700049203 /* ManualScrubber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualScrubber.swift; sourceTree = "<group>"; };
 		4258222621BE6FFE004C2BDD /* EC1Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC1Allocator.swift; sourceTree = "<group>"; };
 		4258222821BE7EFF004C2BDD /* Reporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
 		427C8FF721BF7B2900BE6D25 /* PS4AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS4AllocationViewController.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		429D8AB921C4AEA20040A5DA /* PS6Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS6Allocator.swift; sourceTree = "<group>"; };
 		429D8ABB21C4B1F20040A5DA /* PS7AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS7AllocationViewController.swift; sourceTree = "<group>"; };
 		429D8ABD21C4B41E0040A5DA /* PS7Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PS7Allocator.swift; sourceTree = "<group>"; };
-		42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescrubberViewController.swift; sourceTree = "<group>"; };
+		42AF9A5421D7604B005C0FFE /* ManualScrubberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualScrubberViewController.swift; sourceTree = "<group>"; };
 		42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplacementValuePopover.swift; sourceTree = "<group>"; };
 		42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaplieViewerViewController.swift; sourceTree = "<group>"; };
 		42D349EA21CCDB54002DCC42 /* TGOAllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGOAllocationViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 		42E2F1FC21CCD09A005195BA /* EC5AllocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC5AllocationViewController.swift; sourceTree = "<group>"; };
 		42E2F1FE21CCD330005195BA /* EC5Allocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EC5Allocator.swift; sourceTree = "<group>"; };
 		42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLogPopoverView.swift; sourceTree = "<group>"; };
-		42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RescrubberRecord.swift; sourceTree = "<group>"; };
+		42E5F9D521E0552000E777E0 /* ManualScrubberRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualScrubberRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +130,7 @@
 				4214D249213BC1330082723C /* ViewController.swift */,
 				42C7E17521BE911A00A23D7A /* BaplieViewerViewController.swift */,
 				42E4D9D221D1500A00EE3281 /* ErrorLogPopoverView.swift */,
-				42AF9A5421D7604B005C0FFE /* RescrubberViewController.swift */,
+				42AF9A5421D7604B005C0FFE /* ManualScrubberViewController.swift */,
 				42AF9A5621D8E472005C0FFE /* ReplacementValuePopover.swift */,
 				4214D247213BC1330082723C /* AppDelegate.swift */,
 				422CBC6721917DE60046E503 /* Baplie Parts */,
@@ -182,7 +182,7 @@
 			children = (
 				4244F40321BE431C0064EC30 /* Allocators */,
 				4258222821BE7EFF004C2BDD /* Reporter.swift */,
-				422CBC6521917DDD0046E503 /* Scrubber.swift */,
+				422CBC6521917DDD0046E503 /* AutoScrubber.swift */,
 				42E5F9D421E054FF00E777E0 /* Rescrubber */,
 			);
 			path = Workers;
@@ -208,8 +208,8 @@
 		42E5F9D421E054FF00E777E0 /* Rescrubber */ = {
 			isa = PBXGroup;
 			children = (
-				424A45BD21D7547700049203 /* Rescrubber.swift */,
-				42E5F9D521E0552000E777E0 /* RescrubberRecord.swift */,
+				424A45BD21D7547700049203 /* ManualScrubber.swift */,
+				42E5F9D521E0552000E777E0 /* ManualScrubberRecord.swift */,
 			);
 			path = Rescrubber;
 			sourceTree = "<group>";
@@ -297,11 +297,11 @@
 				42E4D9D321D1500A00EE3281 /* ErrorLogPopoverView.swift in Sources */,
 				429D8ABA21C4AEA20040A5DA /* PS6Allocator.swift in Sources */,
 				427C8FFA21BFA95500BE6D25 /* PS4Allocator.swift in Sources */,
-				422CBC6621917DDD0046E503 /* Scrubber.swift in Sources */,
+				422CBC6621917DDD0046E503 /* AutoScrubber.swift in Sources */,
 				4244F40221BE349C0064EC30 /* EC1AllocationViewController.swift in Sources */,
 				42D349EB21CCDB54002DCC42 /* TGOAllocationViewController.swift in Sources */,
 				422CBC6D21917E1B0046E503 /* BaplieFooter.swift in Sources */,
-				42E5F9D621E0552000E777E0 /* RescrubberRecord.swift in Sources */,
+				42E5F9D621E0552000E777E0 /* ManualScrubberRecord.swift in Sources */,
 				427C8FFC21BFB45200BE6D25 /* PS3AllocationViewController.swift in Sources */,
 				42C7E17621BE911A00A23D7A /* BaplieViewerViewController.swift in Sources */,
 				42AF9A5721D8E472005C0FFE /* ReplacementValuePopover.swift in Sources */,
@@ -321,9 +321,9 @@
 				427C8FF821BF7B2900BE6D25 /* PS4AllocationViewController.swift in Sources */,
 				429D8ABE21C4B41E0040A5DA /* PS7Allocator.swift in Sources */,
 				42E2F1FD21CCD09A005195BA /* EC5AllocationViewController.swift in Sources */,
-				424A45BE21D7547700049203 /* Rescrubber.swift in Sources */,
+				424A45BE21D7547700049203 /* ManualScrubber.swift in Sources */,
 				420AD05E21BFF5ED00879A7C /* PS2AllocationViewController.swift in Sources */,
-				42AF9A5521D7604B005C0FFE /* RescrubberViewController.swift in Sources */,
+				42AF9A5521D7604B005C0FFE /* ManualScrubberViewController.swift in Sources */,
 				42E2F1FB21CCCD56005195BA /* EC3Allocator.swift in Sources */,
 				429D8AB821C4ACB70040A5DA /* PS6AllocationViewController.swift in Sources */,
 				422FD75B2192EDCC00CF02E6 /* PS5AllocationViewController.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  RescrubberViewController.swift
+//  ManualScrubberViewController.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 12/29/18.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-protocol RescrubberViewControllerDelegate: class {
+protocol ManualScrubberViewControllerDelegate: class {
     func getValuesToReplace(replacingValues: [Int: String])
     func getValuesToRemove(removingValues: [Int: String])
     func getValuesToIgnore(ignoringValues: [Int: String])
@@ -16,7 +16,7 @@ protocol RescrubberViewControllerDelegate: class {
     func rescrub()
 }
 
-class RescrubberViewController: NSViewController, RescrubberDelegate, ReplacementValuePopoverDelegate {
+class ManualScrubberViewController: NSViewController, ManualScrubberDelegate, ReplacementValuePopoverDelegate {
 
     @IBOutlet var tableView: NSTableView!
     
@@ -56,7 +56,7 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
         }
     }
     
-    weak var delegate: RescrubberViewControllerDelegate?
+    weak var delegate: ManualScrubberViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,7 +222,7 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
     
 }
 
-extension RescrubberViewController: NSTableViewDataSource, NSTableViewDelegate {
+extension ManualScrubberViewController: NSTableViewDataSource, NSTableViewDelegate {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return (data?.count)!

@@ -1,5 +1,5 @@
 //
-//  RescrubberRecord.swift
+//  ManualScrubberRecord.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 1/4/19.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class RescrubberRecord: NSObject {
+class ManualScrubberRecord: NSObject {
 
     var lineNumber: Int
     var lineValue: String

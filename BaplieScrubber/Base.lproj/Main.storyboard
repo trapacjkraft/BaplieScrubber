@@ -857,10 +857,10 @@ Gw
             </objects>
             <point key="canvasLocation" x="-690" y="1413"/>
         </scene>
-        <!--Rescrubber View Controller-->
+        <!--Manual Scrubber View Controller-->
         <scene sceneID="N38-wT-ceK">
             <objects>
-                <viewController storyboardIdentifier="RescrubberViewController" id="mDN-Ap-Twt" customClass="RescrubberViewController" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ManualScrubberViewController" id="mDN-Ap-Twt" customClass="ManualScrubberViewController" customModule="BaplieScrubber" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="iFv-9u-Gs4">
                         <rect key="frame" x="0.0" y="0.0" width="650" height="370"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

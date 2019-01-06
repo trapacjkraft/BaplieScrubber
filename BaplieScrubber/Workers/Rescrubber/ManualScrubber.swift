@@ -8,22 +8,22 @@
 
 import Cocoa
 
-protocol RescrubberDelegate: class {
+protocol ManualScrubberDelegate: class {
     func getErrorLinesAndText(values: [[String: String]])
     func resetReplacementValue()
 }
 
-class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControllerDelegate {
+class ManualScrubber: NSObject, ErrorLogPopoverViewDelegate, ManualScrubberViewControllerDelegate {
     
     var errorLineNumbers: [Int]
     var errorLineValues: [String]
     var errorLinesAndText: [[String: String]]
     var valuesToRemove: [Int: String]
     var valuesToReplace: [Int: String]
-    var valuesToRescrub: [RescrubberRecord]
+    var valuesToRescrub: [ManualScrubberRecord]
     
-    var replaceValues: [RescrubberRecord]
-    var removeValues: [RescrubberRecord]
+    var replaceValues: [ManualScrubberRecord]
+    var removeValues: [ManualScrubberRecord]
     
     var baplieContent: String
     var baplieToRescrub: [String]
@@ -32,7 +32,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     
     var baplieFooter = BaplieFooter()
     
-    weak var delegate: RescrubberDelegate?
+    weak var delegate: ManualScrubberDelegate?
     
     override init() {
         
@@ -41,10 +41,10 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         errorLinesAndText = [[String: String]]()
         valuesToRemove = [Int: String]()
         valuesToReplace = [Int: String]()
-        valuesToRescrub = [RescrubberRecord]()
+        valuesToRescrub = [ManualScrubberRecord]()
         
-        replaceValues = [RescrubberRecord]()
-        removeValues = [RescrubberRecord]()
+        replaceValues = [ManualScrubberRecord]()
+        removeValues = [ManualScrubberRecord]()
         
         baplieContent = String()
         baplieToRescrub = [String]()
@@ -128,7 +128,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         }
         
         for (lineNumber, lineValue) in valuesToRemove {
-            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: false, replacement: nil)
+            let record = ManualScrubberRecord(number: lineNumber, value: lineValue, rescrub: false, replacement: nil)
             valuesToRescrub.append(record)
         }
         
@@ -139,7 +139,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     func getValuesToIgnore(ignoringValues: [Int : String]) {
         
         for (lineNumber, lineValue) in ignoringValues {
-            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: lineValue)
+            let record = ManualScrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: lineValue)
             valuesToRescrub.append(record)
         }
         
@@ -152,7 +152,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
         delegate?.resetReplacementValue()
         
         for (lineNumber, lineValue) in valuesToReplace {
-            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: replacementValue)
+            let record = ManualScrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: replacementValue)
             valuesToRescrub.append(record)
         }
         
@@ -208,7 +208,7 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     func getRescrubbedBaplie() -> (String, String) {
         
         var headerLineCount = 0
-        var footerLineCount = 2
+        let footerLineCount = 2
         
         for line in baplieToRescrub {
             if !line.contains("LOC+147") {

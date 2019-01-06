@@ -1,5 +1,5 @@
 //
-//  Scrubber.swift
+//  AutoScrubber.swift
 //  BaplieScrubber
 //
 //  Created by Joshua Kraft on 11/6/18.
@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class Scrubber: NSObject {
+class AutoScrubber: NSObject {
     
     
     var header = ""

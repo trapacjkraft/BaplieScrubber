@@ -25,7 +25,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     
     let baplieViewer: BaplieViewerViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "BaplieViewerViewController")) as! BaplieViewerViewController
     let errorLogView: ErrorLogPopoverView = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ErrorLogPopoverView")) as! ErrorLogPopoverView
-    let rescrubberView: RescrubberViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RescrubberViewController")) as! RescrubberViewController
+    let manualScrubberView: ManualScrubberViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ManualScrubberViewController")) as! ManualScrubberViewController
         
     var baplieHeader = "" {
         didSet {
@@ -71,8 +71,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     
     var targetURL = ""
     var baplieFileContents = ""
-    let scrubber = Scrubber()
-    var rescrubber = Rescrubber()
+    let autoScrubber = AutoScrubber()
+    var manualScrubber = ManualScrubber()
     
     
     override func viewDidLoad() {
@@ -91,7 +91,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         mainNC.addObserver(self, selector: #selector(updateViewerFooter), name: Notification.Name("FooterChanged"), object: nil)
         
         mainNC.addObserver(self, selector: #selector(displayRSVC), name: Notification.Name("DisplayRSVC"), object: nil)
-        mainNC.addObserver(self, selector: #selector(rescrubBaplie), name: Notification.Name("BaplieRescrubbed"), object: nil)
+        mainNC.addObserver(self, selector: #selector(manuallyScrubBaplie), name: Notification.Name("BaplieRescrubbed"), object: nil)
         
     }
     
@@ -234,7 +234,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     func updateData() {
         getBaplieParts()
         header = BaplieHeader(header: baplieHeader)
-        rescrubber.getFooter(footer: baplieFooter)
+        manualScrubber.getFooter(footer: baplieFooter)
         
         mainNC.post(name: Notification.Name("HeaderFetched"), object: nil)
         
@@ -356,20 +356,20 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
 
     @IBAction func displayErrorLogView(_ sender: NSButton) {
         
-        rescrubber.updateBaplieContent(baplie: baplieFileContents)
-        errorLogView.delegate = rescrubber
+        manualScrubber.updateBaplieContent(baplie: baplieFileContents)
+        errorLogView.delegate = manualScrubber
         
         presentViewController(errorLogView, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .minX, behavior: .applicationDefined)
     }
     
     @objc func displayRSVC() {
-        rescrubber.delegate = rescrubberView
-        rescrubberView.delegate = rescrubber
+        manualScrubber.delegate = manualScrubberView
+        manualScrubberView.delegate = manualScrubber
         
-        rescrubber.combineAndPassValues()
+        manualScrubber.combineAndPassValues()
         
-        presentViewControllerAsSheet(rescrubberView)
-        rescrubberView.tableView.reloadData()
+        presentViewControllerAsSheet(manualScrubberView)
+        manualScrubberView.tableView.reloadData()
 
     }
     
@@ -564,17 +564,17 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     }
     
     func updateScrubberHeader() {
-        scrubber.getHeader(baplieHeader: baplieHeader)
+        autoScrubber.getHeader(baplieHeader: baplieHeader)
     }
     
     func clearFTX() {
-        let trimmedParts = scrubber.trimFTX(baplieString: baplieContent, footerString: baplieFooter)
+        let trimmedParts = autoScrubber.trimFTX(baplieString: baplieContent, footerString: baplieFooter)
         baplieContent = trimmedParts.0
         baplieFooter = trimmedParts.1
     }
     
     func fixStartTags() {
-        let trimmedParts = scrubber.fixStartTags(baplieString: baplieContent, footerString: baplieFooter)
+        let trimmedParts = autoScrubber.fixStartTags(baplieString: baplieContent, footerString: baplieFooter)
         baplieContent = trimmedParts.0
         baplieFooter = trimmedParts.1
     }
@@ -601,8 +601,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         fixStartTags()
     }
     
-    @objc func rescrubBaplie() {
-        let rescrubbedParts = rescrubber.getRescrubbedBaplie()
+    @objc func manuallyScrubBaplie() {
+        let rescrubbedParts = manualScrubber.getRescrubbedBaplie()
         
         
         baplieContent = rescrubbedParts.0
@@ -627,8 +627,8 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
         serviceList.removeAllItems()
         serviceList.isEnabled = false
         savedAllocations.removeAll()
-        rescrubber.reset()
-        rescrubberView.reset()
+        manualScrubber.reset()
+        manualScrubberView.reset()
     }
 }
 
