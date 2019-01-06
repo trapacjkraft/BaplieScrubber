@@ -351,7 +351,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     
     @objc func updateViewerFooter() {
         guard baplieViewer.baplieFooterView != nil else { return }
-        baplieViewer.baplieContentView.string = baplieFooter
+        baplieViewer.baplieFooterView.string = baplieFooter
     }
 
     @IBAction func displayErrorLogView(_ sender: NSButton) {

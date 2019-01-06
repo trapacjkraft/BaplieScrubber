@@ -1032,16 +1032,27 @@ Gw
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nKS-iH-C2R">
-                                <rect key="frame" x="403" y="22" width="161" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="000/000 Values Replaced" id="dGx-Vw-H6v">
+                                <rect key="frame" x="421" y="22" width="143" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="000/000 Values Edited" id="dGx-Vw-H6v">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hhg-gk-OSU">
+                                <rect key="frame" x="192" y="13" width="79" height="32"/>
+                                <buttonCell key="cell" type="push" title="Ignore" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dPT-AA-oUR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="ignoreValues:" target="mDN-Ap-Twt" id="s9e-GA-wlY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="OEd-8b-aQo" firstAttribute="leading" secondItem="ZfO-qw-kPg" secondAttribute="trailing" constant="12" id="5Fd-fs-59K"/>
+                            <constraint firstItem="Hhg-gk-OSU" firstAttribute="leading" secondItem="OEd-8b-aQo" secondAttribute="trailing" constant="12" id="6xF-6O-8Rs"/>
                             <constraint firstItem="OEd-8b-aQo" firstAttribute="leading" secondItem="ZfO-qw-kPg" secondAttribute="trailing" constant="12" id="Jqs-N0-cHH"/>
                             <constraint firstItem="7Kh-aM-aMa" firstAttribute="top" secondItem="AJE-fF-UnO" secondAttribute="bottom" constant="29" id="K2S-8x-sNj"/>
                             <constraint firstItem="AJE-fF-UnO" firstAttribute="leading" secondItem="iFv-9u-Gs4" secondAttribute="leading" id="P8x-T3-aB8"/>
@@ -1052,6 +1063,7 @@ Gw
                             <constraint firstAttribute="bottom" secondItem="7Kh-aM-aMa" secondAttribute="bottom" constant="20" id="X8n-jE-g6o"/>
                             <constraint firstAttribute="bottom" secondItem="ZfO-qw-kPg" secondAttribute="bottom" constant="20" id="ZwF-r8-qOq"/>
                             <constraint firstItem="nKS-iH-C2R" firstAttribute="centerY" secondItem="7Kh-aM-aMa" secondAttribute="centerY" id="ash-pc-AgH"/>
+                            <constraint firstItem="Hhg-gk-OSU" firstAttribute="centerY" secondItem="OEd-8b-aQo" secondAttribute="centerY" id="dPE-iL-FLU"/>
                             <constraint firstItem="AJE-fF-UnO" firstAttribute="leading" secondItem="iFv-9u-Gs4" secondAttribute="leading" id="eP0-5m-uCA"/>
                             <constraint firstAttribute="trailing" secondItem="AJE-fF-UnO" secondAttribute="trailing" id="h91-SI-41x"/>
                             <constraint firstAttribute="trailing" secondItem="7Kh-aM-aMa" secondAttribute="trailing" constant="20" id="mp9-4p-D1m"/>
@@ -1155,7 +1167,7 @@ DQ
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="m1Z-n7-IGe">
-                                            <rect key="frame" x="18" y="261" width="106" height="19"/>
+                                            <rect key="frame" x="18" y="261" width="116" height="19"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Inbound Tools" id="KDq-6n-YFg">
                                                 <font key="font" metaFont="system" size="16"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1163,7 +1175,7 @@ DQ
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K1s-Jr-lqb">
-                                            <rect key="frame" x="192" y="261" width="120" height="19"/>
+                                            <rect key="frame" x="202" y="261" width="120" height="19"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Outbound Tools" id="oWJ-XM-uh6">
                                                 <font key="font" metaFont="system" size="16"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1171,7 +1183,7 @@ DQ
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gTK-w7-bbb">
-                                            <rect key="frame" x="178" y="185" width="149" height="32"/>
+                                            <rect key="frame" x="188" y="185" width="149" height="32"/>
                                             <buttonCell key="cell" type="push" title="Empty Allocations" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sPM-38-Sr1">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -1181,7 +1193,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oEO-EU-FsF">
-                                            <rect key="frame" x="178" y="152" width="149" height="32"/>
+                                            <rect key="frame" x="188" y="152" width="149" height="32"/>
                                             <buttonCell key="cell" type="push" title="Assign Empties" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TtV-pb-4Pj">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -1191,7 +1203,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lCa-Kv-hCI">
-                                            <rect key="frame" x="178" y="119" width="149" height="32"/>
+                                            <rect key="frame" x="188" y="119" width="149" height="32"/>
                                             <buttonCell key="cell" type="push" title="BSA Report" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Qp-P7-Dql">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -1211,7 +1223,7 @@ DQ
                                             </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DLc-U4-o2b">
-                                            <rect key="frame" x="192" y="234" width="57" height="17"/>
+                                            <rect key="frame" x="202" y="234" width="57" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Service: " id="8dJ-5E-Ayj">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1219,8 +1231,8 @@ DQ
                                             </textFieldCell>
                                         </textField>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aCD-OI-utL">
-                                            <rect key="frame" x="14" y="225" width="114" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Scrub" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Pfq-Jc-Lj4">
+                                            <rect key="frame" x="14" y="225" width="124" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Auto Scrub" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Pfq-Jc-Lj4">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -1229,8 +1241,8 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vO4-Vb-69u">
-                                            <rect key="frame" x="14" y="192" width="114" height="32"/>
-                                            <buttonCell key="cell" type="push" title="Rescrub" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0jv-U3-sNV">
+                                            <rect key="frame" x="14" y="192" width="124" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Manual Scrub" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0jv-U3-sNV">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -1239,7 +1251,7 @@ DQ
                                             </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uVr-Q6-bYJ">
-                                            <rect key="frame" x="264" y="229" width="63" height="26"/>
+                                            <rect key="frame" x="274" y="229" width="53" height="26"/>
                                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="10D-hU-ivv">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>

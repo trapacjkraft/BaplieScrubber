@@ -136,6 +136,15 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     
     }
     
+    func getValuesToIgnore(ignoringValues: [Int : String]) {
+        
+        for (lineNumber, lineValue) in ignoringValues {
+            let record = RescrubberRecord(number: lineNumber, value: lineValue, rescrub: true, replacement: lineValue)
+            valuesToRescrub.append(record)
+        }
+        
+    }
+    
     func getReplacementValue(value: String) {
 
         let replacementValue = value
@@ -198,8 +207,26 @@ class Rescrubber: NSObject, ErrorLogPopoverViewDelegate, RescrubberViewControlle
     
     func getRescrubbedBaplie() -> (String, String) {
         
+        var headerLineCount = 0
+        var footerLineCount = 2
+        
+        for line in baplieToRescrub {
+            if !line.contains("LOC+147") {
+                headerLineCount += 1
+            } else {
+                break
+            }
+        }
+        
+        baplieToRescrub.removeFirst(headerLineCount)
+        baplieToRescrub.removeLast(footerLineCount)
+        
+        
+        
         let rescrubbedBaplieContent = baplieToRescrub.joined().trimmingCharacters(in: .whitespaces).replacingOccurrences(of: "'\n'\n", with: "'\n")
     
+        
+        
         return (rescrubbedBaplieContent, replacementFooter)
     }
     

@@ -11,6 +11,7 @@ import Cocoa
 protocol RescrubberViewControllerDelegate: class {
     func getValuesToReplace(replacingValues: [Int: String])
     func getValuesToRemove(removingValues: [Int: String])
+    func getValuesToIgnore(ignoringValues: [Int: String])
     func getReplacementValue(value: String)
     func rescrub()
 }
@@ -67,7 +68,7 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
     }
     
     func updateEditedTrackerLabel() {
-        editedTrackerLabel.stringValue = "\(editedCount)/\(lineCount) Values Replaced"
+        editedTrackerLabel.stringValue = "\(editedCount)/\(lineCount) Values Edited"
     }
     
     func getErrorLinesAndText(values: [[String : String]]) {
@@ -99,16 +100,21 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
             let lineNumber = Int((tableView.view(atColumn: 0, row: row, makeIfNecessary: false) as! NSTableCellView).textField!.stringValue)!
             let lineValue = (tableView.view(atColumn: 1, row: row, makeIfNecessary: false) as! NSTableCellView).textField!.stringValue
             
-            data![row].updateValue("Yes", forKey: "editedStatus")
-            editedCount += 1
+            if let editedValue: String = (data![row])["editedStatus"] {
+                if editedValue != "Yes" {
+                    editedCount += 1
+                }
+            }
             
+            data![row].updateValue("Yes", forKey: "editedStatus")
+
             selectedValues.updateValue(lineValue, forKey: lineNumber)
         }
         
         delegate?.getValuesToReplace(replacingValues: selectedValues)
         tableView.reloadData()
         
-        defaultReplacementValue = selectedValues.first!.value
+        defaultReplacementValue = selectedValues.first!.value.trimmingCharacters(in: .whitespacesAndNewlines)
         needsReplacementValue = true
         
         updateEditedTrackerLabel()
@@ -126,8 +132,13 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
             let lineNumber = Int((tableView.view(atColumn: 0, row: row, makeIfNecessary: true) as! NSTableCellView).textField!.stringValue)!
             let lineValue = (tableView.view(atColumn: 1, row: row, makeIfNecessary: false) as! NSTableCellView).textField!.stringValue
 
+            if let editedValue: String = (data![row])["editedStatus"] {
+                if editedValue != "Yes" {
+                    editedCount += 1
+                }
+            }
+            
             data![row].updateValue("Yes", forKey: "editedStatus")
-            editedCount += 1
 
             selectedValues.updateValue(lineValue, forKey: lineNumber)
 
@@ -137,6 +148,50 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
         tableView.reloadData()
         updateEditedTrackerLabel()
 
+    }
+    
+    @IBAction func ignoreValues(_ sender: Any) {
+        
+        var lineReplacementValue = ""
+        let selectedRows = tableView.selectedRowIndexes
+        
+        guard selectedRows.count == 1 else {
+            
+            let alert = NSAlert()
+            alert.messageText = "Too many values!"
+            alert.informativeText = "You can only ignore one line at a time. Generally, you should only ignore lines that threw errors because of mistakes made in BaplieProcess.exe."
+            alert.runModal()
+            return
+            
+        }
+        
+        var selectedValues = [Int: String]()
+        
+        for row in selectedRows {
+            
+            let lineNumber = Int((tableView.view(atColumn: 0, row: row, makeIfNecessary: true) as! NSTableCellView).textField!.stringValue)!
+            let lineValue = (tableView.view(atColumn: 1, row: row, makeIfNecessary: false) as! NSTableCellView).textField!.stringValue
+            
+            if let editedValue: String = (data![row])["editedStatus"] {
+                if editedValue != "Yes" {
+                    editedCount += 1
+                }
+            }
+            
+            data![row].updateValue("Yes", forKey: "editedStatus")
+            
+            selectedValues.updateValue(lineValue, forKey: lineNumber)
+            
+            lineReplacementValue = lineValue
+            
+        }
+        
+        delegate?.getValuesToIgnore(ignoringValues: selectedValues)
+        needsReplacementValue = false
+        
+        tableView.reloadData()
+        updateEditedTrackerLabel()
+        
     }
     
     func displayRVP() {
@@ -158,6 +213,9 @@ class RescrubberViewController: NSViewController, RescrubberDelegate, Replacemen
         data?.removeAll()
         hasReplacementValue = false
         needsReplacementValue = false
+        editedCount = 0
+        lineCount = 0
+        
     }
     
     

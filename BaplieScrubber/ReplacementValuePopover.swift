@@ -24,7 +24,7 @@ class ReplacementValuePopover: NSViewController {
     }
     
     @IBAction func exit(_ sender: Any) {
-        delegate?.setReplacementValue(value: replacementValueField.stringValue.trimmingCharacters(in: .whitespaces))
+        delegate?.setReplacementValue(value: (replacementValueField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines) + "\n"))
         dismissViewController(self)
     }
 }
