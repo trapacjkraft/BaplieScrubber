@@ -345,6 +345,7 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
     }
     
     @objc func updateViewerContent() {
+        Swift.print("x")
         guard baplieViewer.baplieContentView != nil else { return }
         baplieViewer.baplieContentView.string = baplieContent
     }
@@ -417,6 +418,16 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             
             presentViewController(vc, asPopoverRelativeTo: sender.bounds, of: sender, preferredEdge: .maxY, behavior: .semitransient)
             
+            if !savedAllocations.isEmpty {
+                for field in vc.textFields {
+                    for (allocationType, allocationNumber) in savedAllocations {
+                        if field.identifier!.rawValue == allocationType {
+                            field.stringValue = allocationNumber
+                        }
+                    }
+                }
+            }
+
         case "PS7":
             let vc: PS7AllocationViewController = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil).instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "PS7AllocationViewController")) as! PS7AllocationViewController
             vc.delegate = self
@@ -514,7 +525,11 @@ class ViewController: NSViewController, PS2AllocationViewControllerDelegate, PS3
             allocator.getHeader(baplieHeader: baplieHeader)
             allocator.allocations = self.allocations
             let (baplieFulls, baplieEmpties) = allocator.assignShippingLines(baplieString: baplieContent)
-            baplieContent = baplieFulls + baplieEmpties
+            
+            if !allocator.didFailAllocationCheck {
+                baplieContent = baplieFulls + baplieEmpties
+            }
+            
             
         case "PS7":
             let allocator = PS7Allocator()

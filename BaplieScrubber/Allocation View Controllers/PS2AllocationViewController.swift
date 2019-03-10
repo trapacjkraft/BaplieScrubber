@@ -10,6 +10,7 @@ import Cocoa
 
 protocol PS2AllocationViewControllerDelegate: class {
     func passAllocations(allocations: [String: [String : Int]])
+    func passSavedAllocations(allocs: [String: String])
 }
 
 class PS2AllocationViewController: NSViewController {
@@ -134,11 +135,168 @@ class PS2AllocationViewController: NSViewController {
     @IBOutlet var ymlTKYs4: NSTextField!
     @IBOutlet var ymlTKYc4: NSTextField!
     @IBOutlet var ymlTKYc5: NSTextField!
+    
+    var textFields = [NSTextField]()
+    var savedAllocations = [String: String]()
 
     weak var delegate: PS2AllocationViewControllerDelegate?
     
     override func viewDidLoad() {
+
+        prepareTextFields()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(resetSavedAllocations), name: Notification.Name("ResetSavedAllocations"), object: nil)
+
         super.viewDidLoad()
+    }
+    
+    func prepareTextFields() {
+        
+        oneKBEs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneKBEs2")
+        oneKBEs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneKBEs4")
+        oneKBEc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneKBEc4")
+        oneKBEc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneKBEc5")
+
+        oneNAGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNAGs2")
+        oneNAGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNAGs4")
+        oneNAGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNAGc4")
+        oneNAGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNAGc5")
+
+        oneSHZs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHZs2")
+        oneSHZs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHZs4")
+        oneSHZc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHZc4")
+        oneSHZc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHZc5")
+        
+        oneTKYs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneTKYs2")
+        oneTKYs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneTKYs4")
+        oneTKYc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneTKYc4")
+        oneTKYc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneTKYc5")
+        
+        
+        
+        hlcKBEs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcKBEs2")
+        hlcKBEs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcKBEs4")
+        hlcKBEc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcKBEc4")
+        hlcKBEc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcKBEc5")
+        
+        hlcNAGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNAGs2")
+        hlcNAGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNAGs4")
+        hlcNAGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNAGc4")
+        hlcNAGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNAGc5")
+        
+        hlcSHZs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHZs2")
+        hlcSHZs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHZs4")
+        hlcSHZc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHZc4")
+        hlcSHZc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHZc5")
+        
+        hlcTKYs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcTKYs2")
+        hlcTKYs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcTKYs4")
+        hlcTKYc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcTKYc4")
+        hlcTKYc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcTKYc5")
+        
+        
+        
+        ymlKBEs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlKBEs2")
+        ymlKBEs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlKBEs4")
+        ymlKBEc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlKBEc4")
+        ymlKBEc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlKBEc5")
+        
+        ymlNAGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNAGs2")
+        ymlNAGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNAGs4")
+        ymlNAGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNAGc4")
+        ymlNAGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNAGc5")
+        
+        ymlSHZs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHZs2")
+        ymlSHZs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHZs4")
+        ymlSHZc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHZc4")
+        ymlSHZc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHZc5")
+        
+        ymlTKYs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlTKYs2")
+        ymlTKYs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlTKYs4")
+        ymlTKYc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlTKYc4")
+        ymlTKYc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlTKYc5")
+        
+        
+        
+        textFields.append(oneKBEs2)
+        textFields.append(oneKBEs4)
+        textFields.append(oneKBEc4)
+        textFields.append(oneKBEc5)
+        
+        textFields.append(oneNAGs2)
+        textFields.append(oneNAGs4)
+        textFields.append(oneNAGc4)
+        textFields.append(oneNAGc5)
+        
+        textFields.append(oneSHZs2)
+        textFields.append(oneSHZs4)
+        textFields.append(oneSHZc4)
+        textFields.append(oneSHZc5)
+        
+        textFields.append(oneTKYs2)
+        textFields.append(oneTKYs4)
+        textFields.append(oneTKYc4)
+        textFields.append(oneTKYc5)
+        
+        
+        
+        textFields.append(hlcKBEs2)
+        textFields.append(hlcKBEs4)
+        textFields.append(hlcKBEc4)
+        textFields.append(hlcKBEc5)
+        
+        textFields.append(hlcNAGs2)
+        textFields.append(hlcNAGs4)
+        textFields.append(hlcNAGc4)
+        textFields.append(hlcNAGc5)
+        
+        textFields.append(hlcSHZs2)
+        textFields.append(hlcSHZs4)
+        textFields.append(hlcSHZc4)
+        textFields.append(hlcSHZc5)
+        
+        textFields.append(hlcTKYs2)
+        textFields.append(hlcTKYs4)
+        textFields.append(hlcTKYc4)
+        textFields.append(hlcTKYc5)
+        
+        
+        
+        textFields.append(ymlKBEs2)
+        textFields.append(ymlKBEs4)
+        textFields.append(ymlKBEc4)
+        textFields.append(ymlKBEc5)
+        
+        textFields.append(ymlNAGs2)
+        textFields.append(ymlNAGs4)
+        textFields.append(ymlNAGc4)
+        textFields.append(ymlNAGc5)
+        
+        textFields.append(ymlSHZs2)
+        textFields.append(ymlSHZs4)
+        textFields.append(ymlSHZc4)
+        textFields.append(ymlSHZc5)
+        
+        textFields.append(ymlTKYs2)
+        textFields.append(ymlTKYs4)
+        textFields.append(ymlTKYc4)
+        textFields.append(ymlTKYc5)
+
+    }
+
+    func saveAllocations(allocations: [String: [String : Int]]) {
+        
+        for (_, allocation) in allocations {
+            for (allocationType, allocationAmount) in allocation {
+                savedAllocations.updateValue(String(allocationAmount), forKey: allocationType)
+            }
+        }
+        
+    }
+    
+    @objc func resetSavedAllocations() {
+        savedAllocations.removeAll()
     }
 
     @IBAction func setAllocations(_ sender: Any) {
@@ -209,7 +367,9 @@ class PS2AllocationViewController: NSViewController {
         let allocations = ["ONE": oneAllocations, "HLC": hlcAllocations, "YML": ymlAllocations]
         
         delegate?.passAllocations(allocations: allocations)
-        
+        saveAllocations(allocations: allocations)
+        delegate?.passSavedAllocations(allocs: savedAllocations)
+
         let nc = NotificationCenter.default
         nc.post(name: NSNotification.Name("AllocationsChanged"), object: nil)
         

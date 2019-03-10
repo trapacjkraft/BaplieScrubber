@@ -10,6 +10,7 @@ import Cocoa
 
 protocol PS3AllocationViewControllerDelegate: class {
     func passAllocations(allocations: [String: [String : Int]])
+    func passSavedAllocations(allocs: [String: String])
 }
 
 class PS3AllocationViewController: NSViewController {
@@ -319,11 +320,373 @@ class PS3AllocationViewController: NSViewController {
     @IBOutlet var ymlSPRc4: NSTextField!
     @IBOutlet var ymlSPRc5: NSTextField!
     
+    var textFields = [NSTextField]()
+    var savedAllocations = [String: String]()
+
     weak var delegate: PS3AllocationViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    func prepareTextFields() {
+        
+        oneBUSs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneBUSs2")
+        oneBUSs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneBUSs4")
+        oneBUSc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneBUSc4")
+        oneBUSc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneBUSc5")
+        
+        oneCMBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneCMBs2")
+        oneCMBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneCMBs4")
+        oneCMBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneCMBc4")
+        oneCMBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneCMBc5")
+        
+        oneHCMs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneHCMs2")
+        oneHCMs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneHCMs4")
+        oneHCMc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneHCMc4")
+        oneHCMc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneHCMc5")
+        
+        oneLLLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneLLLs2")
+        oneLLLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneLLLs4")
+        oneLLLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneLLLc4")
+        oneLLLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneLLLc5")
+        
+        oneNGBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNGBs2")
+        oneNGBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNGBs4")
+        oneNGBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNGBc4")
+        oneNGBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNGBc5")
+        
+        oneNSAs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNSAs2")
+        oneNSAs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNSAs4")
+        oneNSAc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNSAc4")
+        oneNSAc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneNSAc5")
+        
+        onePAVs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePAVs2")
+        onePAVs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePAVs4")
+        onePAVc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePAVc4")
+        onePAVc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePAVc5")
+        
+        onePKLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePKLs2")
+        onePKLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePKLs4")
+        onePKLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePKLc4")
+        onePKLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "onePKLc5")
+        
+        oneSHGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHGs2")
+        oneSHGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHGs4")
+        oneSHGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHGc4")
+        oneSHGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHGc5")
+        
+        oneSHKs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHKs2")
+        oneSHKs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHKs4")
+        oneSHKc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHKc4")
+        oneSHKc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSHKc5")
+        
+        oneSPRs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSPRs2")
+        oneSPRs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSPRs4")
+        oneSPRc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSPRc4")
+        oneSPRc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "oneSPRc5")
+
+        
+        
+        hlcBUSs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcBUSs2")
+        hlcBUSs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcBUSs4")
+        hlcBUSc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcBUSc4")
+        hlcBUSc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcBUSc5")
+        
+        hlcCMBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcCMBs2")
+        hlcCMBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcCMBs4")
+        hlcCMBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcCMBc4")
+        hlcCMBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcCMBc5")
+        
+        hlcHCMs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcHCMs2")
+        hlcHCMs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcHCMs4")
+        hlcHCMc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcHCMc4")
+        hlcHCMc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcHCMc5")
+        
+        hlcLLLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcLLLs2")
+        hlcLLLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcLLLs4")
+        hlcLLLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcLLLc4")
+        hlcLLLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcLLLc5")
+        
+        hlcNGBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNGBs2")
+        hlcNGBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNGBs4")
+        hlcNGBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNGBc4")
+        hlcNGBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNGBc5")
+        
+        hlcNSAs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNSAs2")
+        hlcNSAs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNSAs4")
+        hlcNSAc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNSAc4")
+        hlcNSAc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcNSAc5")
+        
+        hlcPAVs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPAVs2")
+        hlcPAVs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPAVs4")
+        hlcPAVc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPAVc4")
+        hlcPAVc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPAVc5")
+        
+        hlcPKLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPKLs2")
+        hlcPKLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPKLs4")
+        hlcPKLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPKLc4")
+        hlcPKLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcPKLc5")
+        
+        hlcSHGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHGs2")
+        hlcSHGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHGs4")
+        hlcSHGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHGc4")
+        hlcSHGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHGc5")
+        
+        hlcSHKs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHKs2")
+        hlcSHKs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHKs4")
+        hlcSHKc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHKc4")
+        hlcSHKc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSHKc5")
+        
+        hlcSPRs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSPRs2")
+        hlcSPRs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSPRs4")
+        hlcSPRc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSPRc4")
+        hlcSPRc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "hlcSPRc5")
+        
+        
+        
+        ymlBUSs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlBUSs2")
+        ymlBUSs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlBUSs4")
+        ymlBUSc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlBUSc4")
+        ymlBUSc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlBUSc5")
+        
+        ymlCMBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlCMBs2")
+        ymlCMBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlCMBs4")
+        ymlCMBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlCMBc4")
+        ymlCMBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlCMBc5")
+        
+        ymlHCMs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlHCMs2")
+        ymlHCMs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlHCMs4")
+        ymlHCMc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlHCMc4")
+        ymlHCMc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlHCMc5")
+        
+        ymlLLLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlLLLs2")
+        ymlLLLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlLLLs4")
+        ymlLLLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlLLLc4")
+        ymlLLLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlLLLc5")
+        
+        ymlNGBs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNGBs2")
+        ymlNGBs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNGBs4")
+        ymlNGBc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNGBc4")
+        ymlNGBc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNGBc5")
+        
+        ymlNSAs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNSAs2")
+        ymlNSAs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNSAs4")
+        ymlNSAc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNSAc4")
+        ymlNSAc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlNSAc5")
+        
+        ymlPAVs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPAVs2")
+        ymlPAVs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPAVs4")
+        ymlPAVc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPAVc4")
+        ymlPAVc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPAVc5")
+        
+        ymlPKLs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPKLs2")
+        ymlPKLs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPKLs4")
+        ymlPKLc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPKLc4")
+        ymlPKLc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlPKLc5")
+        
+        ymlSHGs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHGs2")
+        ymlSHGs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHGs4")
+        ymlSHGc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHGc4")
+        ymlSHGc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHGc5")
+        
+        ymlSHKs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHKs2")
+        ymlSHKs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHKs4")
+        ymlSHKc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHKc4")
+        ymlSHKc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSHKc5")
+        
+        ymlSPRs2.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSPRs2")
+        ymlSPRs4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSPRs4")
+        ymlSPRc4.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSPRc4")
+        ymlSPRc5.identifier = NSUserInterfaceItemIdentifier(rawValue: "ymlSPRc5")
+        
+        
+        
+        textFields.append(oneBUSs2)
+        textFields.append(oneBUSs4)
+        textFields.append(oneBUSc4)
+        textFields.append(oneBUSc5)
+        
+        textFields.append(oneCMBs2)
+        textFields.append(oneCMBs4)
+        textFields.append(oneCMBc4)
+        textFields.append(oneCMBc5)
+        
+        textFields.append(oneHCMs2)
+        textFields.append(oneHCMs4)
+        textFields.append(oneHCMc4)
+        textFields.append(oneHCMc5)
+        
+        textFields.append(oneLLLs2)
+        textFields.append(oneLLLs4)
+        textFields.append(oneLLLc4)
+        textFields.append(oneLLLc5)
+        
+        textFields.append(oneNGBs2)
+        textFields.append(oneNGBs4)
+        textFields.append(oneNGBc4)
+        textFields.append(oneNGBc5)
+        
+        textFields.append(oneNSAs2)
+        textFields.append(oneNSAs4)
+        textFields.append(oneNSAc4)
+        textFields.append(oneNSAc5)
+        
+        textFields.append(onePAVs2)
+        textFields.append(onePAVs4)
+        textFields.append(onePAVc4)
+        textFields.append(onePAVc5)
+        
+        textFields.append(onePKLs2)
+        textFields.append(onePKLs4)
+        textFields.append(onePKLc4)
+        textFields.append(onePKLc5)
+        
+        textFields.append(oneSHGs2)
+        textFields.append(oneSHGs4)
+        textFields.append(oneSHGc4)
+        textFields.append(oneSHGc5)
+        
+        textFields.append(oneSHKs2)
+        textFields.append(oneSHKs4)
+        textFields.append(oneSHKc4)
+        textFields.append(oneSHKc5)
+        
+        textFields.append(oneSPRs2)
+        textFields.append(oneSPRs4)
+        textFields.append(oneSPRc4)
+        textFields.append(oneSPRc5)
+
+        
+        
+        textFields.append(hlcBUSs2)
+        textFields.append(hlcBUSs4)
+        textFields.append(hlcBUSc4)
+        textFields.append(hlcBUSc5)
+        
+        textFields.append(hlcCMBs2)
+        textFields.append(hlcCMBs4)
+        textFields.append(hlcCMBc4)
+        textFields.append(hlcCMBc5)
+        
+        textFields.append(hlcHCMs2)
+        textFields.append(hlcHCMs4)
+        textFields.append(hlcHCMc4)
+        textFields.append(hlcHCMc5)
+        
+        textFields.append(hlcLLLs2)
+        textFields.append(hlcLLLs4)
+        textFields.append(hlcLLLc4)
+        textFields.append(hlcLLLc5)
+        
+        textFields.append(hlcNGBs2)
+        textFields.append(hlcNGBs4)
+        textFields.append(hlcNGBc4)
+        textFields.append(hlcNGBc5)
+        
+        textFields.append(hlcNSAs2)
+        textFields.append(hlcNSAs4)
+        textFields.append(hlcNSAc4)
+        textFields.append(hlcNSAc5)
+        
+        textFields.append(hlcPAVs2)
+        textFields.append(hlcPAVs4)
+        textFields.append(hlcPAVc4)
+        textFields.append(hlcPAVc5)
+        
+        textFields.append(hlcPKLs2)
+        textFields.append(hlcPKLs4)
+        textFields.append(hlcPKLc4)
+        textFields.append(hlcPKLc5)
+        
+        textFields.append(hlcSHGs2)
+        textFields.append(hlcSHGs4)
+        textFields.append(hlcSHGc4)
+        textFields.append(hlcSHGc5)
+        
+        textFields.append(hlcSHKs2)
+        textFields.append(hlcSHKs4)
+        textFields.append(hlcSHKc4)
+        textFields.append(hlcSHKc5)
+        
+        textFields.append(hlcSPRs2)
+        textFields.append(hlcSPRs4)
+        textFields.append(hlcSPRc4)
+        textFields.append(hlcSPRc5)
+
+        
+        
+        textFields.append(ymlBUSs2)
+        textFields.append(ymlBUSs4)
+        textFields.append(ymlBUSc4)
+        textFields.append(ymlBUSc5)
+        
+        textFields.append(ymlCMBs2)
+        textFields.append(ymlCMBs4)
+        textFields.append(ymlCMBc4)
+        textFields.append(ymlCMBc5)
+        
+        textFields.append(ymlHCMs2)
+        textFields.append(ymlHCMs4)
+        textFields.append(ymlHCMc4)
+        textFields.append(ymlHCMc5)
+        
+        textFields.append(ymlLLLs2)
+        textFields.append(ymlLLLs4)
+        textFields.append(ymlLLLc4)
+        textFields.append(ymlLLLc5)
+        
+        textFields.append(ymlNGBs2)
+        textFields.append(ymlNGBs4)
+        textFields.append(ymlNGBc4)
+        textFields.append(ymlNGBc5)
+        
+        textFields.append(ymlNSAs2)
+        textFields.append(ymlNSAs4)
+        textFields.append(ymlNSAc4)
+        textFields.append(ymlNSAc5)
+        
+        textFields.append(ymlPAVs2)
+        textFields.append(ymlPAVs4)
+        textFields.append(ymlPAVc4)
+        textFields.append(ymlPAVc5)
+        
+        textFields.append(ymlPKLs2)
+        textFields.append(ymlPKLs4)
+        textFields.append(ymlPKLc4)
+        textFields.append(ymlPKLc5)
+        
+        textFields.append(ymlSHGs2)
+        textFields.append(ymlSHGs4)
+        textFields.append(ymlSHGc4)
+        textFields.append(ymlSHGc5)
+        
+        textFields.append(ymlSHKs2)
+        textFields.append(ymlSHKs4)
+        textFields.append(ymlSHKc4)
+        textFields.append(ymlSHKc5)
+        
+        textFields.append(ymlSPRs2)
+        textFields.append(ymlSPRs4)
+        textFields.append(ymlSPRc4)
+        textFields.append(ymlSPRc5)
+
+    }
+    
+    func saveAllocations(allocations: [String: [String : Int]]) {
+        
+        for (_, allocation) in allocations {
+            for (allocationType, allocationAmount) in allocation {
+                savedAllocations.updateValue(String(allocationAmount), forKey: allocationType)
+            }
+        }
+        
+    }
+    
+    @objc func resetSavedAllocations() {
+        savedAllocations.removeAll()
+    }
+
     
     @IBAction func setAllocations(_ sender: Any) {
         
@@ -500,8 +863,11 @@ class PS3AllocationViewController: NSViewController {
         
         let allocations = ["ONE": oneAllocations, "HLC": hlcAllocations, "YML": ymlAllocations]
         
-        delegate?.passAllocations(allocations: allocations)
         
+        delegate?.passAllocations(allocations: allocations)
+        delegate?.passAllocations(allocations: allocations)
+        saveAllocations(allocations: allocations)
+
         let nc = NotificationCenter.default
         nc.post(name: NSNotification.Name("AllocationsChanged"), object: nil)
         

@@ -46,6 +46,8 @@ class PS6Allocator: NSObject {
     var previousOperator = ""
     var header = ""
     var combinedAllocations = [String: Int]()
+    var originalBaplieContent = String()
+    var didFailAllocationCheck = false
     var fullBaplieContent = String()
     var otherBaplieContent = String()
     var otherBaplieContentCount = Int()
@@ -242,6 +244,11 @@ class PS6Allocator: NSObject {
         var emptySHGc4 = [BaplieContainer]()
         var emptySHGc5 = [BaplieContainer]()
         
+        var emptyTKYs2 = [BaplieContainer]()
+        var emptyTKYs4 = [BaplieContainer]()
+        var emptyTKYc4 = [BaplieContainer]()
+        var emptyTKYc5 = [BaplieContainer]()
+
         func sortContainerSizesByPort() {
             
             for container in emptyS2 {
@@ -256,6 +263,8 @@ class PS6Allocator: NSObject {
                     emptyNGBs2.append(container)
                 case "CNSHA":
                     emptySHGs2.append(container)
+                case "JPTYO":
+                    emptyTKYs2.append(container)
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -274,6 +283,8 @@ class PS6Allocator: NSObject {
                     emptyNGBs4.append(container)
                 case "CNSHA":
                     emptySHGs4.append(container)
+                case "JPTYO":
+                    emptyTKYs4.append(container)
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -292,6 +303,8 @@ class PS6Allocator: NSObject {
                     emptyNGBc4.append(container)
                 case "CNSHA":
                     emptySHGc4.append(container)
+                case "JPTYO":
+                    emptyTKYc4.append(container)
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -310,6 +323,8 @@ class PS6Allocator: NSObject {
                     emptyNGBc5.append(container)
                 case "CNSHA":
                     emptySHGc5.append(container)
+                case "JPTYO":
+                    emptyTKYc5.append(container)
                 default:
                     otherBaplieContent += container.containerRecordString
                     otherBaplieContentCount += 1
@@ -475,22 +490,57 @@ class PS6Allocator: NSObject {
         
         func assignOperators() {
             
-            var allocSum = 0
-                        let emptyCount = emptyPreplans.count - otherBaplieContentCount
+            var allocationsByPort = [String: Int]()
+            
+            allocationsByPort.updateValue((combinedAllocations["oneBUSs2"]! + combinedAllocations["hlcBUSs2"]! + combinedAllocations["ymlBUSs2"]!), forKey: "emptyBUSs2")
+            allocationsByPort.updateValue((combinedAllocations["oneBUSs4"]! + combinedAllocations["hlcBUSs4"]! + combinedAllocations["ymlBUSs4"]!), forKey: "emptyBUSs4")
+            allocationsByPort.updateValue((combinedAllocations["oneBUSc4"]! + combinedAllocations["hlcBUSc4"]! + combinedAllocations["ymlBUSc4"]!), forKey: "emptyBUSc4")
+            allocationsByPort.updateValue((combinedAllocations["oneBUSc5"]! + combinedAllocations["hlcBUSc5"]! + combinedAllocations["ymlBUSc5"]!), forKey: "emptyBUSc5")
+            
+            allocationsByPort.updateValue((combinedAllocations["oneNGBs2"]! + combinedAllocations["hlcNGBs2"]! + combinedAllocations["ymlNGBs2"]!), forKey: "emptyNGBs2")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBs4"]! + combinedAllocations["hlcNGBs4"]! + combinedAllocations["ymlNGBs4"]!), forKey: "emptyNGBs4")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBc4"]! + combinedAllocations["hlcNGBc4"]! + combinedAllocations["ymlNGBc4"]!), forKey: "emptyNGBc4")
+            allocationsByPort.updateValue((combinedAllocations["oneNGBc5"]! + combinedAllocations["hlcNGBc5"]! + combinedAllocations["ymlNGBc5"]!), forKey: "emptyNGBc5")
+            
+            allocationsByPort.updateValue((combinedAllocations["oneSHGs2"]! + combinedAllocations["hlcSHGs2"]! + combinedAllocations["ymlSHGs2"]!), forKey: "emptySHGs2")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGs4"]! + combinedAllocations["hlcSHGs4"]! + combinedAllocations["ymlSHGs4"]!), forKey: "emptySHGs4")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGc4"]! + combinedAllocations["hlcSHGc4"]! + combinedAllocations["ymlSHGc4"]!), forKey: "emptySHGc4")
+            allocationsByPort.updateValue((combinedAllocations["oneSHGc5"]! + combinedAllocations["hlcSHGc5"]! + combinedAllocations["ymlSHGc5"]!), forKey: "emptySHGc5")
+            
+            allocationsByPort.updateValue((combinedAllocations["oneTKYs2"]! + combinedAllocations["hlcTKYs2"]! + combinedAllocations["ymlTKYs2"]!), forKey: "emptyTKYs2")
+            allocationsByPort.updateValue((combinedAllocations["oneTKYs4"]! + combinedAllocations["hlcTKYs4"]! + combinedAllocations["ymlTKYs4"]!), forKey: "emptyTKYs4")
+            allocationsByPort.updateValue((combinedAllocations["oneTKYc4"]! + combinedAllocations["hlcTKYc4"]! + combinedAllocations["ymlTKYc4"]!), forKey: "emptyTKYc4")
+            allocationsByPort.updateValue((combinedAllocations["oneTKYc5"]! + combinedAllocations["hlcTKYc5"]! + combinedAllocations["ymlTKYc5"]!), forKey: "emptyTKYc5")
+            
+            let alert = NSAlert()
+            
+            let containerTypes = ["emptyBUSs2", "emptyBUSs4", "emptyBUSc4", "emptyBUSc5", "emptyNGBs2", "emptyNGBs4", "emptyNGBc4", "emptyNGBc5", "emptySHGs2", "emptySHGs4", "emptySHGc4", "emptySHGc5", "emptyTKYs2", "emptyTKYs4", "emptyTKYc4", "emptyTKYc5"]
+            let containerArrays = [emptyBUSs2, emptyBUSs4, emptyBUSc4, emptyBUSc5, emptyNGBs2, emptyNGBs4, emptyNGBc4, emptyNGBc5, emptySHGs2, emptySHGs4, emptySHGc4, emptySHGc5, emptyTKYs2, emptyTKYs4, emptyTKYc4, emptyTKYc5]
+            
+            var index = 0
+            
+            for containerType in containerTypes {
+                
+                guard allocationsByPort[containerType]! == containerArrays[index].count else {
+                    
+                    let difference = containerArrays[index].count - allocationsByPort[containerType]!
+                    
+                    alert.messageText = "Allocation error!"
+                
+                    if difference < 0 {
+                        alert.informativeText = "You have overallocated for \(containerType) preplans. Please adjust the allocation amount for \(containerType) preplans by " + String(abs(difference)) + "."
+                    } else {
+                        alert.informativeText = "You have underallocated for \(containerType) preplans. Please adjust the allocation amount for \(containerType) preplans by " + String(abs(difference)) + "."
+                    }
 
-            
-            for (_, alloc) in combinedAllocations {
-                allocSum += alloc
+                    alert.runModal()
+                    didFailAllocationCheck = true
+                    return
+                }
+                
+                index += 1
             }
-            
-            guard allocSum == emptyCount else {
-                let alert = NSAlert()
-                alert.messageText = "Allocation Error!"
-                alert.informativeText = "Sum of allocations does not match sum of empty preplans on the Baplie. Please re-enter allocations."
-                alert.runModal()
-                return
-            }
-            
+
             assignS2(containers: emptyBUSs2, oneKey: "oneBUSs2", hlcKey: "hlcBUSs2", ymlKey: "ymlBUSs2")
             assignS4(containers: emptyBUSs4, oneKey: "oneBUSs4", hlcKey: "hlcBUSs4", ymlKey: "ymlBUSs4")
             assignC4(containers: emptyBUSc4, oneKey: "oneBUSc4", hlcKey: "hlcBUSc4", ymlKey: "ymlBUSc4")
@@ -506,10 +556,14 @@ class PS6Allocator: NSObject {
             assignC4(containers: emptySHGc4, oneKey: "oneSHGc4", hlcKey: "hlcSHGc4", ymlKey: "ymlSHGc4")
             assignC5(containers: emptySHGc5, oneKey: "oneSHGc5", hlcKey: "hlcSHGc5", ymlKey: "ymlSHGc5")
             
+            assignS2(containers: emptyTKYs2, oneKey: "oneTKYs2", hlcKey: "hlcTKYs2", ymlKey: "ymlTKYs2")
+            assignS4(containers: emptyTKYs4, oneKey: "oneTKYs4", hlcKey: "hlcTKYs4", ymlKey: "ymlTKYs4")
+            assignC4(containers: emptyTKYc4, oneKey: "oneTKYc4", hlcKey: "hlcTKYc4", ymlKey: "ymlTKYc4")
+            assignC5(containers: emptyTKYc5, oneKey: "oneTKYc5", hlcKey: "hlcTKYc5", ymlKey: "ymlTKYc5")
+
         }
         
         emptyBaplieContentWithOperators = emptyBaplieContentWithOperators.replacingOccurrences(of: "\'\n\'\n", with: "\'\n")
-        fullBaplieContent += otherBaplieContent
         
         findContainers()
         sortContainersByStatus()
@@ -518,8 +572,11 @@ class PS6Allocator: NSObject {
         combineAllocations()
         assignOperators()
         
-        
-        
+        fullBaplieContent += otherBaplieContent
+
+        if didFailAllocationCheck {
+            return (originalBaplieContent, "")
+        }
         
         return (fullBaplieContent, emptyBaplieContentWithOperators)
     }

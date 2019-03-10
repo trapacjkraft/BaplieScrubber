@@ -24,10 +24,14 @@ class BaplieFooter: NSObject {
         let footerContents = footer.components(separatedBy: "'")
         
         for line in footerContents {
-            if line.contains("UNT+") {
+            if line.contains("UNT++") {
+                lineCount = Int(line.components(separatedBy: "++")[1].components(separatedBy: "+")[0])!
+            } else if line.contains("UNT+") {
                 lineCount = Int(line.components(separatedBy: "+")[1])!
             }
         }
+        
+        Swift.print("x")
     }
     
 }
